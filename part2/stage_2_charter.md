@@ -1,7 +1,8 @@
 ## Portfolio Project
 ## Stage 2 - Project Charter Development
 
-### 0. Define Project Objectives (using 2/3 objectives from 'SMART' Specific, Measurable, Achievable, Relevant, and Time-bound)
+### <ins>0. Define Project Objectives</ins> 
+(using 2/3 objectives from 'SMART' Specific, Measurable, Achievable, Relevant, and Time-bound)
 
 - ***Objectif principal*** :
 
@@ -35,10 +36,10 @@ Le projet répond à un besoin réel des voyageurs internationaux qui font face 
 * Des difficultés à comprendre rapidement les conditions d'éligibilité
 * L'absence de plateforme centralisée et multilingue
 
-### 1. Identify Stakeholders and Team Roles
+### <ins>1. Identify Stakeholders and Team Roles</ins>
 
-### 2. Define Scope
+### <ins>2. Define Scope</ins>
 
-### 3. Identify Risks
+### <ins>3. Identify Risks</ins>
 
-### 4. Develop a High-Level Plan
+### <ins>4. Develop a High-Level Plan</ins>
