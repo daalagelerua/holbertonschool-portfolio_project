@@ -45,10 +45,10 @@
 
 - *Critères d’évaluation* : (D’après Claude 3.7 sonnet)
 
-Faisabilité technique : 8/10
-Impact potentiel : 9/10
-Alignement des compétences : 7/10
-Scalabilité : 9/10
+    - Faisabilité technique : 8/10
+    - Impact potentiel : 9/10
+    - Alignement des compétences : 7/10
+    - Scalabilité : 9/10
 
 - *Risques et contraintes* : 
 
