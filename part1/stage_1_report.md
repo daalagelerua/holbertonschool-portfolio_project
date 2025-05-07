@@ -52,11 +52,11 @@ Scalabilité : 9/10
 
 - *Risques et contraintes* : 
 
-**Données** : Obtenir et maintenir à jour les informations précises sur les visas pour différents pays
-**Complexité** : La diversité des procédures selon les pays peut rendre l'uniformisation difficile
-**Légal** : S'assurer que les informations fournies sont conformes aux règlements officiels
-**Technique** : Gérer une base de données complexe et des relations entre de nombreuses entités
-**Portée** : Risque de scope creep si trop de pays ou types de visas sont inclus
+    - **Données** : Obtenir et maintenir à jour les informations précises sur les visas pour différents pays
+    - **Complexité** : La diversité des procédures selon les pays peut rendre l'uniformisation difficile
+    - **Légal** : S'assurer que les informations fournies sont conformes aux règlements officiels
+    - **Technique** : Gérer une base de données complexe et des relations entre de nombreuses entités
+    - **Portée** : Risque de scope creep si trop de pays ou types de visas sont inclus
 
 
 ### 3. Decision and Refinement : 
