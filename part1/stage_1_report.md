@@ -4,9 +4,7 @@
 ### 0. Team Formation :
 
 - **Project Manager** : Aurèle Périllat
-
 - **Développeur** : Aurèle Périllat
-
 - **Responsable communication** : Aurèle Périllat
 
 ### 1. Research and Brainstorming :
