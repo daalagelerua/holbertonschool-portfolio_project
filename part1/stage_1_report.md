@@ -16,11 +16,11 @@
 
 - *Mind Mapping* : 
     Nœud central : Plateforme de visas
-        * Branche 1 : Types d'utilisateurs (voyageurs, étudiants, travailleurs, réfugiés)
-        * Branche 2 : Fonctionnalités (recherche de visas, conditions, formulaires, suivi)
-        * Branche 3 : Données nécessaires (pays, types de visas, documents, délais)
-        * Branche 4 : Interfaces (web, mobile, multilingue)
-        * Branche 5 : Partenariats potentiels (ambassades, services d'immigration, comparateur de vol(kayak,...))
+    * Branche 1 : Types d'utilisateurs (voyageurs, étudiants, travailleurs, réfugiés)
+    * Branche 2 : Fonctionnalités (recherche de visas, conditions, formulaires, suivi)
+    * Branche 3 : Données nécessaires (pays, types de visas, documents, délais)
+    * Branche 4 : Interfaces (web, mobile, multilingue)
+    * Branche 5 : Partenariats potentiels (ambassades, services d'immigration, comparateur de vol(kayak,...))
 
 - *SCAMPER Framework* : 
 
