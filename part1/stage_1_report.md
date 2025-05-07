@@ -7,7 +7,7 @@
 - **Développeur** : Aurèle Périllat
 - **Responsable communication** : Aurèle Périllat
 
-### 1. Research and Brainstorming :
+### <ins>1. Research and Brainstorming</ins> :
 
 - *Idée principale* : 
     Création d’une plateforme pour faciliter les demandes de visas
@@ -39,7 +39,7 @@
 
 
 
-### 2. Idea Evaluation : 
+### <ins>2. Idea Evaluation</ins> : 
 
 - *Critères d’évaluation* : (D’après Claude 3.7 sonnet)
 
@@ -57,7 +57,7 @@
     - **Portée** : Risque de scope creep si trop de pays ou types de visas sont inclus
 
 
-### 3. Decision and Refinement : 
+### <ins>3. Decision and Refinement</ins> : 
 
 - *Problème résolu* : 
 Cette plateforme résout le problème de la fragmentation et de la complexité des informations sur les visas, qui sont souvent dispersées sur différents sites gouvernementaux, dans des langues différentes et avec des interfaces peu conviviales.
