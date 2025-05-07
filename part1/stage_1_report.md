@@ -1,7 +1,7 @@
 ## Portfolio Project
 ## Stage 1: Team Formation and Idea Development
 
-### 0. Team Formation :
+### <ins>0. Team Formation</ins> :
 
 - **Project Manager** : Aurèle Périllat
 - **Développeur** : Aurèle Périllat
