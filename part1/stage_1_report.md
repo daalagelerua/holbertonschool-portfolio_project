@@ -24,13 +24,13 @@
 
 - *SCAMPER Framework* : 
 
-    **Substitute** : Remplacer les multiples sites gouvernementaux par une interface unifiée
-    **Combine** : Fusionner information, vérification d'éligibilité et demande en un seul processus
-    **Adapt** : Adapter l'interface selon le pays d'origine/destination
-    **Modify** : Simplifier le langage administratif complexe des procédures de visa
-    **Put to another use** : Utiliser les données pour créer des statistiques sur les flux migratoires
-    **Eliminate** : Supprimer les redondances dans les formulaires entre différents types de visas
-    **Reverse** : Inverser l'approche en proposant des destinations en fonction du profil utilisateur
+    - **Substitute** : Remplacer les multiples sites gouvernementaux par une interface unifiée
+    - **Combine** : Fusionner information, vérification d'éligibilité et demande en un seul processus
+    - **Adapt** : Adapter l'interface selon le pays d'origine/destination
+    - **Modify** : Simplifier le langage administratif complexe des procédures de visa
+    - **Put to another use** : Utiliser les données pour créer des statistiques sur les flux migratoires
+    - **Eliminate** : Supprimer les redondances dans les formulaires entre différents types de visas
+    - **Reverse** : Inverser l'approche en proposant des destinations en fonction du profil utilisateur
 
 - *"How Might We" Questions* : 
 
