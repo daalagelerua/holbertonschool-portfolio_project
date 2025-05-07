@@ -12,15 +12,15 @@
 ### 1. Research and Brainstorming :
 
 - *Idée principale* : 
-Création d’une plateforme pour faciliter les demandes de visas
+    Création d’une plateforme pour faciliter les demandes de visas
 
 - *Mind Mapping* : 
-Nœud central : Plateforme de visas
-* Branche 1 : Types d'utilisateurs (voyageurs, étudiants, travailleurs, réfugiés)
-* Branche 2 : Fonctionnalités (recherche de visas, conditions, formulaires, suivi)
-* Branche 3 : Données nécessaires (pays, types de visas, documents, délais)
-* Branche 4 : Interfaces (web, mobile, multilingue)
-* Branche 5 : Partenariats potentiels (ambassades, services d'immigration, comparateur de vol(kayak,...))
+    Nœud central : Plateforme de visas
+        * Branche 1 : Types d'utilisateurs (voyageurs, étudiants, travailleurs, réfugiés)
+        * Branche 2 : Fonctionnalités (recherche de visas, conditions, formulaires, suivi)
+        * Branche 3 : Données nécessaires (pays, types de visas, documents, délais)
+        * Branche 4 : Interfaces (web, mobile, multilingue)
+        * Branche 5 : Partenariats potentiels (ambassades, services d'immigration, comparateur de vol(kayak,...))
 
 - *SCAMPER Framework* : 
 
@@ -34,10 +34,10 @@ Nœud central : Plateforme de visas
 
 - *"How Might We" Questions* : 
 
-* Comment simplifier la recherche d'informations sur les visas?
-* Comment clarifier les conditions d'éligibilité pour * différents visas?
-* Comment réduire l'anxiété liée au processus de demande de visa?
-* Comment personnaliser l'expérience selon les besoins spécifiques des voyageurs?
+    * Comment simplifier la recherche d'informations sur les visas?
+    * Comment clarifier les conditions d'éligibilité pour * différents visas?
+    * Comment réduire l'anxiété liée au processus de demande de visa?
+    * Comment personnaliser l'expérience selon les besoins spécifiques des voyageurs?
 
 
 
@@ -66,25 +66,25 @@ Cette plateforme résout le problème de la fragmentation et de la complexité d
 
 - *Public cible* : 
 
-* Voyageurs internationaux
-* Étudiants cherchant à étudier à l'étranger
-* Professionnels en mobilité internationale
-* Familles cherchant à se réunir
+    * Voyageurs internationaux
+    * Étudiants cherchant à étudier à l'étranger
+    * Professionnels en mobilité internationale
+    * Familles cherchant à se réunir
 
 - *Fonctionnalités clés pour le MVP* : 
 
-* Sélection du pays d'origine et de destination
-* Affichage des types de visas disponibles selon ce couple de pays
-* Présentation des conditions d'éligibilité pour chaque visa
-* Multilingue (au moins français et anglais)
-* Responsive design pour mobile et desktop
+    * Sélection du pays d'origine et de destination
+    * Affichage des types de visas disponibles selon ce couple de pays
+    * Présentation des conditions d'éligibilité pour chaque visa
+    * Multilingue (au moins français et anglais)
+    * Responsive design pour mobile et desktop
 
 - *Fonctionnalités pour versions futures* : 
 
-* Création de compte et sauvegarde des recherches
-* Formulaires de demande en ligne
-* Suivi de l'état d'avancement des demandes
-* Notifications par email/SMS
+    * Création de compte et sauvegarde des recherches
+    * Formulaires de demande en ligne
+    * Suivi de l'état d'avancement des demandes
+    * Notifications par email/SMS
 
 
 
