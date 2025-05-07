@@ -8,33 +8,33 @@
 
 Développer une plateforme web fonctionnelle qui simplifie la recherche et la visualisation des informations sur les visas entre différents pays, permettant aux utilisateurs de trouver facilement les types de visas disponibles et leurs conditions d'obtention.
 
-***Spécifique***:
+- ***Spécifique***:
 
-Créer une application web qui permet aux utilisateurs de :
+    Créer une application web qui permet aux utilisateurs de :
 
-* Sélectionner leur pays d'origine via une interface intuitive
-* Choisir leur pays de destination
-* Visualiser tous les types de visas disponibles entre ces deux pays
-* Consulter les conditions détaillées d'obtention pour chaque visa
-* Naviguer dans une interface responsive adaptée aux mobiles et ordinateurs
+    * Sélectionner leur pays d'origine via une interface intuitive
+    * Choisir leur pays de destination
+    * Visualiser tous les types de visas disponibles entre ces deux pays
+    * Consulter les conditions détaillées d'obtention pour chaque visa
+    * Naviguer dans une interface responsive adaptée aux mobiles et ordinateurs
 
-***Mesurable***:
+- ***Mesurable***:
 
-L'application doit inclure au minimum :
+    L'application doit inclure au minimum :
 
-* 5 pays d'origine et 5 pays de destination
-* 3-5 types de visas différents par combinaison de pays
-* Une interface utilisateur fonctionnelle
-* Support pour au moins 2 langues (français et anglais)
+    * 5 pays d'origine et 5 pays de destination
+    * 3-5 types de visas différents par combinaison de pays
+    * Une interface utilisateur fonctionnelle
+    * Support pour au moins 2 langues (français et anglais)
 
-***Relevant***:
+- ***Relevant***:
 
-Le projet répond à un besoin réel des voyageurs internationaux qui font face à :
+    Le projet répond à un besoin réel des voyageurs internationaux qui font face à :
 
-* Des informations fragmentées sur différents sites gouvernementaux
-* Des interfaces souvent peu intuitives et dans des langues étrangères
-* Des difficultés à comprendre rapidement les conditions d'éligibilité
-* L'absence de plateforme centralisée et multilingue
+    * Des informations fragmentées sur différents sites gouvernementaux
+    * Des interfaces souvent peu intuitives et dans des langues étrangères
+    * Des difficultés à comprendre rapidement les conditions d'éligibilité
+    * L'absence de plateforme centralisée et multilingue
 
 ### <ins>1. Identify Stakeholders and Team Roles</ins>
 
