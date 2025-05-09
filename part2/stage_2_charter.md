@@ -38,8 +38,106 @@ Développer une plateforme web fonctionnelle qui simplifie la recherche et la vi
 
 ### <ins>1. Identify Stakeholders and Team Roles</ins>
 
+- ***Internal Stakeholders***:
+
+    - Aurèle Périllat : Concepteur, développeur et gestionnaire principal du projet
+    - Formateurs d'Holberton school : Evaluateur du projet
+
+- ***External Stakeholders***:
+
+    - Voyageurs/Etudiants/Professionnels internationnaux : Utilisateurs potentiels
+    - Administrations des services d'immigrations : Fournisseurs d'informations officielles sur les visas
+
+- ***Rôles dans le projet***: (assumés par Aurèle Périllat)
+
+    - **Chef de projet** : Définition des objectifs et du périmetre, suivi de l'avancement
+    - **Développeur backend** : Implementation de l'API avec Node.js/Express, gestion de la base de données avec MongoDB, Développement de la logique métier
+    - **Développeur frontend** : Création des interfaces utilisateur avec HTML/CSS/JavaScript, implementation du responsive design
+    - **Testeur** : Elaboration des tests, execution des tests, identification et suivi des bugs
+    - **Responsable du deploiement**: configuration de l'environnement de production, déploiement de l'application
+
+
 ### <ins>2. Define Scope</ins>
 
+#### Périmètre du projet (In-Scope) :
+
+- ***Interface de recherche***:
+
+    - Sélection du pays d'origine via un menu déroulant
+    - Sélection du pays de destination via un menu déroulant
+    - Bouton de recherche pour lancer la requête
+
+
+- ***Affichage des résultats***:
+
+    - Liste complète des visas disponibles entre les deux pays sélectionnés
+    - Présentation des différents types de visas (tourisme, affaires, études, travail)
+    - Filtres simples pour affiner les résultats par durée ou par type de voyage
+
+
+- ***Détails des visas***:
+
+    - Conditions d'éligibilité pour chaque type de visa
+    - Documents requis
+    - Durée de validité
+    - Frais approximatifs
+
+
+- ***Fonctionnalités techniques***:
+
+    - Interface responsive adaptée aux mobiles et ordinateurs
+    - Support multilingue (français et anglais)
+    - Minimum de 3 types de visas par combinaison de pays
+
+
+- ***Éléments visuels***:
+
+    - Design simple et professionnel utilisant Bootstrap
+    - Map monde pour une identification rapide
+    - Icônes représentant les différents types de visas
+
+#### Hors périmètre du projet (Out-of-Scope) :
+
+- ***Processus de demande de visa***:
+
+    - Le système n'inclura pas la possibilité de soumettre une demande de visa
+    - Aucun formulaire de demande ne sera implémenté dans cette version
+    - Les utilisateurs ne pourront pas télécharger ou remplir des documents officiels
+
+
+- ***Authentification et comptes utilisateurs***:
+
+    - Pas de fonctionnalité de sauvegarde des recherches ou des profils
+    - Pas d'espace personnel pour suivre les demandes
+
+
+- ***Paiement***:
+
+    - Aucun système de paiement pour les frais de visa
+
+
+- ***Couverture géographique complète***:
+
+    - Le système ne couvrira pas tous les pays du monde
+
+
 ### <ins>3. Identify Risks</ins>
+
+- ***Risques***:
+
+    - Difficulté d'apprentissage de node.js
+    - Problème d'integration front-end/back-end
+    - Complexité et difference de la structure de données des visas pour differents pays
+    - Difficultés à obtenir des informations précises sur les visas
+    - obsolescence des données
+
+- ***Atténuation***:
+
+    - 3/4 jours d'entrainement exclusif sur node.js
+    - Tester l'API avec Postman avant de l'integrer au front-end
+    - Analyse détaillée des données sur les visas pour un nombre limités de pays
+    - Prévoir des champs pour gerer les exceptions
+    - Se limiter à des pays dont l'accés aux données est facile
+    - structurer la base de données pour faciliter les mises à jour
 
 ### <ins>4. Develop a High-Level Plan</ins>
