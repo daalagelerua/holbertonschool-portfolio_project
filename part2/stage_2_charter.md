@@ -141,3 +141,11 @@ Développer une plateforme web fonctionnelle qui simplifie la recherche et la vi
     - structurer la base de données pour faciliter les mises à jour
 
 ### <ins>4. Develop a High-Level Plan</ins>
+
+- ***Timeline:***
+
+    - Week 1-2: Stage 1: Idea Development (Completed) Team formation and idea generation.
+    - Week 3-4: Stage 2: Project Charter Development (Current).
+    - Week 5-6: Stage 3: Technical documentation finalized.
+    - Week 7-10: Stage 4: MVP Development.
+    - Week 11-12: Stage 5: Project Closure Final presentation and closure.
