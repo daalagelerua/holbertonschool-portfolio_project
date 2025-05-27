@@ -59,50 +59,50 @@
 
 - Backend - Services (Logique Métier)
 
-***Class 1: VisaService (Service de gestion des visas)***
+    - ***Class 1: VisaService (Service de gestion des visas)***
 
-Contient la logique métier liées aux visas.
+    Contient la logique métier liées aux visas.
 
-**Méthode principale** : getAvailableVisas()
-    Cette méthode prend en paramètres les codes des pays d'origine et de destination, interroge la DB pour trouver les types de visas disponible et retourne les resultats.
+    **Méthode principale** : getAvailableVisas()
+        Cette méthode prend en paramètres les codes des pays d'origine et de destination, interroge la DB pour trouver les types de visas disponible et retourne les resultats.
 
-***Class 2: CountryService (Service de gestion des pays)***
+    - ***Class 2: CountryService (Service de gestion des pays)***
 
-Contient la logique métier liées aux pays.
+    Contient la logique métier liées aux pays.
 
-**Méthode principale** : getAllCountries()
-    Cette méthode permet de recuperer la liste complète des pays (pour remplir les menu déroulants).
+    **Méthode principale** : getAllCountries()
+        Cette méthode permet de recuperer la liste complète des pays (pour remplir les menu déroulants).
 
-***Class 3: VisaController (controleur de visas)***
+    - ***Class 3: VisaController (controleur de visas)***
 
-Lien entre requetes HTTP et services métier.
+    Lien entre requetes HTTP et services métier.
 
-**Méthode principale** : searchVisas()
-    Cette méthode reçoit les paramètres de la requete utilisateur (pays d'origine, destination, filtres éventuels) puis retourne les résultats
+    **Méthode principale** : searchVisas()
+        Cette méthode reçoit les paramètres de la requete utilisateur (pays d'origine, destination, filtres éventuels) puis retourne les résultats
 
 - Frontend - Composants d'Interface
 
-***Formulaire de Recherche (Search Form)***
+    - ***Formulaire de Recherche (Search Form)***
 
-Composant central de l'application, permet la selection du pays d'origine et de destination par l'utilisateur via un menu déroulant.
+    Composant central de l'application, permet la selection du pays d'origine et de destination par l'utilisateur via un menu déroulant.
 
-***Carte de Visa (Visa Card)***
+    - ***Carte de Visa (Visa Card)***
 
-Composant qui affiche les informations d'un visa de manière structurée (icone, nom, durée, frais, description).
+    Composant qui affiche les informations d'un visa de manière structurée (icone, nom, durée, frais, description).
 
 - Database
 
-  ![Architecture base de données](./images/schema_db.png)
+    ![Architecture base de données](./images/schema_db.png)
 
 ### <ins>3. Create High-Level Sequence Diagrams</ins>
 
-***Cas d'Usage 1 : Recherche de Visas Disponibles***
+- ***Cas d'Usage 1 : Recherche de Visas Disponibles***
 
 Flux principal de l'application. L'utilisateur sélectionne ses pays d'origine et de destination, puis soumet sa recherche.
 
 ![Sequence Diagram 1](./images/cas_1_recherche_visas.png)
 
-***Cas d'Usage 2 : Consultation des Détails d'un Visa***
+- ***Cas d'Usage 2 : Consultation des Détails d'un Visa***
 
 Ce flux permet à l'utilisateur d'approfondir ses connaissances sur un visa spécifique.
 
