@@ -113,4 +113,29 @@ Ce flux permet à l'utilisateur d'approfondir ses connaissances sur un visa spé
 
 ### <ins>4. Document External and Internal APIs</ins>
 
+- ***APIs Externes***
+
+    **APIs Gouvernementales**:
+
+    - API Consulaire Française : Récupération des informations officielles sur les visas depuis la France
+    https://api.diplomatie.gouv.fr/v1/visa-info
+
+    **API REST Countries**:
+
+    - Récupération de la liste complète des pays avec leurs codes ISO, drapeaux, et continents :
+    https://restcountries.com/v3.1/all
+
+    **Google Translate API**:
+
+    - Traduction automatique des informations de visa :
+    https://translation.googleapis.com/language/translate/v2
+
+    **API de Géolocalisation**:
+
+    -  Détection automatique du pays d'origine de l'utilisateur : 
+    http://ip-api.com/json/
+
+- ***API internes***
+
+
 ### <ins>5. Plan SCM and QA Strategies</ins>
