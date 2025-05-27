@@ -47,7 +47,7 @@
 
 #### Wireframe/Mockup
 
-**Voir la maquette du site**: https://balsamiq.cloud/spqqxsz/pwwops7
+**Voir la maquette du site**: https://balsamiq.cloud/spqqxsz/pwwops7/r46FF
 
 ### <ins>1. Design System Architecture</ins>
 
