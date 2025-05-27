@@ -65,7 +65,7 @@
 
     **Méthode principale** : getAvailableVisas()
         
-        Cette méthode prend en paramètres les codes des pays d'origine et de destination, interroge la DB pour trouver les types de visas disponible et retourne les resultats.
+    Cette méthode prend en paramètres les codes des pays d'origine et de destination, interroge la DB pour trouver les types de visas disponible et retourne les resultats.
 
     - ***Class 2: CountryService (Service de gestion des pays)***
 
@@ -73,7 +73,7 @@
 
     **Méthode principale** : getAllCountries()
         
-        Cette méthode permet de recuperer la liste complète des pays (pour remplir les menu déroulants).
+    Cette méthode permet de recuperer la liste complète des pays (pour remplir les menu déroulants).
 
     - ***Class 3: VisaController (controleur de visas)***
 
@@ -81,7 +81,7 @@
 
     **Méthode principale** : searchVisas()
         
-        Cette méthode reçoit les paramètres de la requete utilisateur (pays d'origine, destination, filtres éventuels) puis retourne les résultats
+    Cette méthode reçoit les paramètres de la requete utilisateur (pays d'origine, destination, filtres éventuels) puis retourne les résultats
 
 - Frontend - Composants d'Interface
 
