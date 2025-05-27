@@ -53,7 +53,7 @@
 
 ***Vue d'ensemble du système***
 
-![Architecture base de données](./images/schema_db.png)
+![Architecture System](./images/archi_visa_platform.png)
 
 ### <ins>2. Define Components, Classes, and Database Design</ins>
 
@@ -90,6 +90,9 @@ Composant central de l'application, permet la selection du pays d'origine et de 
 
 Composant qui affiche les informations d'un visa de manière structurée (icone, nom, durée, frais, description).
 
+- Database
+
+  ![Architecture base de données](./images/schema_db.png)
 
 ### <ins>3. Create High-Level Sequence Diagrams</ins>
 
