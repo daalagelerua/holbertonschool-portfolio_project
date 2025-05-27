@@ -53,7 +53,7 @@ https://balsamiq.cloud/spqqxsz/pwwops7
 
 ***Vue d'ensemble du système***
 
-
+![Architecture base de données](./images/schema_db.png)
 
 ### <ins>2. Define Components, Classes, and Database Design</ins>
 
@@ -97,13 +97,13 @@ Composant qui affiche les informations d'un visa de manière structurée (icone,
 
 Flux principal de l'application. L'utilisateur sélectionne ses pays d'origine et de destination, puis soumet sa recherche.
 
-
+![Sequence Diagram 1](./images/cas_1_recherche_visas.png)
 
 ***Cas d'Usage 2 : Consultation des Détails d'un Visa***
 
 Ce flux permet à l'utilisateur d'approfondir ses connaissances sur un visa spécifique.
 
-
+![Sequence Diagram 2](./images/cas_2_voir_details.png)
 
 ### <ins>4. Document External and Internal APIs</ins>
 
