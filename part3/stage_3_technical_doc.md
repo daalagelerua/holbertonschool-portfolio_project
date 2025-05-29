@@ -137,5 +137,52 @@ Ce flux permet à l'utilisateur d'approfondir ses connaissances sur un visa spé
 
 - ***API internes***
 
+| Endpoint        | Méthode | Objectif                      | Paramètre Clés                      |
+|-----------------| --------|-------------------------------|-------------------------------------|
+| /api/visas      | GET     | Recherche principale de visas | `origin`, `destination`, `category` |
+| /api/visas/{id} | GET     | Détails complet d'un visa     | `id` (ObjectId)                     |
+| /api/countries  | GET     | Liste des pays disponibles    | `continent`, `active`               |
+| /api/auth/register | POST | Créer un nouveau compte utilisateur | `email`, `password`, `firstName`, `lastName` |
+| /api/auth/login | POST | Connecter un utilisateur existant      | `email`, `password` |
+| /api/auth/logout | POST | Déconnecter l'utilisateur             | - |
+| /api/user/profile | GET | Récuperer le profile utilisateur      | - |
+| /api/user/profile | PUT | Mettre à jour le profil utilisateur   | - |
+
 
 ### <ins>5. Plan SCM and QA Strategies</ins>
+
+- ***1. Stratégie SCM (Source Code Management)***
+
+    **Description des branches Git**
+
+    | Branche   | Objectif                                   | Durée de vie |
+    |-----------|--------------------------------------------|--------------|
+    | `main`    | Code de production stable                  | Permanente   |
+    | `develop` | Integration des fonctionnalités            | Permanente   |
+    | `feature` | Développement de nouvelles fonctionnalités | Temporaire   |
+
+    **Convention de nommage des commits**
+
+    - feat: nouvelle fonctionnalité
+    - fix: correction de bug
+    - docs: modification de documentation
+    - style: formatage du code
+    - refactor: refactoring sans changement de fonctionnalité
+    - test: ajout ou modification de tests
+
+- ***2. Stratégie QA (Quality Assurance)***
+
+    **Tests Unitaires**
+
+    - Objectif: Tester les fonctions individuelles
+    - Outils: Jest
+
+    **Tests d'integration**
+
+    - Objectif: Tester les interactions entre composants (API endpoints)
+    - Outils: Postman
+
+    **Tests End-to-End**
+
+    - Objectif: Tester les parcours utilisateur complets
+    - Outils: Cypress ou manuel
