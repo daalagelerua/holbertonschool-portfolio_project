@@ -147,7 +147,9 @@ Ce flux permet à l'utilisateur d'approfondir ses connaissances sur un visa spé
 | /api/auth/logout | POST | Déconnecter l'utilisateur             | - |
 | /api/user/profile | GET | Récuperer le profile utilisateur      | - |
 | /api/user/profile | PUT | Mettre à jour le profil utilisateur   | - |
-
+| /api/user/favorites | GET | Voir liste des favoris | - |
+| /api/user/favorites | POST | Ajouter un favori a la liste | `visaRequirementId` |
+| /api/user/favorites/{visaId} | DELETE | Retirer un favori de la liste | - |
 
 ### <ins>5. Plan SCM and QA Strategies</ins>
 
