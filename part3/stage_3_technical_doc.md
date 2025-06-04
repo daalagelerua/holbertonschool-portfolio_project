@@ -115,10 +115,10 @@ Ce flux permet à l'utilisateur d'approfondir ses connaissances sur un visa spé
 
 - ***APIs Externes***
 
-    **APIs Gouvernementales**:
+    **APIs Visas**:
 
-    - API Consulaire Française : Récupération des informations officielles sur les visas depuis la France
-    https://api.diplomatie.gouv.fr/v1/visa-info
+    - **Travel Buddy API** : Récupération des informations officielles sur les visas entre pays (freemium 600 requetes par mois)
+    https://visa-requirement.p.rapidapi.com/map
 
     **API REST Countries**:
 
