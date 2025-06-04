@@ -1,16 +1,16 @@
 // Configuration Express
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-require('dotenv').config();
+const express = require('express');  // le framework
+const cors = require('cors');  // permet aux navigateurs d'autres domaines d'accéder à l'API
+const helmet = require('helmet');  // ajoute de la sécurité automatiquement
+require('dotenv').config();  // lit le fichier .env pour récupérer les variables secrètes
 
-const app = express();
+const app = express();  // va permettre d'equiper le server de fonctionnalité -> helmet, cors
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {  // si JSON malformé renvoie un message d'erreur clair
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     return res.status(400).json({ success: false, message: 'Invalid JSON' });
   }
-  next(err);
+  next(err);  // Si ce n'est pas une erreur JSON -> Passe au gestionnaire d'erreurs suivant
 });
 
 // Middleware de sécurité et configuration
@@ -21,17 +21,17 @@ app.use(helmet());
 
 // CORS pour permettre les requêtes cross-origin
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://ton-domaine.com'] 
+  origin: process.env.NODE_ENV === 'production'  // si environnement de prod -> ?, sinon -> :
+    ? ['https://future_domaine.com']  // a remplacer lors du deployement
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
-  credentials: true
+  credentials: true  // permet aux cookies de passer et a la session de fonctionner
 }));
 
-// Parser JSON (limite à 10MB)
+// Parser JSON (limite à 10MB pour eviter les surcharges)
 app.use(express.json({ limit: '10mb' }));
 
 // Parser URL-encoded (pour les formulaires)
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));  // extended: true -> permet d'avoir la bonne structure de données pour les requetes future (objets imbriqués, tableaux)
 
 // Servir les fichiers statiques
 app.use(express.static('frontend/public'));
@@ -122,13 +122,13 @@ app.use('*', (req, res) => {
 
 // Gestionnaire d'erreurs global
 app.use((err, req, res, next) => {
-  console.error('💥 Erreur serveur:', err.stack);
+  console.error('Erreur serveur:', err.stack);
   
-  res.status(err.status || 500).json({
+  res.status(err.status || 500).json({  // Utilise le code d'erreur de l'erreur OU 500 par défaut
     success: false,
     message: process.env.NODE_ENV === 'production' 
-      ? 'Something went wrong!' 
-      : err.message,
+      ? 'Something went wrong!'  // message simple sans infos sensibles
+      : err.message,  // message détaillé pour debuguer
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 });
