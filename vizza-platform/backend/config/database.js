@@ -1,16 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');  // outil pour parler à MongoDB depuis Node.js
 
 const connectDB = async () => {
   try {
     // Connexion à MongoDB
-    const connection = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    const connection = await mongoose.connect(process.env.MONGODB_URI, {  // recupere l'adresse depuis .env
+      useNewUrlParser: true,  // par default depuis v6 (ancien obsolete)
+      useUnifiedTopology: true,  // par default depuis v6 (eviter probleme de reconnexion)
     });
 
-    console.log(`MongoDB connecté: ${connection.connection.host}`);
+    console.log(`MongoDB connecté: ${connection.connection.host}`);  // Récupère l'adresse du serveur MongoDB
     
     // Événements de connexion pour debugging
+    // 'on' = etre a l'ecoute/surveiller
     mongoose.connection.on('error', (err) => {
       console.error('Erreur MongoDB:', err);
     });
