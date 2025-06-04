@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');  // on recupere mongoose pour créer le schema
+const bcrypt = require('bcrypt');  // bcrypt sert a hasher le password
 
 const userSchema = new mongoose.Schema({
   email: {

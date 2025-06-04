@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');  // on recupere mongoose pour créer le schema
 
 const visaRequirementSchema = new mongoose.Schema({
   originCountry: {
