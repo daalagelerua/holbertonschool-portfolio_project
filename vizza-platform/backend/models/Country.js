@@ -38,7 +38,6 @@ const countrySchema = new mongoose.Schema({
 
 // Index pour optimiser les recherches
 // regle importante: Crée des index seulement pour les requêtes que tu fais SOUVENT (trop d'index degrade les performances)
-countrySchema.index({ code: 1 });
 countrySchema.index({ name: 1 });
 countrySchema.index({ isActive: 1 });
 
