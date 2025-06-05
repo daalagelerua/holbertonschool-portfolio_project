@@ -2,13 +2,13 @@ const mongoose = require('mongoose');  // on recupere mongoose pour créer le sc
 
 const visaRequirementSchema = new mongoose.Schema({
   originCountry: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,  // ObjectId au lieu de String ("FR") pour correspondre a l'attendu de mongoose
     required: true,
     uppercase: true,
     ref: 'Country'
   },
   destinationCountry: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,  // ObjectId au lieu de String ("FR") pour correspondre a l'attendu de mongoose
     required: true,
     uppercase: true,
     ref: 'Country'
