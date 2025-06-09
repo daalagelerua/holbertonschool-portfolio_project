@@ -7,7 +7,13 @@
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:country": "node backend/scripts/testCountryModel.js",
+    "test:visa": "node backend/scripts/testVisaRequirementModel.js",
+    "seed": "node backend/scripts/seedDatabase.js",
+    "seed:countries": "node backend/scripts/seedDatabase.js --countries-only",
+    "seed:visas": "node backend/scripts/seedDatabase.js --visas-only",
+    "test:user": "node backend/scripts/testUserModel.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
