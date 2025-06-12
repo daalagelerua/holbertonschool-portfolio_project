@@ -4,6 +4,9 @@ const cors = require('cors');  // permet aux navigateurs d'autres domaines d'acc
 const helmet = require('helmet');  // ajoute de la sécurité automatiquement
 require('dotenv').config();  // lit le fichier .env pour récupérer les variables secrètes
 
+// Import des routes
+const authRoutes = require('./routes/authRoutes');
+
 const app = express();  // va permettre d'equiper le server de fonctionnalité -> helmet, cors
 
 app.use((err, req, res, next) => {  // si JSON malformé renvoie un message d'erreur clair
@@ -35,6 +38,9 @@ app.use(express.urlencoded({ extended: true }));  // extended: true -> permet d'
 
 // Servir les fichiers statiques
 app.use(express.static('frontend/public'));
+
+// Utilisation des routes  
+app.use('/api/auth', authRoutes);
 
 // Tests Temporaires
 // Route de santé
