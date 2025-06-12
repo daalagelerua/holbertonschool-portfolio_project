@@ -13,6 +13,7 @@ const register = async (req, res) => {
     
     // ÉTAPE 1: Validation des données d'entrée
     // destructuration de req.body pour lisibilité et performance
+    // performance -> JS n'accede qu'une fois a req.body
     const { email, password, firstName, lastName, defaultOriginCountry, language } = req.body;
     
     // Vérification des champs obligatoires
