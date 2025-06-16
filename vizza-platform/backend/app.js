@@ -6,6 +6,7 @@ require('dotenv').config();  // lit le fichier .env pour récupérer les variabl
 
 // Import des routes
 const authRoutes = require('./routes/authRoutes');
+const visaRoutes = require('./routes/visaRoutes');
 
 const app = express();  // va permettre d'equiper le server de fonctionnalité -> helmet, cors
 
@@ -41,6 +42,7 @@ app.use(express.static('frontend/public'));
 
 // Utilisation des routes  
 app.use('/api/auth', authRoutes);
+app.use('/api/visas', visaRoutes);
 
 // Tests Temporaires
 // Route de santé
