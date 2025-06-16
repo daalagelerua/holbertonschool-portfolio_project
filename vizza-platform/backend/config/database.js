@@ -4,8 +4,8 @@ const connectDB = async () => {
   try {
     // Connexion à MongoDB
     const connection = await mongoose.connect(process.env.MONGODB_URI, {  // recupere l'adresse depuis .env
-      useNewUrlParser: true,  // par default depuis v6 (ancien obsolete)
-      useUnifiedTopology: true,  // par default depuis v6 (eviter probleme de reconnexion)
+      // useNewUrlParser: true,   par default depuis v6 (ancien obsolete)
+      // useUnifiedTopology: true,   par default depuis v6 (eviter probleme de reconnexion)
     });
 
     console.log(`MongoDB connecté: ${connection.connection.host}`);  // Récupère l'adresse du serveur MongoDB
