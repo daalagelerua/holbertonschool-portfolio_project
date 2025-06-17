@@ -38,7 +38,7 @@ const searchVisa = async (req, res) => {
       });
     }
     
-    console.log(`🔍 Recherche visa: ${fromCountry} → ${toCountry}`);
+    console.log(`Recherche visa: ${fromCountry} -> ${toCountry}`);
     
     // ÉTAPE 2: Vérification de l'existence des pays
     const [originCountry, destinationCountry] = await Promise.all([
@@ -134,7 +134,7 @@ const searchVisa = async (req, res) => {
       }
     };
     
-    console.log(`✅ Visa trouvé: ${fromCountry} → ${toCountry} (${visaRequirement.requirement})`);
+    console.log(`Visa trouvé: ${fromCountry} -> ${toCountry} (${visaRequirement.requirement})`);
     res.json(response);
     
   } catch (error) {
@@ -161,7 +161,7 @@ const getVisasFromCountry = async (req, res) => {
     const { country } = req.params;
     const countryCode = country.toUpperCase().trim();
     
-    console.log(`🌍 Recherche tous les visas depuis: ${countryCode}`);
+    console.log(`Recherche tous les visas depuis: ${countryCode}`);
     
     // ÉTAPE 2: Vérification de l'existence du pays
     const originCountry = await Country.findOne({ 
@@ -241,7 +241,7 @@ const getVisasFromCountry = async (req, res) => {
       }
     };
     
-    console.log(`✅ ${totalDestinations} destinations trouvées pour ${countryCode}`);
+    console.log(`${totalDestinations} destinations trouvées pour ${countryCode}`);
     res.json(response);
     
   } catch (error) {
@@ -263,7 +263,7 @@ const getVisasFromCountry = async (req, res) => {
  */
 const getAvailableCountries = async (req, res) => {
   try {
-    console.log('📋 Récupération de tous les pays disponibles');
+    console.log('Récupération de tous les pays disponibles');
     
     // Récupération de tous les pays actifs, triés par nom
     const countries = await Country.find({ isActive: true })
@@ -303,7 +303,7 @@ const getAvailableCountries = async (req, res) => {
       }
     };
     
-    console.log(`✅ ${countries.length} pays récupérés`);
+    console.log(`${countries.length} pays récupérés`);
     res.json(response);
     
   } catch (error) {
