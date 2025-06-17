@@ -104,14 +104,38 @@ router.get('/stats', async (req, res) => {
 });
 
 // ROUTES POUR LES FAVORIS (à implémenter plus tard)
-/*
-TODO: Routes des favoris (nécessitent authentification)
+// Import du controller des favoris
+const {
+  addToFavorites,
+  removeFromFavorites,
+  getUserFavorites
+} = require('../controllers/favoritesController');
 
+// Import du middleware d'authentification (obligatoire)
+const { authenticateToken } = require('../middleware/auth');
+
+/**
+ * POST /api/visas/favorites
+ * Ajoute une combinaison de pays aux favoris
+ * Body: { from: "FR", to: "JP" }
+ * Headers: Authorization: Bearer <token> OU Cookie: token=<token>
+ */
 router.post('/favorites', authenticateToken, addToFavorites);
-router.delete('/favorites', authenticateToken, removeFromFavorites);
-router.get('/favorites', authenticateToken, getUserFavorites);
 
-*/
+/**
+ * DELETE /api/visas/favorites  
+ * Supprime une combinaison de pays des favoris
+ * Body: { from: "FR", to: "JP" }
+ * Headers: Authorization: Bearer <token> OU Cookie: token=<token>
+ */
+router.delete('/favorites', authenticateToken, removeFromFavorites);
+
+/**
+ * GET /api/visas/favorites
+ * Récupère tous les favoris de l'utilisateur connecté
+ * Headers: Authorization: Bearer <token> OU Cookie: token=<token>
+ */
+router.get('/favorites', authenticateToken, getUserFavorites);
 
 // GESTION D'ERREURS SPÉCIFIQUE AUX ROUTES VISA
 /**
