@@ -90,7 +90,7 @@ const register = async (req, res) => {
     const newUser = new User(userData);
     const savedUser = await newUser.save();
     
-    console.log(`✅ Nouvel utilisateur créé: ${savedUser.email} (ID: ${savedUser._id})`);
+    console.log(`Nouvel utilisateur créé: ${savedUser.email} (ID: ${savedUser._id})`);
     
     // ÉTAPE 4: Génération du token JWT
     const tokenData = generateTokenForUser(savedUser);
@@ -228,7 +228,7 @@ const login = async (req, res) => {
     res.cookie('token', tokenData.token, cookieOptions);
     
     // ÉTAPE 6: Réponse de succès
-    console.log(`✅ Connexion réussie: ${user.email} (ID: ${user._id})`);
+    console.log(`Connexion réussie: ${user.email} (ID: ${user._id})`);
     
     res.json({
       success: true,
@@ -278,7 +278,7 @@ const logout = async (req, res) => {
     
     // Log pour debugging (si utilisateur connecté)
     if (req.user) {
-      console.log(`✅ Déconnexion: ${req.user.email} (ID: ${req.user.userId})`);
+      console.log(`Déconnexion: ${req.user.email} (ID: ${req.user.userId})`);
     }
     
     res.json({
