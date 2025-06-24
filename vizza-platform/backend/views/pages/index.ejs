@@ -1,0 +1,382 @@
+<!-- views/pages/index.ejs -->
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="hero-title">
+                    <i class="bi bi-airplane me-3"></i>
+                    Trouvez votre visa
+                </h1>
+                <p class="hero-subtitle">
+                    Découvrez instantanément les exigences de visa pour votre prochaine destination
+                </p>
+                
+                <!-- Recherche rapide -->
+                <div class="card mt-4 shadow-lg">
+                    <div class="card-body p-4">
+                        <form id="quick-search-form">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label for="from-country" class="form-label">
+                                        <i class="bi bi-geo-alt me-1"></i>
+                                        Depuis
+                                    </label>
+                                    <select class="form-select" id="from-country" required>
+                                        <option value="">Choisir un pays...</option>
+                                        <!-- Options chargées dynamiquement -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="to-country" class="form-label">
+                                        <i class="bi bi-geo-alt-fill me-1"></i>
+                                        Vers
+                                    </label>
+                                    <select class="form-select" id="to-country" required>
+                                        <option value="">Choisir un pays...</option>
+                                        <!-- Options chargées dynamiquement -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-warning btn-lg w-100">
+                                        <i class="bi bi-search me-2"></i>
+                                        Rechercher
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Résultat de recherche rapide -->
+<section id="quick-result" class="section" style="display: none;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div id="visa-result-card" class="visa-card">
+                    <!-- Résultat inséré dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistiques -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="section-title">Vizza en chiffres</h2>
+            </div>
+        </div>
+        
+        <div class="row g-4" id="stats-container">
+            <!-- Statistiques chargées dynamiquement -->
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-globe"></i>
+                    </div>
+                    <div class="stats-number" id="total-countries">-</div>
+                    <div class="stats-label">Pays disponibles</div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-passport"></i>
+                    </div>
+                    <div class="stats-number" id="total-visas">-</div>
+                    <div class="stats-label">Relations visa</div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="stats-number" id="green-visas">-</div>
+                    <div class="stats-label">Sans visa requis</div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="stats-number">1</div>
+                    <div class="stats-label">Voyageur satisfait (toi !)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comment ça marche -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="section-title">Comment ça marche ?</h2>
+                <p class="section-subtitle">
+                    Trouvez les informations de visa en 3 étapes simples
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <div class="bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+                            1
+                        </div>
+                    </div>
+                    <h4>Sélectionnez vos pays</h4>
+                    <p class="text-muted">
+                        Choisissez votre pays de départ et votre destination parmi nos 10 pays disponibles.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <div class="bg-success text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+                            2
+                        </div>
+                    </div>
+                    <h4>Obtenez les informations</h4>
+                    <p class="text-muted">
+                        Découvrez instantanément les exigences de visa avec des informations détaillées.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <div class="bg-warning text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" 
+                             style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+                            3
+                        </div>
+                    </div>
+                    <h4>Ajoutez aux favoris</h4>
+                    <p class="text-muted">
+                        Créez un compte et sauvegardez vos destinations préférées pour un accès rapide.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to action -->
+<section class="section bg-gradient text-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">Prêt à planifier votre voyage ?</h2>
+                <p class="mb-4 fs-5">
+                    Créez votre compte gratuitement et accédez à toutes les fonctionnalités de Vizza.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="/register" class="btn btn-light btn-lg">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Créer un compte
+                    </a>
+                    <a href="/search" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-search me-2"></i>
+                        Explorer maintenant
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript spécifique à cette page -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Charger les pays pour la recherche rapide
+    loadCountriesForSearch();
+    
+    // Charger les statistiques
+    loadHomeStats();
+    
+    // Gérer la recherche rapide
+    handleQuickSearch();
+});
+
+// Charger les pays dans les dropdowns
+async function loadCountriesForSearch() {
+    try {
+        const countries = await API.getCountries();
+        const fromSelect = document.getElementById('from-country');
+        const toSelect = document.getElementById('to-country');
+        
+        countries.forEach(country => {
+            const option1 = new Option(`${country.flag} ${country.name}`, country.code);
+            const option2 = new Option(`${country.flag} ${country.name}`, country.code);
+            fromSelect.add(option1);
+            toSelect.add(option2);
+        });
+    } catch (error) {
+        console.error('Erreur chargement pays:', error);
+        showFlashMessage('Erreur lors du chargement des pays', 'danger');
+    }
+}
+
+// Charger les statistiques
+async function loadHomeStats() {
+    try {
+        const stats = await API.getStats();
+        
+        document.getElementById('total-countries').textContent = stats.countries.active;
+        document.getElementById('total-visas').textContent = stats.visas.total.toLocaleString();
+        document.getElementById('green-visas').textContent = stats.visas.byLevel.green.toLocaleString();
+    } catch (error) {
+        console.error('Erreur chargement statistiques:', error);
+    }
+}
+
+// Gérer la recherche rapide
+function handleQuickSearch() {
+    const form = document.getElementById('quick-search-form');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const from = document.getElementById('from-country').value;
+        const to = document.getElementById('to-country').value;
+        
+        if (!from || !to) {
+            showFlashMessage('Veuillez sélectionner les deux pays', 'warning');
+            return;
+        }
+        
+        if (from === to) {
+            showFlashMessage('Les pays de départ et de destination doivent être différents', 'warning');
+            return;
+        }
+        
+        try {
+            // Afficher le loading
+            showQuickSearchLoading();
+            
+            // Rechercher le visa
+            const result = await API.searchVisa(from, to);
+            
+            // Afficher le résultat
+            displayQuickSearchResult(result);
+            
+        } catch (error) {
+            console.error('Erreur recherche rapide:', error);
+            hideQuickSearchResult();
+            showFlashMessage('Erreur lors de la recherche. Essayez la page de recherche détaillée.', 'danger');
+        }
+    });
+}
+
+// Afficher le loading de recherche rapide
+function showQuickSearchLoading() {
+    const resultSection = document.getElementById('quick-result');
+    const resultCard = document.getElementById('visa-result-card');
+    
+    resultCard.innerHTML = `
+        <div class="text-center p-4">
+            <div class="loading-spinner mb-3"></div>
+            <p>Recherche en cours...</p>
+        </div>
+    `;
+    
+    resultSection.style.display = 'block';
+    resultSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Afficher le résultat de recherche rapide
+function displayQuickSearchResult(result) {
+    const resultCard = document.getElementById('visa-result-card');
+    const visa = result.visa;
+    
+    resultCard.innerHTML = `
+        <div class="visa-card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="flag-icon">${visa.journey.from.flag}</span>
+                    <span class="country-name">${visa.journey.from.name}</span>
+                </div>
+                <i class="bi bi-arrow-right fs-3 text-muted"></i>
+                <div>
+                    <span class="flag-icon">${visa.journey.to.flag}</span>
+                    <span class="country-name">${visa.journey.to.name}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="visa-card-body">
+            <div class="text-center mb-3">
+                <span class="visa-level-badge visa-level-${visa.requirement.level}">
+                    ${visa.requirement.text}
+                </span>
+            </div>
+            
+            <p class="text-center mb-3">${visa.requirement.description}</p>
+            
+            ${visa.details.maxStay ? `<p><strong>Durée maximale :</strong> ${visa.details.maxStay}</p>` : ''}
+            ${visa.details.cost ? `<p><strong>Coût :</strong> ${visa.details.cost}</p>` : ''}
+            
+            <div class="text-center mt-4">
+                <a href="/search?from=${visa.journey.from.code}&to=${visa.journey.to.code}" 
+                   class="btn btn-primary me-2">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Plus de détails
+                </a>
+                ${visa.metadata.isFavorite ? '' : `
+                    <button class="btn btn-outline-warning" onclick="addToFavoritesFromHome('${visa.journey.from.code}', '${visa.journey.to.code}')">
+                        <i class="bi bi-star me-1"></i>
+                        Ajouter aux favoris
+                    </button>
+                `}
+            </div>
+        </div>
+    `;
+}
+
+// Masquer le résultat de recherche rapide
+function hideQuickSearchResult() {
+    document.getElementById('quick-result').style.display = 'none';
+}
+
+// Ajouter aux favoris depuis la page d'accueil
+async function addToFavoritesFromHome(from, to) {
+    if (!Auth.isLoggedIn()) {
+        showFlashMessage('Connectez-vous pour ajouter des favoris', 'info');
+        setTimeout(() => window.location.href = '/login', 2000);
+        return;
+    }
+    
+    try {
+        await API.addToFavorites(from, to);
+        showFlashMessage('Ajouté aux favoris !', 'success');
+        
+        // Recharger le résultat pour mettre à jour l'interface
+        const result = await API.searchVisa(from, to);
+        displayQuickSearchResult(result);
+        
+    } catch (error) {
+        console.error('Erreur ajout favori:', error);
+        showFlashMessage('Erreur lors de l\'ajout aux favoris', 'danger');
+    }
+}
+</script>
