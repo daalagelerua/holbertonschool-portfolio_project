@@ -2,11 +2,13 @@
 const express = require('express');  // le framework
 const cors = require('cors');  // permet aux navigateurs d'autres domaines d'accéder à l'API
 const helmet = require('helmet');  // ajoute de la sécurité automatiquement
+const cookieParser = require('cookie-parser');
 require('dotenv').config();  // lit le fichier .env pour récupérer les variables secrètes
 
 // Import des routes
 const authRoutes = require('./routes/authRoutes');
 const visaRoutes = require('./routes/visaRoutes');
+const { router: frontendRoutes, configureEJS } = require('./routes/frontend');
 
 const app = express();  // va permettre d'equiper le server de fonctionnalité -> helmet, cors
 
@@ -16,6 +18,9 @@ app.use((err, req, res, next) => {  // si JSON malformé renvoie un message d'er
   }
   next(err);  // Si ce n'est pas une erreur JSON -> Passe au gestionnaire d'erreurs suivant
 });
+
+// Configurer EJS
+configureEJS(app);
 
 // Middleware de sécurité et configuration
 
@@ -40,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));  // extended: true -> permet d'
 // Servir les fichiers statiques
 app.use(express.static('frontend/public'));
 
-// Utilisation des routes  
+// Utilisation des routes API, (/api/ -> convention d'organisation)
 app.use('/api/auth', authRoutes);
 app.use('/api/visas', visaRoutes);
 
