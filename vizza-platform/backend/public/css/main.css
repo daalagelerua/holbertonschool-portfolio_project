@@ -21,7 +21,7 @@
   --section-padding: 4rem 0;
   --card-padding: 1.5rem;
   
-  /* Ombres */
+  /* Ombres - rgba -> red, green, blue, alpha -> alpha represente la transparence (0.5 = 5% d'opacité) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -31,35 +31,35 @@
    STYLES GÉNÉRAUX
    ============================================================================= */
 
-body {
+body {  /* liste de fallback selon systeme d'exploitation */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
+  line-height: 1.6;  /* espacement de 160% de la taille de la police entre les lignes */
   color: #333;
-  display: flex;
+  display: flex;  /* footer collant: peu importe la quantité de contenu le footer reste en bas */
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh;  /* viewport height 100% */
 }
 
 /* Améliorer les liens */
 a {
-  transition: color 0.2s ease;
+  transition: color 0.2s ease;  /* transition progressive au survol */
 }
 
 a:hover {
-  text-decoration: none;
+  text-decoration: none;  /* si transition etait dans :hover, elle ne marcherai qu'à l'entrée */
 }
 
 /* Boutons personnalisés */
 .btn {
-  border-radius: 0.5rem;
-  padding: 0.5rem 1.5rem;
-  font-weight: 500;
+  border-radius: 0.5rem;  /* arrondis les coins du bouton */
+  padding: 0.5rem 1.5rem;  /* vertical a gauche, horizontal a droite */
+  font-weight: 500;  /* intensité a laquelle le texte est mis en gras */
   transition: all 0.2s ease;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);  /* deplace de 1px vers le haut, donne l'impression que le bouton se souleve */
+  box-shadow: var(--shadow-md);  /* translateX aurait fait un deplacement horizontal contrairement a translateY */
 }
 
 /* =============================================================================
@@ -71,7 +71,7 @@ a:hover {
   font-weight: 700;
 }
 
-.navbar-nav .nav-link {
+.navbar-nav .nav-link {  /* selecteur descendant: cible les element de class .nav-link si ils sont dans un element .navbar-nav */
   font-weight: 500;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -97,8 +97,8 @@ a:hover {
    HERO SECTION
    ============================================================================= */
 
-.hero-section {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #0a58ca 100%);
+.hero-section {  /* 135deg = direction diagonale, 0% depart clair vers 100% foncé: resultat ->dégradé bleu qui va du clair au foncé en diagonale */
+  background: linear-gradient(135deg, var(--primary-color) 0%, #0a58ca 100%);  /* 0deg = de bas en haut, 90deg = de gauche a droite, 180deg = de haut en bas */
   color: white;
   padding: var(--section-padding);
   text-align: center;
@@ -115,8 +115,8 @@ a:hover {
   margin-bottom: 2rem;
   opacity: 0.9;
 }
-
-@media (max-width: 768px) {
+/* responsive design */
+@media (max-width: 768px) {  /* 768px = format tablette, 576px = format mobile, a partir du format tablette appliqué ces styles */
   .hero-title {
     font-size: 2.5rem;
   }
@@ -135,7 +135,7 @@ a:hover {
   border-radius: 1rem;
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
-  overflow: hidden;
+  overflow: hidden;  /* coupe se qui depasse */
 }
 
 .visa-card:hover {
@@ -204,7 +204,7 @@ a:hover {
   transition: all 0.2s ease;
 }
 
-.form-control:focus {
+.form-control:focus {  /* focus = quand l'utilisateur clique sur le champ a remplir -> montre visuellement qu'on peut taper ici */
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
@@ -314,11 +314,11 @@ a:hover {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;  /* la roue tourne a vitesse constante et continue sans s'arreter */
   margin: 0 auto;
 }
 
-@keyframes spin {
+@keyframes spin {  /* keyframes = scenario d'animations: roue qui tourne pendant le chargement */
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
@@ -406,7 +406,7 @@ a:hover {
 
 .text-gradient {
   background: linear-gradient(135deg, var(--primary-color), #0a58ca);
-  -webkit-background-clip: text;
+  -webkit-background-clip: text;  /* applique le gradient seulement sur le texte */
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
