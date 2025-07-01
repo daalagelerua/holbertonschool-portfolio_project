@@ -1,9 +1,7 @@
-<!-- views/pages/index.ejs -->
-
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center">  <!-- Flexbox Bootstrap to change the alignment of flex items on the main axis (centrage horizontal) -->
             <div class="col-lg-8 text-center">
                 <h1 class="hero-title">
                     <i class="bi bi-airplane me-3"></i>
@@ -17,8 +15,8 @@
                 <div class="card mt-4 shadow-lg">
                     <div class="card-body p-4">
                         <form id="quick-search-form">
-                            <div class="row g-3 align-items-end">
-                                <div class="col-md-4">
+                            <div class="row g-3 align-items-end">  <!-- g = gutter = espacement entre les colonnes / align-... = alignement vertical vers le bas -->
+                                <div class="col-md-4">  <!-- col-md-4 = 3 colonnes dès la tablette -->
                                     <label for="from-country" class="form-label">
                                         <i class="bi bi-geo-alt me-1"></i>
                                         Depuis
@@ -54,7 +52,7 @@
 </section>
 
 <!-- Résultat de recherche rapide -->
-<section id="quick-result" class="section" style="display: none;">
+<section id="quick-result" class="section" style="display: none;">  <!-- section cachée qui n'apparait que si un resultat est trouvé (fonction showQuickSearchResult()) -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -247,6 +245,14 @@ async function loadHomeStats() {
         document.getElementById('green-visas').textContent = stats.visas.byLevel.green.toLocaleString();
     } catch (error) {
         console.error('Erreur chargement statistiques:', error);
+
+        // Valeurs par défaut
+        document.getElementById('total-countries').textContent = 'N/A';
+        document.getElementById('total-visas').textContent = 'N/A';
+        document.getElementById('green-visas').textContent = 'N/A';
+    
+        // Message info
+        showFlashMessage('Statistiques temporairement indisponibles', 'info');
     }
 }
 
@@ -255,14 +261,14 @@ function handleQuickSearch() {
     const form = document.getElementById('quick-search-form');
     
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault();  // annule le comportement par défaut (page qui se recharge + données js perdues) pour permettre a js de traiter la recherche
         
         const from = document.getElementById('from-country').value;
         const to = document.getElementById('to-country').value;
         
         if (!from || !to) {
             showFlashMessage('Veuillez sélectionner les deux pays', 'warning');
-            return;
+            return;  // arrête l'exécution de la fonction pour éviter de continuer avec des données invalides
         }
         
         if (from === to) {
@@ -301,7 +307,7 @@ function showQuickSearchLoading() {
     `;
     
     resultSection.style.display = 'block';
-    resultSection.scrollIntoView({ behavior: 'smooth' });
+    resultSection.scrollIntoView({ behavior: 'smooth' });  // La page défile automatiquement vers la section résultat
 }
 
 // Afficher le résultat de recherche rapide
