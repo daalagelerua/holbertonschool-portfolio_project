@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
+const ejsLayouts = require('express-ejs-layouts');
 const router = express.Router();
 
-// Configuration d'EJS
+// Configuration d'EJS mise à jour
 const configureEJS = (app) => {
   // Définir EJS comme moteur de template
   app.set('view engine', 'ejs');
@@ -10,7 +11,11 @@ const configureEJS = (app) => {
   // Définir le dossier des vues
   app.set('views', path.join(__dirname, '../views'));
   
-  console.log('✅ EJS configuré');
+  // Configurer le middleware express-ejs-layouts
+  app.use(ejsLayouts);
+  app.set('layout', 'layout/main'); // Chemin vers votre layout principal
+  
+  console.log('✅ EJS configuré avec layouts');
 };
 
 // =============================================================================
