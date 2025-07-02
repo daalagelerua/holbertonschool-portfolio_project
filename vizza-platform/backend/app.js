@@ -43,11 +43,14 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));  // extended: true -> permet d'avoir la bonne structure de données pour les requetes future (objets imbriqués, tableaux)
 
 // Servir les fichiers statiques
-app.use(express.static('frontend/public'));
+app.use(express.static('backend/public'));
 
 // Utilisation des routes API, (/api/ -> convention d'organisation)
 app.use('/api/auth', authRoutes);
 app.use('/api/visas', visaRoutes);
+
+// Routes frontend (pages)
+app.use('/', frontendRoutes);
 
 // Tests Temporaires
 // Route de santé
