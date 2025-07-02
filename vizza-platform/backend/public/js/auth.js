@@ -64,7 +64,7 @@ const Auth = {
         return true; // Token malformé
       }
       
-      // Décoder le payload (base64url)
+      // Décoder le payload (Les JWT sont encodés en Base64URL, ASCII to binary)
       const payload = JSON.parse(atob(parts[1]));
       
       // Vérifier l'expiration (exp est en secondes, Date.now() en millisecondes)
