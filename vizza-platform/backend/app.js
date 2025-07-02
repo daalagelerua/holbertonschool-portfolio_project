@@ -3,6 +3,7 @@ const express = require('express');  // le framework
 const cors = require('cors');  // permet aux navigateurs d'autres domaines d'accéder à l'API
 const helmet = require('helmet');  // ajoute de la sécurité automatiquement
 const cookieParser = require('cookie-parser');
+const path = require('path');
 require('dotenv').config();  // lit le fichier .env pour récupérer les variables secrètes
 
 // Import des routes
@@ -43,7 +44,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));  // extended: true -> permet d'avoir la bonne structure de données pour les requetes future (objets imbriqués, tableaux)
 
 // Servir les fichiers statiques
-app.use(express.static('backend/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Utilisation des routes API, (/api/ -> convention d'organisation)
 app.use('/api/auth', authRoutes);
