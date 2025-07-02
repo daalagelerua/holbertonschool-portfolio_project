@@ -27,7 +27,19 @@ configureEJS(app);
 
 // - Helmet: pour proteger l'application des
 // vulnerabilités connues d'express (headers HTTP)
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        fontSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+      },
+    },
+  })
+);
 
 // CORS pour permettre les requêtes cross-origin
 app.use(cors({
