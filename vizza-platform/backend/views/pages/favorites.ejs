@@ -1,0 +1,82 @@
+<!-- Page des favoris de l'utilisateur -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h1 class="hero-title">
+          <i class="bi bi-star me-3"></i>
+          Mes Favoris
+        </h1>
+        <p class="hero-subtitle">
+          Retrouvez vos destinations préférées en un clin d'œil
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- État vide -->
+    <div id="empty-favorites" style="display: none;">
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <i class="bi bi-star"></i>
+        </div>
+        <h3 class="empty-state-title">Aucun favori</h3>
+        <p class="empty-state-text">
+          Vous n'avez pas encore ajouté de destinations à vos favoris.
+          Explorez les destinations et ajoutez-les à vos favoris pour les retrouver facilement.
+        </p>
+        <a href="/search" class="btn btn-primary">
+          <i class="bi bi-search me-2"></i>
+          Explorer les destinations
+        </a>
+      </div>
+    </div>
+
+    <!-- Grille des favoris -->
+    <div id="favorites-grid">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="favorites-container">
+        <!-- Les favoris seront chargés ici dynamiquement -->
+        <!-- Exemple de carte favorite -->
+        <div class="col">
+          <div class="visa-card">
+            <div class="visa-card-header d-flex justify-content-between align-items-center">
+              <div>
+                <span class="flag-icon">🇫🇷</span>
+                <span class="country-name">France</span>
+              </div>
+              <i class="bi bi-arrow-right fs-3 text-muted"></i>
+              <div>
+                <span class="flag-icon">🇯🇵</span>
+                <span class="country-name">Japon</span>
+              </div>
+            </div>
+            
+            <div class="visa-card-body">
+              <div class="text-center mb-3">
+                <span class="visa-level-badge visa-level-blue">
+                  Visa à l'arrivée
+                </span>
+              </div>
+              
+              <p class="text-center mb-3">Séjour jusqu'à 90 jours sans visa</p>
+              
+              <div class="d-flex justify-content-between mt-3">
+                <a href="/search?from=FR&to=JP" class="btn btn-sm btn-primary">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Détails
+                </a>
+                <button class="btn btn-sm btn-outline-danger remove-favorite" data-from="FR" data-to="JP">
+                  <i class="bi bi-trash me-1"></i>
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

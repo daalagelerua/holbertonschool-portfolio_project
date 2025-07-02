@@ -1,0 +1,169 @@
+<!-- Page de recherche avancée de visas -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h1 class="hero-title">
+          <i class="bi bi-search me-3"></i>
+          Recherche de visas
+        </h1>
+        <p class="hero-subtitle">
+          Trouvez les exigences de visa détaillées pour votre destination
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <!-- Formulaire de recherche avancée -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-filter me-2"></i>
+              Options de recherche
+            </h5>
+          </div>
+          <div class="card-body">
+            <form id="advanced-search-form">
+              <div class="mb-3">
+                <label for="origin-country" class="form-label">Pays d'origine</label>
+                <select class="form-select" id="origin-country" required>
+                  <option value="">Sélectionnez votre pays</option>
+                  <!-- Options chargées dynamiquement -->
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label for="destination-country" class="form-label">Destination</label>
+                <select class="form-select" id="destination-country" required>
+                  <option value="">Sélectionnez la destination</option>
+                  <!-- Options chargées dynamiquement -->
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label d-block">Type de séjour</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="stay-type" id="tourism" value="tourism" checked>
+                  <label class="form-check-label" for="tourism">Tourisme</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="stay-type" id="business" value="business">
+                  <label class="form-check-label" for="business">Affaires</label>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="stay-duration" class="form-label">Durée du séjour</label>
+                <select class="form-select" id="stay-duration">
+                  <option value="short">Moins de 30 jours</option>
+                  <option value="medium">30-90 jours</option>
+                  <option value="long">Plus de 90 jours</option>
+                </select>
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-search me-2"></i>
+                Rechercher
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Recherches récentes -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h5 class="card-title mb-0">Recherches récentes</h5>
+          </div>
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush" id="recent-searches">
+              <!-- Chargé dynamiquement -->
+              <li class="list-group-item text-center text-muted">
+                Aucune recherche récente
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Résultats de recherche -->
+      <div class="col-lg-8">
+        <div id="search-results">
+          <div class="text-center py-5" id="search-placeholder">
+            <img src="/img/search-illustration.svg" alt="Recherche" class="img-fluid mb-4" style="max-width: 200px;">
+            <h3>Commencez votre recherche</h3>
+            <p class="text-muted">
+              Sélectionnez votre pays d'origine et votre destination pour obtenir les informations de visa.
+            </p>
+          </div>
+          
+          <!-- Les résultats seront chargés ici dynamiquement -->
+          <div id="visa-result" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Template pour les résultats (sera cloné par JavaScript) -->
+<template id="visa-result-template">
+  <div class="visa-card mb-4">
+    <div class="visa-card-header d-flex justify-content-between align-items-center">
+      <div>
+        <span class="flag-icon">🏁</span>
+        <span class="country-name">Pays d'origine</span>
+      </div>
+      <i class="bi bi-arrow-right fs-3 text-muted"></i>
+      <div>
+        <span class="flag-icon">🏁</span>
+        <span class="country-name">Destination</span>
+      </div>
+    </div>
+    
+    <div class="visa-card-body">
+      <div class="text-center mb-4">
+        <span class="visa-level-badge visa-level-green">
+          Visa non requis
+        </span>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Durée maximale</span>
+              <strong class="max-stay">90 jours</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Coût</span>
+              <strong class="cost">Gratuit</strong>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Délai de traitement</span>
+              <strong class="processing-time">Immédiat</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Dernière mise à jour</span>
+              <strong class="last-update">01/06/2025</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-4 text-center">
+        <button class="btn btn-outline-warning add-favorite">
+          <i class="bi bi-star me-1"></i>
+          Ajouter aux favoris
+        </button>
+      </div>
+    </div>
+  </div>
+</template>

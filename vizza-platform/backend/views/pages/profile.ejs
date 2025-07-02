@@ -1,0 +1,135 @@
+<!-- Page de profil utilisateur -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h1 class="hero-title">
+          <i class="bi bi-person-circle me-3"></i>
+          Mon Profil
+        </h1>
+        <p class="hero-subtitle">
+          Gérez vos informations personnelles et vos préférences
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <!-- Informations du profil -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-person me-2"></i>
+              Informations personnelles
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="text-center mb-4">
+              <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                <span id="profile-initials">AP</span>
+              </div>
+              <h5 id="profile-name">Prénom Nom</h5>
+              <p class="text-muted mb-0" id="profile-email">email@example.com</p>
+            </div>
+            
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Membre depuis</span>
+                <strong id="profile-created-at">01/01/2025</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Pays d'origine</span>
+                <strong id="profile-country">France 🇫🇷</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Langue</span>
+                <strong id="profile-language">Français</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Édition du profil -->
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-pencil-square me-2"></i>
+              Modifier mon profil
+            </h5>
+          </div>
+          <div class="card-body">
+            <form id="profile-form">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="edit-firstName" class="form-label">Prénom</label>
+                  <input type="text" class="form-control" id="edit-firstName" name="firstName" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="edit-lastName" class="form-label">Nom</label>
+                  <input type="text" class="form-control" id="edit-lastName" name="lastName" required>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="edit-email" class="form-label">Adresse email</label>
+                <input type="email" class="form-control" id="edit-email" name="email" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="edit-defaultOriginCountry" class="form-label">Pays d'origine par défaut</label>
+                <select class="form-select" id="edit-defaultOriginCountry" name="defaultOriginCountry">
+                  <option value="">Sélectionnez votre pays</option>
+                  <!-- Options chargées dynamiquement -->
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label d-block">Langue préférée</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="language" id="edit-lang-fr" value="fr">
+                  <label class="form-check-label" for="edit-lang-fr">Français</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="language" id="edit-lang-en" value="en">
+                  <label class="form-check-label" for="edit-lang-en">English</label>
+                </div>
+              </div>
+              
+              <hr>
+              
+              <div class="mb-3">
+                <label for="current-password" class="form-label">Mot de passe actuel</label>
+                <input type="password" class="form-control" id="current-password" name="currentPassword">
+                <div class="form-text">Laissez vide si vous ne souhaitez pas changer de mot de passe.</div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="new-password" class="form-label">Nouveau mot de passe</label>
+                  <input type="password" class="form-control" id="new-password" name="newPassword" minlength="6">
+                </div>
+                <div class="col-md-6">
+                  <label for="confirm-password" class="form-label">Confirmer le mot de passe</label>
+                  <input type="password" class="form-control" id="confirm-password" name="confirmPassword">
+                </div>
+              </div>
+              
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-check-circle me-2"></i>
+                  Enregistrer les modifications
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
