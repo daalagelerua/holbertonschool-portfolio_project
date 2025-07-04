@@ -105,6 +105,15 @@ const register = async (req, res) => {
     };
     
     res.cookie('token', tokenData.token, cookieOptions);
+
+    // Ajouter un cookie indicateur d'état non-httpOnly
+    res.cookie('isLoggedIn', 'true', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 4 * 60 * 60 * 1000,
+      path: '/'
+    });
     
     // ÉTAPE 6: Réponse de succès (SANS le mot de passe)
     res.status(201).json({
@@ -226,6 +235,15 @@ const login = async (req, res) => {
     };
     
     res.cookie('token', tokenData.token, cookieOptions);
+
+    // Ajouter un cookie indicateur d'état non-httpOnly
+    res.cookie('isLoggedIn', 'true', {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 4 * 60 * 60 * 1000,
+      path: '/'
+    });
     
     // ÉTAPE 6: Réponse de succès
     console.log(`Connexion réussie: ${user.email} (ID: ${user._id})`);
@@ -271,6 +289,14 @@ const logout = async (req, res) => {
     // Supprimer le cookie de token
     res.clearCookie('token', {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/'
+    });
+
+    // AJOUT : Supprimer également le cookie isLoggedIn
+    res.clearCookie('isLoggedIn', {
+      httpOnly: false, // Important : ce cookie n'est pas httpOnly
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       path: '/'
