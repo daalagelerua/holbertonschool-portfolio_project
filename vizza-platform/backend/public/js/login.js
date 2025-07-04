@@ -57,14 +57,23 @@ async function handleLogin(event) {
         
         // Appeler l'API de connexion
         const user = await Auth.login(email, password);
+
+        // Utiliser les données utilisateur pour mettre à jour l'interface
+        console.log('Utilisateur connecté:', user);
+        
+        // Stocker les données utilisateur en session si nécessaire
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // Mettre à jour l'interface utilisateur manuellement
+        Auth.showLoggedInUI(user);
         
         // Succès
         Main.showFlashMessage('Connexion réussie ! Redirection...', 'success');
         
         // Redirection après un court délai
-        setTimeout(() => {
-            window.location.href = '/';
-        }, 1500);
+        //setTimeout(() => {
+            //window.location.href = '/';
+        //}, 1500);
         
     } catch (error) {
         console.error('Erreur de connexion:', error);
