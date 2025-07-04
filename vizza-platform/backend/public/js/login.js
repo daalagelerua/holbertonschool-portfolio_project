@@ -71,9 +71,9 @@ async function handleLogin(event) {
         Main.showFlashMessage('Connexion réussie ! Redirection...', 'success');
         
         // Redirection après un court délai
-        //setTimeout(() => {
-            //window.location.href = '/';
-        //}, 1500);
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 1500);
         
     } catch (error) {
         console.error('Erreur de connexion:', error);
