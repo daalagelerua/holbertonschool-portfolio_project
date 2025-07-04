@@ -292,7 +292,25 @@ function initRecentSearches() {
  */
 function saveToRecentSearches(from, to, visa) {
     try {
-        let recentSearches = JSON.parse(localStorage.getItem('vizza_recent_searches') || '[]');
+        // Vérifier si l'utilisateur est connecté
+        if (!Auth.isLoggedIn()) {
+            console.log('Utilisateur non connecté, recherche non sauvegardée');
+            return; // Ne pas sauvegarder pour les utilisateurs non connectés
+        }
+        
+        // Récupérer l'ID ou email de l'utilisateur si disponible
+        let userId = 'anonymous';
+        try {
+            const user = JSON.parse(localStorage.getItem('userData') || '{}');
+            userId = user.id || user.email || 'anonymous';
+        } catch (e) {
+            console.warn('Impossible de récupérer les données utilisateur');
+        }
+        
+        // Clé spécifique à l'utilisateur
+        const storageKey = `vizza_recent_searches_${userId}`;
+        
+        let recentSearches = JSON.parse(localStorage.getItem(storageKey) || '[]');
         
         // Supprimer la recherche si elle existe déjà
         recentSearches = recentSearches.filter(search => 
@@ -327,7 +345,32 @@ function saveToRecentSearches(from, to, visa) {
  */
 function loadRecentSearches() {
     try {
-        const recentSearches = JSON.parse(localStorage.getItem('vizza_recent_searches') || '[]');
+        // Vérifier si l'utilisateur est connecté
+        if (!Auth.isLoggedIn()) {
+            const container = document.getElementById('recent-searches');
+            if (container) {
+                container.innerHTML = `
+                    <li class="list-group-item text-center">
+                        <i class="bi bi-lock me-2"></i>
+                        Connectez-vous pour voir vos recherches récentes
+                    </li>
+                `;
+            }
+            return;
+        }
+        
+        // Récupérer l'ID ou email de l'utilisateur
+        let userId = 'anonymous';
+        try {
+            const user = JSON.parse(localStorage.getItem('userData') || '{}');
+            userId = user.id || user.email || 'anonymous';
+        } catch (e) {
+            console.warn('Impossible de récupérer les données utilisateur');
+        }
+        
+        // Utiliser la clé spécifique à l'utilisateur
+        const storageKey = `vizza_recent_searches_${userId}`;
+        const recentSearches = JSON.parse(localStorage.getItem(storageKey) || '[]');
         const container = document.getElementById('recent-searches');
         
         if (!container) return;
