@@ -13,6 +13,8 @@ const { router: frontendRoutes, configureEJS } = require('./routes/frontend');
 
 const app = express();  // va permettre d'equiper le server de fonctionnalité -> helmet, cors
 
+app.use(cookieParser());
+
 app.use((err, req, res, next) => {  // si JSON malformé renvoie un message d'erreur clair
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     return res.status(400).json({ success: false, message: 'Invalid JSON' });
