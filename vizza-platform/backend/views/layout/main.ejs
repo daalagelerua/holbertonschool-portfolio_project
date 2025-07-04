@@ -34,20 +34,26 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/">
-                            <i class="bi bi-house me-1"></i>
+                            <i class="bi bi-house me-1 text-white"></i>
+                            <small class="text-white">
                             Accueil
+                            </small>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/search">
-                            <i class="bi bi-search me-1"></i>
+                            <i class="bi bi-search me-1 text-white"></i>
+                            <small class="text-white">
                             Recherche
+                            </small>
                         </a>
                     </li>
                     <li class="nav-item" id="favorites-nav" style="display: none;">
                         <a class="nav-link" href="/favorites">
-                            <i class="bi bi-star me-1"></i>
+                            <i class="bi bi-star me-1 text-white"></i>
+                            <small class="text-white">
                             Mes Favoris
+                            </small>
                             <span class="badge bg-light text-dark ms-1" id="favorites-count">0</span>  <!-- 0 par default -->
                         </a>
                     </li>
@@ -58,8 +64,10 @@
                     <!-- If user is logged in -->
                     <li class="nav-item dropdown" id="user-menu" style="display: none;">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle me-1"></i>
-                            <span id="user-name">Utilisateur</span>
+                            <i class="bi bi-person-circle me-1 text-white"></i>
+                            <small class="text-white">
+                            <span id="user-name" style="text-transform: capitalize;">Utilisateur</span>
+                            </small>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -115,29 +123,29 @@
                         <i class="bi bi-airplane me-2"></i>
                         Vizza
                     </h5>
-                    <p class="text-muted">
+                    <p class="text-white">
                         Trouvez facilement les exigences de visa pour votre prochain voyage.
                     </p>
                 </div>
                 <div class="col-md-6">
                     <h6>Liens rapides</h6>
                     <ul class="list-unstyled">
-                        <li><a href="/" class="text-muted text-decoration-none">Accueil</a></li>
-                        <li><a href="/search" class="text-muted text-decoration-none">Recherche</a></li>
-                        <li><a href="/api/visas/countries" class="text-muted text-decoration-none">API</a></li>
+                        <li><a href="/" class="text-white text-decoration-none">Accueil</a></li>
+                        <li><a href="/search" class="text-white text-decoration-none">Recherche</a></li>
+                        <li><a href="/api/visas/countries" class="text-white text-decoration-none">API</a></li>
                     </ul>
                 </div>
             </div>
             <hr class="my-3">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <small class="text-muted">
+                    <small class="text-white">
                         © 2025 Vizza - Projet Holberton
                     </small>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <small class="text-muted">
-                        Développé avec <i class="bi bi-heart-fill text-danger"></i> par Aurèle Périllat  <!-- text-danger make the heart red -->
+                    <small class="text-white">
+                        Développé par Aurèle Périllat  <!-- text-danger make the heart red -->
                     </small>
                 </div>
             </div>
