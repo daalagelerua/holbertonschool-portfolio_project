@@ -7,6 +7,11 @@ const Main = {
    */
   init() {
     console.log('Main.js initialisé');
+
+    // S'assurer que l'authentification est vérifiée en premier
+    if (typeof Auth !== 'undefined') {
+        Auth.initializeUI();
+    }
     
     // Initialiser tous les modules
     this.initEventListeners();
