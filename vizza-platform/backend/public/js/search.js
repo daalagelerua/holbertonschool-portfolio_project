@@ -20,15 +20,6 @@ function initSearchForm() {
     }
     
     searchForm.addEventListener('submit', handleAdvancedSearch);
-    
-    // Écouter les changements de pays pour la recherche automatique
-    const originSelect = document.getElementById('origin-country');
-    const destSelect = document.getElementById('destination-country');
-    
-    if (originSelect && destSelect) {
-        originSelect.addEventListener('change', maybeAutoSearch);
-        destSelect.addEventListener('change', maybeAutoSearch);
-    }
 }
 
 /**
@@ -74,9 +65,8 @@ async function loadCountriesForSearch() {
 async function handleAdvancedSearch(event) {
     event.preventDefault();
     
-    const formData = new FormData(event.target);
-    const from = formData.get('origin-country');
-    const to = formData.get('destination-country');
+    const from = document.getElementById('origin-country').value;
+    const to = document.getElementById('destination-country').value;
     
     if (!from || !to) {
         Main.showFlashMessage('Veuillez sélectionner les deux pays', 'warning');
@@ -234,22 +224,6 @@ function hideSearchResult() {
     resultsContainer.innerHTML = '';
     if (placeholder) {
         placeholder.style.display = 'block';
-    }
-}
-
-/**
- * Recherche automatique si les deux pays sont sélectionnés
- */
-function maybeAutoSearch() {
-    const from = document.getElementById('origin-country').value;
-    const to = document.getElementById('destination-country').value;
-    
-    if (from && to && from !== to) {
-        // Déclencher la recherche après un délai
-        clearTimeout(window.autoSearchTimeout);
-        window.autoSearchTimeout = setTimeout(() => {
-            document.getElementById('advanced-search-form').dispatchEvent(new Event('submit'));
-        }, 500);
     }
 }
 
