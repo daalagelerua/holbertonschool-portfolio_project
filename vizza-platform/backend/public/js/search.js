@@ -198,7 +198,7 @@ function displaySearchResult(result) {
                 
                 <div class="text-center mt-4">
                     ${!visa.metadata.isFavorite ? `
-                        <button class="btn btn-outline-warning" onclick="addToFavorites('${visa.journey.from.code}', '${visa.journey.to.code}')">
+                        <button class="btn btn-outline-warning add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}">
                             <i class="bi bi-star me-1"></i>
                             Ajouter aux favoris
                         </button>
@@ -212,6 +212,14 @@ function displaySearchResult(result) {
             </div>
         </div>
     `;
+    const favoriteButton = resultsContainer.querySelector('.add-favorite-btn');
+    if (favoriteButton) {
+      favoriteButton.addEventListener('click', function() {
+        const from = this.getAttribute('data-from');
+        const to = this.getAttribute('data-to');
+        addToFavorites(from, to);
+      });
+    }
 }
 
 /**
@@ -336,7 +344,8 @@ function loadRecentSearches() {
         container.innerHTML = recentSearches.map(search => `
             <li class="list-group-item list-group-item-action" 
                 style="cursor: pointer;"
-                onclick="quickSearchFromRecent('${search.from}', '${search.to}')">
+                data-from="${search.from}" 
+                data-to="${search.to}">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <span>${search.fromFlag} ${search.fromName}</span>
@@ -354,6 +363,14 @@ function loadRecentSearches() {
                 </small>
             </li>
         `).join('');
+
+        container.querySelectorAll('.recent-search-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const from = this.getAttribute('data-from');
+                const to = this.getAttribute('data-to');
+                quickSearchFromRecent(from, to);
+            });
+        });
         
     } catch (error) {
         console.warn('Impossible de charger les recherches récentes:', error);

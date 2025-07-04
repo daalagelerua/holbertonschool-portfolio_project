@@ -142,7 +142,7 @@ function displayQuickSearchResult(result) {
                     Plus de détails
                 </a>
                 ${visa.metadata.isFavorite ? '' : `
-                    <button class="btn btn-outline-warning" onclick="addToFavoritesFromHome('${visa.journey.from.code}', '${visa.journey.to.code}')">
+                    <button class="btn btn-outline-warning" id="add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}">
                         <i class="bi bi-star me-1"></i>
                         Ajouter aux favoris
                     </button>
@@ -150,7 +150,18 @@ function displayQuickSearchResult(result) {
             </div>
         </div>
     `;
+
+    const favoriteButton = document.getElementById('add-favorite-btn');
+  if (favoriteButton) {
+    favoriteButton.addEventListener('click', function() {
+      const from = this.getAttribute('data-from');
+      const to = this.getAttribute('data-to');
+      addToFavoritesFromHome(from, to);
+    });
+  }
 }
+
+
 
 // Masquer le résultat de recherche rapide
 function hideQuickSearchResult() {

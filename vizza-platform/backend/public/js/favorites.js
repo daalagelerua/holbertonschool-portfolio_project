@@ -102,6 +102,15 @@ function displayFavorites(favorites) {
     // Générer les cartes de favoris
     container.innerHTML = favorites.map(favorite => createFavoriteCard(favorite)).join('');
     
+    document.querySelectorAll('.remove-favorite-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const from = this.getAttribute('data-from');
+      const to = this.getAttribute('data-to');
+      const id = this.getAttribute('data-id');
+      removeFavorite(from, to, id);
+    });
+  });
+  
     // Afficher la grille
     document.getElementById('favorites-grid').style.display = 'block';
     
@@ -165,8 +174,10 @@ function createFavoriteCard(favorite) {
                             <i class="bi bi-info-circle me-1"></i>
                             Détails
                         </a>
-                        <button class="btn btn-sm btn-outline-danger" 
-                                onclick="removeFavorite('${favorite.journey.from.code}', '${favorite.journey.to.code}', '${favorite.id}')">
+                        <button class="btn btn-sm btn-outline-danger remove-favorite-btn" 
+                                data-from="${favorite.journey.from.code}" 
+                                data-to="${favorite.journey.to.code}" 
+                                data-id="${favorite.id}">
                             <i class="bi bi-trash me-1"></i>
                             Supprimer
                         </button>
@@ -298,6 +309,5 @@ document.head.appendChild(style);
 // Export pour utilisation globale
 window.FavoritesPage = {
     removeFavorite,
-    refreshFavorites,
-    exportFavorites
+    refreshFavorites
 };
