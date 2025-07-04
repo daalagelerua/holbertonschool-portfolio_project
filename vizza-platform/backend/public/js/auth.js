@@ -9,16 +9,30 @@ const Auth = {
    */
   isLoggedIn() {
     try {
-      // Vérifier la présence du token dans les cookies
-      const token = this.getTokenFromCookie();
-      
-      if (!token) {
-        return false;
+    // Première vérification : cookie isLoggedIn
+    const cookies = document.cookie.split(';');
+    let isLoggedInCookie = false;
+    
+    for (let cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === 'isLoggedIn' && value === 'true') {
+        isLoggedInCookie = true;
+        break;
       }
-      
-      // Vérifier si le token n'est pas expiré (optionnel, côté client)
-      // Note: La vérification complète se fait côté serveur
-      return !this.isTokenExpired(token);
+    }
+    
+    if (isLoggedInCookie) {
+      return true;
+    }
+    
+    // Si pas de cookie isLoggedIn, on peut tenter avec l'ancienne méthode
+    // Note: Cette partie est facultative et sert de fallback
+    const token = this.getTokenFromCookie();
+    if (token && !this.isTokenExpired(token)) {
+      return true;
+    }
+    
+    return false;
       
     } catch (error) {
       console.error('Erreur vérification connexion:', error);
@@ -33,14 +47,14 @@ const Auth = {
   getTokenFromCookie() {
     try {
       // Lecture des cookies du navigateur
-      const cookies = document.cookie.split(';');
-      
-      for (let cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === 'token') {
-          return decodeURIComponent(value);
+      const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('token='))
+            ?.split('=')[1];
+            
+        if (cookieValue) {
+            return decodeURIComponent(cookieValue);
         }
-      }
       
       return null;
       
@@ -105,7 +119,7 @@ const Auth = {
       if (!data.success) {
         throw new Error(data.message || 'Échec de la connexion');
       }
-      
+
       // Succès - le cookie est automatiquement défini par le serveur
       return data.user;
       
@@ -159,6 +173,10 @@ const Auth = {
         method: 'POST',
         credentials: 'include'
       });
+
+      // Même si le serveur supprime le cookie httpOnly, supprimez également 
+      // manuellement le cookie non-httpOnly côté client
+      document.cookie = 'isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       
       const data = await response.json();
       
@@ -226,21 +244,41 @@ const Auth = {
    * À appeler au chargement de chaque page
    */
   async initializeUI() {
-    try {
-      if (this.isLoggedIn()) {
-        // Utilisateur connecté - récupérer ses infos
-        const user = await this.getProfile();
-        this.showLoggedInUI(user);
+  try {
+    console.log('Initialisation UI - Vérification connexion...');
+    const isLogged = this.isLoggedIn();
+    if (isLogged) {
+      console.log('État de connexion:', isLogged);
+      // Utilisateur connecté - récupérer ses infos
+      if (isLogged) {
+        console.log('Utilisateur connecté - Récupération du profil...');
+        try {
+          const user = await this.getProfile();
+          console.log('Profil récupéré:', user);
+          this.showLoggedInUI(user);
+          console.log('Interface connectée affichée');
+        } catch (profileError) {
+          console.error('Erreur récupération profil:', profileError);
+          // Tentative de récupération en mode dégradé
+          this.showLoggedInUI({firstName: 'Utilisateur'});
+          console.log('Interface connectée affichée en mode dégradé');
+        }
       } else {
         // Utilisateur non connecté
+        console.log('Utilisateur non connecté - Affichage UI déconnecté');
         this.showLoggedOutUI();
       }
-    } catch (error) {
-      console.error('Erreur initialisation UI:', error);
-      // En cas d'erreur, considérer comme non connecté
+    } else {
+      // Utilisateur non connecté
+      console.log('Utilisateur non connecté - Affichage UI déconnecté');
       this.showLoggedOutUI();
     }
-  },
+  } catch (error) {
+    console.error('Erreur initialisation UI:', error);
+    // En cas d'erreur, considérer comme non connecté
+    this.showLoggedOutUI();
+  }
+},
 
   /**
    * Affiche l'interface pour utilisateur connecté
