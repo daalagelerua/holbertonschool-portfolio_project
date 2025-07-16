@@ -115,6 +115,26 @@ a:hover {
   margin-bottom: 2rem;
   opacity: 0.9;
 }
+
+.search-page-container {
+    background-image: url('/img/paysage-montagne.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+#search-results .visa-card {
+  background-color: rgba(255, 255, 255, 0.7); /* Fond blanc presque opaque */
+  box-shadow: var(--shadow-lg); /* Ombre plus prononcée */
+  border: none;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
 /* responsive design */
 @media (max-width: 768px) {  /* 768px = format tablette, 576px = format mobile, a partir du format tablette appliqué ces styles */
   .hero-title {
@@ -304,6 +324,16 @@ a:hover {
   margin-bottom: 1rem;
 }
 
+.bg-stats-image {
+  background-image: url('/img/stats-background.jpg');
+  background-size: cover;  /* Couvre toute la zone */
+  background-position: center;  /* Centre l'image */
+  background-repeat: no-repeat;
+  color: white;  /* Texte en blanc pour meilleure lisibilité */
+  position: relative;
+  padding: 5rem 0;  /* Padding plus important pour mettre en valeur l'image */
+}
+
 /* =============================================================================
    LOADING ET ÉTATS
    ============================================================================= */
@@ -377,6 +407,7 @@ a:hover {
     margin-bottom: 1rem;
   }
 }
+
 
 /* =============================================================================
    ANIMATIONS
