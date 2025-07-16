@@ -36,11 +36,12 @@
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-lock"></i></span>
                   <input type="password" class="form-control" id="password" name="password" required 
-                         minlength="6" pattern=".{6,}" 
-                         title="Le mot de passe doit contenir au moins 6 caractères">
+                         minlength="8" pattern=".{6,}" 
+                         title="Le mot de passe doit contenir au moins 8 caractères">
                 </div>
-                <div class="form-text">Le mot de passe doit contenir au moins 6 caractères.</div>
-              </div>
+                  <div id="password-strength" class="mt-2">
+                  <!-- Indicateur de force -->
+                  </div>
               
               <div class="mb-3">
                 <label for="defaultOriginCountry" class="form-label">Pays d'origine par défaut</label>
