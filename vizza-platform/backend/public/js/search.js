@@ -183,10 +183,7 @@ function displaySearchResult(result) {
                                     <strong>${visa.details.processingTime}</strong>
                                 </li>
                             ` : ''}
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Dernière mise à jour</span>
-                                <strong>${new Date(visa.metadata.lastUpdated).toLocaleDateString('fr-FR')}</strong>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
