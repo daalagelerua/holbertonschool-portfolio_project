@@ -7,6 +7,9 @@
 
 > 🛂 **Vizza** is a modern web application that helps travelers instantly find visa requirements for their next destination. Built as a full-stack project with Node.js, Express, and MongoDB.
 
+Here is the link to the landing page of the application:
+<a href="">https://daalagelerua.github.io/vizza_landing/</a>
+
 ## ✨ Features
 
 - **🔍 Smart Search**: Quick visa lookup between any two countries
