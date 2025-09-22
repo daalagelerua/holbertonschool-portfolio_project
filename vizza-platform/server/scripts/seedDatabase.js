@@ -1,5 +1,5 @@
 // =============================================================================
-// backend/scripts/seedDatabase.js - Script pour peupler la base de données
+// server/scripts/seedDatabase.js - Script pour peupler la base de données
 // =============================================================================
 const mongoose = require('mongoose');
 const fetch = require('node-fetch');

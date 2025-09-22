@@ -1,5 +1,5 @@
 // =============================================================================
-// backend/scripts/testUserModel.js - Tests complets du modèle User
+// server/scripts/testUserModel.js - Tests complets du modèle User
 // =============================================================================
 const mongoose = require('mongoose');
 require('dotenv').config();

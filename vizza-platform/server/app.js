@@ -11,8 +11,9 @@ const authRoutes = require('./routes/authRoutes');
 const visaRoutes = require('./routes/visaRoutes');
 const { router: frontendRoutes, configureEJS } = require('./routes/frontend');
 
-const app = express();  // va permettre d'equiper le server de fonctionnalité -> helmet, cors
+const app = express();  // va permettre d'equiper le server web(app) de fonctionnalités -> helmet, cors
 
+// app.use = utilise cette fonctionnalité pour toutes les requetes
 app.use(cookieParser());
 
 app.use((err, req, res, next) => {  // si JSON malformé renvoie un message d'erreur clair
@@ -45,16 +46,17 @@ app.use(
 
 // CORS pour permettre les requêtes cross-origin
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'  // si environnement de prod -> ?, sinon -> :
+  origin: process.env.NODE_ENV === 'production'  // operateur ternaire, si environnement de prod -> ?, sinon -> :
     ? ['https://future_domaine.com']  // a remplacer lors du deployement
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true  // permet aux cookies de passer et a la session de fonctionner
 }));
 
 // Parser JSON (limite à 10MB pour eviter les surcharges)
+// permet de comprendre les données json
 app.use(express.json({ limit: '10mb' }));
 
-// Parser URL-encoded (pour les formulaires)
+// Parser URL-encoded (pour les formulaires html)
 app.use(express.urlencoded({ extended: true }));  // extended: true -> permet d'avoir la bonne structure de données pour les requetes future (objets imbriqués, tableaux)
 
 // Servir les fichiers statiques

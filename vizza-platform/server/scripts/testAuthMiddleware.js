@@ -1,5 +1,5 @@
 // =============================================================================
-// backend/scripts/testAuthMiddleware.js - Test du middleware d'authentification
+// server/scripts/testAuthMiddleware.js - Test du middleware d'authentification
 // =============================================================================
 const express = require('express');
 const cookieParser = require('cookie-parser');

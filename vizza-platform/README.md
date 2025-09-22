@@ -24,7 +24,7 @@ Here is the link to the landing page of the application:
 
 ```
 vizza-platform/
-├── backend/
+├── server/
 │   ├── controllers/     # Business logic
 │   ├── models/         # MongoDB schemas
 │   ├── routes/         # API endpoints
@@ -68,7 +68,7 @@ vizza-platform/
 1. **Clone the repository**
    ```bash
    git clone https://github.com/yourusername/vizza-platform.git
-   cd vizza-platform/backend
+   cd vizza-platform/server
    ```
 
 2. **Install dependencies**

@@ -1,5 +1,5 @@
 // =============================================================================
-// backend/scripts/testVisaRequirementModel.js - Tests avec relations
+// server/scripts/testVisaRequirementModel.js - Tests avec relations
 // =============================================================================
 const mongoose = require('mongoose');
 require('dotenv').config();

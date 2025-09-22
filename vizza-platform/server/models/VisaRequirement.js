@@ -5,7 +5,7 @@ const visaRequirementSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,  // ObjectId au lieu de String ("FR") pour correspondre a l'attendu de mongoose
     required: true,
     uppercase: true,
-    ref: 'Country'
+    ref: 'Country' // pointe vers document Country et permet de faire du populate
   },
   destinationCountry: {
     type: mongoose.Schema.Types.ObjectId,  // ObjectId au lieu de String ("FR") pour correspondre a l'attendu de mongoose

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');  // outil pour parler à MongoDB depuis No
 const connectDB = async () => {
   try {
     // Connexion à MongoDB
+    // Creation de l'objet mongoose
     const connection = await mongoose.connect(process.env.MONGODB_URI, {  // recupere l'adresse depuis .env
       // useNewUrlParser: true,   par default depuis v6 (ancien obsolete)
       // useUnifiedTopology: true,   par default depuis v6 (eviter probleme de reconnexion)

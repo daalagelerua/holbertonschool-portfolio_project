@@ -2,7 +2,7 @@
 const app = require('./app');  // recupere la configuration d'express
 const connectDB = require('./config/database');  // Récupère la fonction pour se connecter à MongoDB
 
-const PORT = process.env.PORT || 3000;  // recupere variable d'environnement par default 3000
+const PORT = process.env.PORT || 3000;  // recupere variable d'environnement, par default 3000
 
 // Fonction de démarrage asynchrone
 const startServer = async () => {

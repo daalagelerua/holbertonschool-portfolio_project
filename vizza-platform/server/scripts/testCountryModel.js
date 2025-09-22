@@ -1,5 +1,5 @@
 // =============================================================================
-// backend/scripts/testCountryModel.js - Script de test
+// server/scripts/testCountryModel.js - Script de test
 // =============================================================================
 const mongoose = require('mongoose');
 require('dotenv').config();
