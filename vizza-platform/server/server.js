@@ -11,7 +11,7 @@ const startServer = async () => {
     await connectDB();
     
     // 2. Démarrer le serveur (stocké dans 'server' pour pouvoir l'arreté proprement derriere)
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, 'localhost', () => {
       console.log(`Serveur Vizza démarré sur le port ${PORT}`);
       console.log(`API: http://localhost:${PORT}/api`);
       console.log(`Health check: http://localhost:${PORT}/health`);
