@@ -25,8 +25,12 @@ Here is the link to the landing page of the application:
 ```
 vizza-platform/
 ├── server/
-│   ├── controllers/     # Business logic
-│   ├── models/         # MongoDB schemas
+│   ├── app.js          # Express configuration
+│   ├── server.js       # Entry point
+│   ├── config/
+│   │   └── database.js # Connexion MongoDB
+│   ├── controllers/    # Business logic
+│   ├── models/         # Mongoose models
 │   ├── routes/         # API endpoints
 │   ├── middleware/     # Authentication & validation
 │   ├── utils/          # JWT utilities
