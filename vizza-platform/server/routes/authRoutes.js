@@ -6,7 +6,8 @@ const {
   register, 
   login, 
   logout, 
-  getProfile 
+  getProfile,
+  updateProfile
 } = require('../controllers/authController');
 
 // Import du middleware d'authentification
@@ -41,6 +42,12 @@ router.post('/logout', authenticateToken, logout);
  * Headers: Authorization: Bearer <token> OU Cookie: token=<token>
  */
 router.get('/profile', authenticateToken, getProfile);
+
+/**
+ * PUT /api/auth/profile
+ * Mise à jour du profil utilisateur connecté
+ */
+router.put('/profile', authenticateToken, updateProfile);
 
 // ROUTE DE TEST (à supprimer en production)
 /**
