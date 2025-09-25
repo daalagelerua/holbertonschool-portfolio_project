@@ -375,9 +375,89 @@ const getProfile = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { firstName, lastName, email, defaultOriginCountry, language, currentPassword, newPassword } = req.body;
+
+    if (!firstName || !lastName || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Prénom, nom ert email sont obligatoires'
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Utilisateur non trouvé'
+      });
+    }
+    if (email !== user.email) {
+      const emailExists = await User.findOne({ email: email.toLowerCase().trim(), _id: { $ne: userId } });
+      if (emailExists) {
+        return res.status(409).json({
+          success: false,
+          message: 'Cet email est dèjà utilisé par un autre compte'
+        });
+      }
+    }
+
+    user.firstName = firstName.trim();
+    user.lastName = lastName.trim();
+    user.email =email.toLowerCase().trim();
+    user.defaultOriginCountry = defaultOriginCountry || null;
+    user.language = language || 'fr';
+
+    if (currentPassword && newPassword) {
+      const isCurrentPasswordValid = await user.comparePassword(currentPassword);
+      if (!isCurrentPasswordValid) {
+        return res.status(400).json({
+          success: false,
+          message: 'Mot de passe actuel incorrect'
+        });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({
+          succes: false,
+          message: 'Le nouveau mot de passe doit contenir au moins 6 caractères'
+        });
+      }
+
+      user.password = newPassword; // sera hashé automatiquement
+    }
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Profil mis à jour avec succès',
+      user: {
+        id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        defaultOriginCountry: user.defaultOriginCountry,
+        language: user.language,
+        favoriteCount: user.favoriteVisas.length,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (error) {
+    console.error('Erreur mise à jour profil:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la mise à jour du profil'
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
-  getProfile
+  getProfile,
+  updateProfile
 };
