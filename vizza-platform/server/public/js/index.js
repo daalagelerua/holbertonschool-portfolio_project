@@ -132,9 +132,6 @@ function displayQuickSearchResult(result) {
             
             <p class="text-center mb-3">${visa.requirement.description}</p>
             
-            ${visa.details.maxStay ? `<p><strong>Durée maximale :</strong> ${visa.details.maxStay}</p>` : ''}
-            ${visa.details.cost ? `<p><strong>Coût :</strong> ${visa.details.cost}</p>` : ''}
-            
             <div class="text-center mt-4">
                 <a href="/search?from=${visa.journey.from.code}&to=${visa.journey.to.code}" 
                    class="btn btn-primary me-2">
