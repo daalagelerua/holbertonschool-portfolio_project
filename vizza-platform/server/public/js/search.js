@@ -3,9 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialiser la page
     initSearchForm();
-    loadCountriesForSearch();
-    initRecentSearches();
-    handleUrlParameters();
+    loadCountriesForSearch().then(() => {
+        handleUrlParameters();
+    });
 });
 
 /**
@@ -88,9 +88,6 @@ async function handleAdvancedSearch(event) {
         // Afficher le résultat
         displaySearchResult(result);
         
-        // Sauvegarder dans les recherches récentes
-        saveToRecentSearches(from, to, result.visa);
-        
         // Mettre à jour l'URL
         updateUrlWithSearch(from, to);
         
@@ -158,41 +155,23 @@ function displaySearchResult(result) {
                     </span>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-group list-group-flush">
-                            ${visa.details.maxStay ? `
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Durée maximale</span>
-                                    <strong>${visa.details.maxStay}</strong>
-                                </li>
-                            ` : ''}
-                            ${visa.details.cost ? `
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Coût</span>
-                                    <strong>${visa.details.cost}</strong>
-                                </li>
-                            ` : ''}
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-group list-group-flush">
-                            ${visa.details.processingTime ? `
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Délai de traitement</span>
-                                    <strong>${visa.details.processingTime}</strong>
-                                </li>
-                            ` : ''}
-
-                        </ul>
-                    </div>
-                </div>
-                
                 <div class="mt-4">
                     <p class="text-muted">${visa.requirement.description}</p>
-                    ${visa.details.notes ? `<p><small class="text-muted">${visa.details.notes}</small></p>` : ''}
                 </div>
                 
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="country-info">
+                            <div class="text-center">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                                <small class="d-block">Chargement des informations sur ${visa.journey.to.name}...</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="text-center mt-4">
                     ${!visa.metadata.isFavorite ? `
                         <button class="btn btn-outline-warning add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}">
@@ -209,6 +188,11 @@ function displaySearchResult(result) {
             </div>
         </div>
     `;
+
+    // Charger les informations du pays de destination
+    loadCountryInfo(visa.journey.to.code);
+
+    // Event listeners pour les favoris
     const favoriteButton = resultsContainer.querySelector('.add-favorite-btn');
     if (favoriteButton) {
       favoriteButton.addEventListener('click', function() {
@@ -217,6 +201,56 @@ function displaySearchResult(result) {
         addToFavorites(from, to);
       });
     }
+}
+
+async function loadCountryInfo(countryCode) {
+    try {
+        const response = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
+        const data = await response.json();
+        const country = data[0];
+        
+        const countryInfoDiv = document.getElementById('country-info');
+        if (countryInfoDiv) {
+            countryInfoDiv.innerHTML = `
+                <h6>À propos de ${country.name.common}</h6>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Capitale</span>
+                        <strong>${country.capital ? country.capital[0] : 'N/A'}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Population</span>
+                        <strong>${country.population?.toLocaleString() || 'N/A'}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Monnaie</span>
+                        <strong>${getMainCurrency(country.currencies)}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Langues</span>
+                        <strong>${getMainLanguages(country.languages)}</strong>
+                    </li>
+                </ul>
+            `;
+        }
+    } catch (error) {
+        console.error('Erreur chargement infos pays:', error);
+        const countryInfoDiv = document.getElementById('country-info');
+        if (countryInfoDiv) {
+            countryInfoDiv.innerHTML = '<small class="text-muted">Informations non disponibles</small>';
+        }
+    }
+}
+
+function getMainCurrency(currencies) {
+    if (!currencies) return 'N/A';
+    const currencyKey = Object.keys(currencies)[0];
+    return currencies[currencyKey]?.name || currencyKey;
+}
+
+function getMainLanguages(languages) {
+    if (!languages) return 'N/A';
+    return Object.values(languages).slice(0, 2).join(', ');
 }
 
 /**
@@ -275,160 +309,6 @@ function updateUrlWithSearch(from, to) {
 }
 
 /**
- * Initialise les recherches récentes
- */
-function initRecentSearches() {
-    loadRecentSearches();
-}
-
-/**
- * Sauvegarde une recherche dans l'historique récent
- * @param {string} from - Code pays origine
- * @param {string} to - Code pays destination
- * @param {Object} visa - Données du visa
- */
-function saveToRecentSearches(from, to, visa) {
-    try {
-        // Vérifier si l'utilisateur est connecté
-        if (!Auth.isLoggedIn()) {
-            console.log('Utilisateur non connecté, recherche non sauvegardée');
-            return; // Ne pas sauvegarder pour les utilisateurs non connectés
-        }
-        
-        // Récupérer l'ID ou email de l'utilisateur si disponible
-        let userId = 'anonymous';
-        try {
-            const user = JSON.parse(localStorage.getItem('userData') || '{}');
-            userId = user.id || user.email || 'anonymous';
-        } catch (e) {
-            console.warn('Impossible de récupérer les données utilisateur');
-        }
-        
-        // Clé spécifique à l'utilisateur
-        const storageKey = `vizza_recent_searches_${userId}`;
-        
-        let recentSearches = JSON.parse(localStorage.getItem(storageKey) || '[]');
-        
-        // Supprimer la recherche si elle existe déjà
-        recentSearches = recentSearches.filter(search => 
-            !(search.from === from && search.to === to)
-        );
-        
-        // Ajouter en première position
-        recentSearches.unshift({
-            from,
-            to,
-            fromName: visa.journey.from.name,
-            toName: visa.journey.to.name,
-            fromFlag: visa.journey.from.flag,
-            toFlag: visa.journey.to.flag,
-            requirement: visa.requirement.level,
-            searchedAt: new Date().toISOString()
-        });
-        
-        // Garder seulement les 5 dernières
-        recentSearches = recentSearches.slice(0, 5);
-        
-        localStorage.setItem('vizza_recent_searches', JSON.stringify(recentSearches));
-        loadRecentSearches();
-        
-    } catch (error) {
-        console.warn('Impossible de sauvegarder la recherche récente:', error);
-    }
-}
-
-/**
- * Charge et affiche les recherches récentes
- */
-function loadRecentSearches() {
-    try {
-        // Vérifier si l'utilisateur est connecté
-        if (!Auth.isLoggedIn()) {
-            const container = document.getElementById('recent-searches');
-            if (container) {
-                container.innerHTML = `
-                    <li class="list-group-item text-center">
-                        <i class="bi bi-lock me-2"></i>
-                        Connectez-vous pour voir vos recherches récentes
-                    </li>
-                `;
-            }
-            return;
-        }
-        
-        // Récupérer l'ID ou email de l'utilisateur
-        let userId = 'anonymous';
-        try {
-            const user = JSON.parse(localStorage.getItem('userData') || '{}');
-            userId = user.id || user.email || 'anonymous';
-        } catch (e) {
-            console.warn('Impossible de récupérer les données utilisateur');
-        }
-        
-        // Utiliser la clé spécifique à l'utilisateur
-        const storageKey = `vizza_recent_searches_${userId}`;
-        const recentSearches = JSON.parse(localStorage.getItem(storageKey) || '[]');
-        const container = document.getElementById('recent-searches');
-        
-        if (!container) return;
-        
-        if (recentSearches.length === 0) {
-            container.innerHTML = `
-                <li class="list-group-item text-center text-muted">
-                    Aucune recherche récente
-                </li>
-            `;
-            return;
-        }
-        
-        container.innerHTML = recentSearches.map(search => `
-            <li class="list-group-item list-group-item-action" 
-                style="cursor: pointer;"
-                data-from="${search.from}" 
-                data-to="${search.to}">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <span>${search.fromFlag} ${search.fromName}</span>
-                        <i class="bi bi-arrow-right mx-2"></i>
-                        <span>${search.toFlag} ${search.toName}</span>
-                    </div>
-                    <div>
-                        <span class="badge bg-${getColorFromLevel(search.requirement)} text-dark">
-                            ${search.requirement}
-                        </span>
-                    </div>
-                </div>
-                <small class="text-muted">
-                    ${new Date(search.searchedAt).toLocaleDateString('fr-FR')}
-                </small>
-            </li>
-        `).join('');
-
-        container.querySelectorAll('.recent-search-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const from = this.getAttribute('data-from');
-                const to = this.getAttribute('data-to');
-                quickSearchFromRecent(from, to);
-            });
-        });
-        
-    } catch (error) {
-        console.warn('Impossible de charger les recherches récentes:', error);
-    }
-}
-
-/**
- * Effectue une recherche depuis l'historique récent
- * @param {string} from - Code pays origine
- * @param {string} to - Code pays destination
- */
-function quickSearchFromRecent(from, to) {
-    document.getElementById('origin-country').value = from;
-    document.getElementById('destination-country').value = to;
-    document.getElementById('advanced-search-form').dispatchEvent(new Event('submit'));
-}
-
-/**
  * Ajoute un visa aux favoris
  * @param {string} from - Code pays origine
  * @param {string} to - Code pays destination
@@ -472,6 +352,5 @@ function getColorFromLevel(level) {
 // Export pour utilisation globale
 window.SearchPage = {
     handleAdvancedSearch,
-    addToFavorites,
-    quickSearchFromRecent
+    addToFavorites
 };
