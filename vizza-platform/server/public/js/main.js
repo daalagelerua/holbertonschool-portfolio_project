@@ -127,4 +127,5 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Export global pour utilisation dans d'autres scripts
  */
-window.Main = Main;
+// window = objet global js du navigateur
+window.Main = Main; // attache Main à window -> c'est comme faire de 'Main' une variable globale
