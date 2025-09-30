@@ -93,7 +93,7 @@ async function handleAdvancedSearch(event) {
         
     } catch (error) {
         console.error('Erreur de recherche:', error);
-        hideSearchResult();
+        hideSearchResult(); // sinon l'éventuelle recherche precedente pourrait encore s'afficher 
         
         let errorMessage = 'Erreur lors de la recherche';
         if (error.message.includes('non trouvé')) {
