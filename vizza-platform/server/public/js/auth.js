@@ -10,26 +10,13 @@ const Auth = {
   isLoggedIn() {
     try {
     // Première vérification : cookie isLoggedIn
-    const cookies = document.cookie.split(';');
-    let isLoggedInCookie = false;
+    const cookies = document.cookie.split(';');  // .split() divise le cookie en un tableau de sous-chaines
     
     for (let cookie of cookies) {
       const [name, value] = cookie.trim().split('=');
       if (name === 'isLoggedIn' && value === 'true') {
-        isLoggedInCookie = true;
-        break;
+        return true;
       }
-    }
-    
-    if (isLoggedInCookie) {
-      return true;
-    }
-    
-    // Si pas de cookie isLoggedIn, on peut tenter avec l'ancienne méthode
-    // Note: Cette partie est facultative et sert de fallback
-    const token = this.getTokenFromCookie();
-    if (token && !this.isTokenExpired(token)) {
-      return true;
     }
     
     return false;
@@ -37,58 +24,6 @@ const Auth = {
     } catch (error) {
       console.error('Erreur vérification connexion:', error);
       return false;
-    }
-  },
-
-  /**
-   * Récupère le token JWT depuis les cookies
-   * @returns {string|null} Token JWT ou null
-   */
-  getTokenFromCookie() {
-    try {
-      // Lecture des cookies du navigateur
-      const cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('token='))
-            ?.split('=')[1];
-            
-        if (cookieValue) {
-            return decodeURIComponent(cookieValue);
-        }
-      
-      return null;
-      
-    } catch (error) {
-      console.error('Erreur lecture cookie:', error);
-      return null;
-    }
-  },
-
-  /**
-   * Vérifie si un token JWT est expiré (vérification basique côté client)
-   * Note: Cette vérification est indicative, la vraie vérification est côté serveur
-   * @param {string} token - Token JWT
-   * @returns {boolean} true si expiré, false sinon
-   */
-  isTokenExpired(token) {
-    try {
-      // Décoder la partie payload du JWT (format: header.payload.signature)
-      const parts = token.split('.');
-      if (parts.length !== 3) {
-        return true; // Token malformé
-      }
-      
-      // Décoder le payload (Les JWT sont encodés en Base64URL, ASCII to binary)
-      const payload = JSON.parse(atob(parts[1]));
-      
-      // Vérifier l'expiration (exp est en secondes, Date.now() en millisecondes)
-      const currentTime = Math.floor(Date.now() / 1000);
-      
-      return payload.exp < currentTime;
-      
-    } catch (error) {
-      console.error('Erreur vérification expiration token:', error);
-      return true; // En cas d'erreur, considérer comme expiré
     }
   },
 
@@ -174,8 +109,8 @@ const Auth = {
         credentials: 'include'
       });
 
-      // Même si le serveur supprime le cookie httpOnly, supprimez également 
-      // manuellement le cookie non-httpOnly côté client
+      // Même si le serveur supprime le cookie httpOnly (token), supprimez également 
+      // manuellement le cookie non-httpOnly côté client (isLoggedIn)
       document.cookie = 'isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       
       const data = await response.json();
@@ -191,7 +126,7 @@ const Auth = {
     } catch (error) {
       console.error('Erreur logout:', error);
       // En cas d'erreur réseau, forcer la déconnexion locale
-      this.forceLogout();
+      this.forceLogout();  // supprime tous les cookies localement
     }
   },
 
@@ -201,6 +136,7 @@ const Auth = {
   forceLogout() {
     // Supprimer le cookie côté client (best effort)
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'isLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     
     // Redirection
     window.location.href = '/';
@@ -245,32 +181,24 @@ const Auth = {
    */
   async initializeUI() {
   try {
-    console.log('Initialisation UI - Vérification connexion...');
     const isLogged = this.isLoggedIn();
     if (isLogged) {
-      console.log('État de connexion:', isLogged);
       // Utilisateur connecté - récupérer ses infos
       if (isLogged) {
-        console.log('Utilisateur connecté - Récupération du profil...');
         try {
           const user = await this.getProfile();
-          console.log('Profil récupéré:', user);
           this.showLoggedInUI(user);
-          console.log('Interface connectée affichée');
         } catch (profileError) {
           console.error('Erreur récupération profil:', profileError);
           // Tentative de récupération en mode dégradé
           this.showLoggedInUI({firstName: 'Utilisateur'});
-          console.log('Interface connectée affichée en mode dégradé');
         }
       } else {
         // Utilisateur non connecté
-        console.log('Utilisateur non connecté - Affichage UI déconnecté');
         this.showLoggedOutUI();
       }
     } else {
       // Utilisateur non connecté
-      console.log('Utilisateur non connecté - Affichage UI déconnecté');
       this.showLoggedOutUI();
     }
   } catch (error) {
