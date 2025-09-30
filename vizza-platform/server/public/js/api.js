@@ -11,21 +11,21 @@ const API = {
    * @returns {Promise<Array>} Liste des pays avec code, nom, flag
    */
   async getCountries() {
-    try {
+    try {  // response contient : status:, ok:, headers:, body:
       const response = await fetch(`${API_BASE_URL}/visas/countries`);
       
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
       
-      const data = await response.json();
+      const data = await response.json();  // .json transforme en objet js
       
       // Vérification de la structure de réponse
       if (!data.success || !data.countries) {
         throw new Error('Format de réponse invalide');
       }
       
-      return data.countries;
+      return data.countries;  // Pas besoin de success on veut juste le tableau de pays
       
     } catch (error) {
       console.error('Erreur getCountries:', error);
@@ -63,7 +63,7 @@ const API = {
         throw new Error('Aucun visa trouvé');
       }
       
-      return data;
+      return data;  // data entier parce qu'on veut aussi les metadata
       
     } catch (error) {
       console.error('Erreur searchVisa:', error);
@@ -112,10 +112,10 @@ const API = {
       const response = await fetch(`${API_BASE_URL}/visas/favorites`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json'  // obligatoire pour POST/PUT avec body -> json pour que le server sache comment parser
         },
-        credentials: 'include', // Inclut les cookies (token JWT)
-        body: JSON.stringify({ from, to })
+        credentials: 'include',  // Inclut les cookies (token JWT)
+        body: JSON.stringify({ from, to })  // stingify() -> transforme l'objet js en texte
       });
       
       if (!response.ok) {
@@ -188,7 +188,7 @@ const API = {
     try {
       const response = await fetch(`${API_BASE_URL}/visas/favorites`, {
         credentials: 'include'
-      });
+      });  // GET par defaut
       
       if (!response.ok) {
         if (response.status === 401) {
