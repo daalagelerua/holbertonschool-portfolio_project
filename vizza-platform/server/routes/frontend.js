@@ -3,7 +3,7 @@ const path = require('path');
 const ejsLayouts = require('express-ejs-layouts');
 const router = express.Router();
 
-// Configuration d'EJS mise à jour
+// Configuration d'EJS
 const configureEJS = (app) => {
   // Définir EJS comme moteur de template
   app.set('view engine', 'ejs');
@@ -13,14 +13,8 @@ const configureEJS = (app) => {
   
   // Configurer le middleware express-ejs-layouts
   app.use(ejsLayouts);
-  app.set('layout', 'layout/main'); // Chemin vers votre layout principal
-  
-  console.log('✅ EJS configuré avec layouts');
+  app.set('layout', 'layout/main'); // Chemin vers layout principal
 };
-
-// =============================================================================
-// ROUTES FRONTEND (Pages)
-// =============================================================================
 
 /**
  * Page d'accueil
@@ -88,9 +82,6 @@ router.get('/profile', (req, res) => {
   });
 });
 
-// =============================================================================
-// EXPORT
-// =============================================================================
 
 module.exports = {
   router,
