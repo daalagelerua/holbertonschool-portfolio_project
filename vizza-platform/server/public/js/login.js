@@ -44,25 +44,17 @@ async function handleLogin(event) {
         Main.showFlashMessage('Format d\'email invalide', 'warning');
         return;
     }
+
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
     
     try {
         // Désactiver le bouton de soumission
-        const submitBtn = event.target.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="bi bi-spinner-border me-2"></i>Connexion...';
         
-        // Effacer les messages précédents
-        Main.clearAllFlashMessages();
-        
         // Appeler l'API de connexion
         const user = await Auth.login(email, password);
-
-        // Utiliser les données utilisateur pour mettre à jour l'interface
-        console.log('Utilisateur connecté:', user);
-        
-        // Stocker les données utilisateur en session si nécessaire
-        sessionStorage.setItem('currentUser', JSON.stringify(user));
         
         // Mettre à jour l'interface utilisateur manuellement
         Auth.showLoggedInUI(user);
@@ -79,7 +71,6 @@ async function handleLogin(event) {
         console.error('Erreur de connexion:', error);
         
         // Réactiver le bouton
-        const submitBtn = event.target.querySelector('button[type="submit"]');
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
         
