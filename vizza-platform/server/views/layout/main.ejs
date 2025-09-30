@@ -62,8 +62,8 @@
                 <!-- User menu -->
                 <ul class="navbar-nav">
                     <!-- If user is logged in -->
-                    <li class="nav-item dropdown" id="user-menu" style="display: none;">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <li class="nav-item dropdown" id="user-menu" style="display: none;">  <!-- affichage géré dans auth.js par showLoggedInUI() -->
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">  <!-- lien sur user name définit comme bouton pour declencher dropdown -->
                             <i class="bi bi-person-circle me-1 text-white"></i>
                             <small class="text-white">
                             <span id="user-name" style="text-transform: capitalize;">Utilisateur</span>
@@ -165,7 +165,7 @@
     <script src="/js/main.js"></script>
     
     <!-- Page-specific JavaScript -->
-    <% if (typeof pageScript !== 'undefined') { %>
+    <% if (typeof pageScript !== 'undefined') { %>  <!-- si undefined -> page fonctionne mais fonctionnalités cassées -->
         <script src="<%= pageScript %>"></script>
     <% } %>
 </body>
