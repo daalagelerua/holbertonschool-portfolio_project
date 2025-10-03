@@ -44,9 +44,8 @@ const Main = {
    * Affiche un message flash à l'utilisateur
    * @param {string} message - Le message à afficher
    * @param {string} type - Type: 'success', 'danger', 'warning', 'info'
-   * @param {number} autoHide - Millisecondes avant masquage auto (0 = pas d'auto-hide)
    */
-  showFlashMessage(message, type = 'info', autoHide = 5000) {
+  showFlashMessage(message, type = 'info') {
     const container = document.getElementById('flash-messages');
     if (!container) {
       console.error('Impossible d\'afficher le message: conteneur introuvable');
@@ -71,13 +70,6 @@ const Main = {
     // Animation d'entrée
     const alertElement = document.getElementById(messageId);
     alertElement.classList.add('fade-in');
-    
-    // Auto-hide si demandé
-    if (autoHide > 0) {
-      setTimeout(() => {
-        this.hideFlashMessage(messageId);
-      }, autoHide);
-    }
     
     console.log(`Message flash affiché: ${type} - ${message}`);
   },
