@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialiser la page
     initRegisterForm();
-    loadCountriesForSelect();
-    checkIfAlreadyLoggedIn();
+    Utils.loadCountriesIntoSelect('defaultOriginCountry');
+    Utils.checkIfAlreadyLoggedIn();
 });
 
 /**
@@ -24,42 +24,6 @@ function initRegisterForm() {
     const passwordField = document.getElementById('password');
     if (passwordField) {
         passwordField.addEventListener('input', validatePasswordStrength);
-    }
-}
-
-/**
- * Charge la liste des pays dans le select
- */
-async function loadCountriesForSelect() {
-    try {
-        const countries = await API.getCountries();
-        const countrySelect = document.getElementById('defaultOriginCountry');
-        
-        if (!countrySelect) {
-            console.warn('Select des pays non trouvé');
-            return;
-        }
-        
-        // Trier les pays par nom
-        countries.sort((a, b) => a.name.localeCompare(b.name));
-        
-        // Ajouter les options
-        countries.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country.code;
-            option.textContent = `${country.flag} ${country.name}`;
-            countrySelect.appendChild(option);
-        });
-        
-        // Présélectionner la France si disponible
-        const franceOption = countrySelect.querySelector('option[value="FR"]');
-        if (franceOption) {
-            franceOption.selected = true;
-        }
-        
-    } catch (error) {
-        console.error('Erreur chargement pays:', error);
-        Main.showFlashMessage('Impossible de charger la liste des pays', 'warning');
     }
 }
 
@@ -94,10 +58,7 @@ async function handleRegister(event) {
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="bi bi-spinner-border me-2"></i>Inscription...';
-        
-        // Effacer les messages précédents
-        Main.clearAllFlashMessages();
-        
+
         // Appeler l'API d'inscription
         const user = await Auth.register(userData);
         
@@ -159,7 +120,7 @@ function validateRegistrationData(userData) {
     }
     
     // Vérifier le format email
-    if (!isValidEmail(email)) {
+    if (!Utils.isValidEmail(email)) {
         return {
             isValid: false,
             message: 'Format d\'email invalide'
@@ -183,24 +144,19 @@ function validateRegistrationData(userData) {
  */
 function validatePasswordStrength(event) {
     const password = event.target.value;
-    const strengthIndicator = document.getElementById('password-strength');
-    
-    if (!strengthIndicator) {
-        // Créer un indicateur de force s'il n'existe pas
-        const indicator = document.createElement('div');
-        indicator.id = 'password-strength';
-        indicator.className = 'mt-2';
-        event.target.parentNode.appendChild(indicator);
-    }
-    
-    const strength = calculatePasswordStrength(password);
     const indicator = document.getElementById('password-strength');
+    
+    if (!indicator) {
+        console.error('Indicateur de force non trouvé');
+        return;
+    }
     
     if (password.length === 0) {
         indicator.innerHTML = '';
         return;
     }
     
+    const strength = calculatePasswordStrength(password);
     const strengthText = ['Très faible', 'Faible', 'Moyen', 'Fort', 'Très fort'];
     const strengthColors = ['danger', 'warning', 'info', 'success', 'primary'];
     
@@ -237,28 +193,6 @@ function calculatePasswordStrength(password) {
     else suggestions.push('caractères spéciaux');
     
     return { score: Math.min(score, 4), suggestions };
-}
-
-/**
- * Vérifie si l'utilisateur est déjà connecté
- */
-function checkIfAlreadyLoggedIn() {
-    if (Auth.isLoggedIn()) {
-        Main.showFlashMessage('Vous êtes déjà connecté', 'info');
-        setTimeout(() => {
-            window.location.href = '/';
-        }, 2000);
-    }
-}
-
-/**
- * Valide le format d'un email
- * @param {string} email - Email à valider
- * @returns {boolean} true si valide
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
 }
 
 // Export pour utilisation dans d'autres scripts

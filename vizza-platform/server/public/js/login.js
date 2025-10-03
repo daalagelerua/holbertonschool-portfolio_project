@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initLoginForm();
     
     // Rediriger si déjà connecté
-    checkIfAlreadyLoggedIn();
+    Utils.checkIfAlreadyLoggedIn();
 });
 
 /**
@@ -30,8 +30,8 @@ async function handleLogin(event) {
     event.preventDefault();
     
     // Récupérer les données du formulaire
-    const formData = new FormData(event.target);
-    const email = formData.get('email')?.trim();
+    const formData = new FormData(event.target);  // Formdata() crée un objet key: value avec les données extraite du formulaire
+    const email = formData.get('email')?.trim();  // optional chainig pour eviter les erreurs si le champs reste vide
     const password = formData.get('password');
     
     // Validation côté client
@@ -40,13 +40,13 @@ async function handleLogin(event) {
         return;
     }
     
-    if (!isValidEmail(email)) {
+    if (!Utils.isValidEmail(email)) {
         Main.showFlashMessage('Format d\'email invalide', 'warning');
         return;
     }
 
     const submitBtn = event.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
+    const originalText = submitBtn.innerHTML;  // sauvergarde avant modif du try pour restauration dans le catch
     
     try {
         // Désactiver le bouton de soumission
@@ -88,47 +88,11 @@ async function handleLogin(event) {
         Main.showFlashMessage(errorMessage, 'danger');
         
         // Focus sur le champ email pour correction
-        document.getElementById('email').focus();
+        document.getElementById('email').focus();  // .focus() replace automatiquement le curseur dans le champ email 
     }
 }
-
-/**
- * Vérifie si l'utilisateur est déjà connecté
- */
-function checkIfAlreadyLoggedIn() {
-    if (Auth.isLoggedIn()) {
-        Main.showFlashMessage('Vous êtes déjà connecté', 'info');
-        setTimeout(() => {
-            window.location.href = '/';
-        }, 2000);
-    }
-}
-
-/**
- * Valide le format d'un email
- * @param {string} email - Email à valider
- * @returns {boolean} true si valide
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-/**
- * Gestion des touches clavier pour améliorer l'UX
- */
-document.addEventListener('keydown', function(event) {
-    // Soumettre avec Ctrl+Enter ou Cmd+Enter
-    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.dispatchEvent(new Event('submit'));
-        }
-    }
-});
 
 // Export pour utilisation dans d'autres scripts si nécessaire
-window.LoginPage = {
-    handleLogin,
-    isValidEmail
+window.LoginPage = {  // exemple: dans profile.js ou pour des tests automatisés
+    handleLogin
 };

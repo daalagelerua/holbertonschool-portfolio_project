@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialiser la page
     initSearchForm();
-    loadCountriesForSearch().then(() => {
+    Utils.loadCountriesIntoSelect(['origin-country', 'destination-country']).then(() => {
         handleUrlParameters();
     });
 });
@@ -20,42 +20,6 @@ function initSearchForm() {
     }
     
     searchForm.addEventListener('submit', handleAdvancedSearch);
-}
-
-/**
- * Charge les pays dans les selects de recherche
- */
-async function loadCountriesForSearch() {
-    try {
-        const countries = await API.getCountries();
-        const originSelect = document.getElementById('origin-country');
-        const destSelect = document.getElementById('destination-country');
-        
-        if (!originSelect || !destSelect) {
-            console.warn('Selects de pays non trouvés');
-            return;
-        }
-        
-        // Trier les pays par nom
-        countries.sort((a, b) => a.name.localeCompare(b.name));
-        
-        // Remplir les deux selects
-        countries.forEach(country => {
-            const option1 = document.createElement('option');
-            option1.value = country.code;
-            option1.textContent = `${country.flag} ${country.name}`;
-            originSelect.appendChild(option1);
-            
-            const option2 = document.createElement('option');
-            option2.value = country.code;
-            option2.textContent = `${country.flag} ${country.name}`;
-            destSelect.appendChild(option2);
-        });
-        
-    } catch (error) {
-        console.error('Erreur chargement pays:', error);
-        Main.showFlashMessage('Impossible de charger la liste des pays', 'warning');
-    }
 }
 
 /**
@@ -78,10 +42,7 @@ async function handleAdvancedSearch(event) {
         return;
     }
     
-    try {
-        // Afficher le loading
-        showSearchLoading();
-        
+    try {       
         // Effectuer la recherche
         const result = await API.searchVisa(from, to);
         
@@ -107,32 +68,17 @@ async function handleAdvancedSearch(event) {
 }
 
 /**
- * Affiche l'état de chargement
- */
-function showSearchLoading() {
-    const resultsContainer = document.getElementById('search-results');
-    const placeholder = document.getElementById('search-placeholder');
-    
-    if (placeholder) {
-        placeholder.style.display = 'none';
-    }
-    
-    resultsContainer.innerHTML = `
-        <div class="text-center py-5">
-            <div class="loading-spinner mb-3"></div>
-            <h4>Recherche en cours...</h4>
-            <p class="text-muted">Récupération des informations de visa</p>
-        </div>
-    `;
-}
-
-/**
  * Affiche le résultat de recherche
  * @param {Object} result - Résultat de l'API
  */
 function displaySearchResult(result) {
     const resultsContainer = document.getElementById('search-results');
+    const placeholder = document.getElementById('search-placeholder');
     const visa = result.visa;
+
+    if (placeholder) {
+        placeholder.style.display = 'none';
+    }
     
     resultsContainer.innerHTML = `
         <div class="visa-card mb-4">
@@ -162,12 +108,7 @@ function displaySearchResult(result) {
                 <div class="row mt-4">
                     <div class="col-12">
                         <div id="country-info">
-                            <div class="text-center">
-                                <div class="spinner-border spinner-border-sm" role="status">
-                                    <span class="visually-hidden">Chargement...</span>
-                                </div>
-                                <small class="d-block">Chargement des informations sur ${visa.journey.to.name}...</small>
-                            </div>
+                            <!-- infos pays chargées ici -->
                         </div>
                     </div>
                 </div>
@@ -314,23 +255,11 @@ function updateUrlWithSearch(from, to) {
  * @param {string} to - Code pays destination
  */
 async function addToFavorites(from, to) {
-    if (!Auth.isLoggedIn()) {
-        Main.showFlashMessage('Connectez-vous pour ajouter des favoris', 'info');
-        setTimeout(() => window.location.href = '/login', 2000);
-        return;
-    }
-    
-    try {
-        await API.addToFavorites(from, to);
-        Main.showFlashMessage('Ajouté aux favoris !', 'success');
-        
-        // Recharger le résultat pour mettre à jour l'interface
+    const success = await Utils.addToFavorites(from, to);
+
+    if (success) {
         const result = await API.searchVisa(from, to);
         displaySearchResult(result);
-        
-    } catch (error) {
-        console.error('Erreur ajout favori:', error);
-        Main.showFlashMessage('Erreur lors de l\'ajout aux favoris', 'danger');
     }
 }
 
