@@ -294,7 +294,7 @@ const logout = async (req, res) => {
       path: '/'
     });
 
-    // AJOUT : Supprimer également le cookie isLoggedIn
+    // Supprimer également le cookie isLoggedIn
     res.clearCookie('isLoggedIn', {
       httpOnly: false, // Important : ce cookie n'est pas httpOnly
       secure: process.env.NODE_ENV === 'production',
