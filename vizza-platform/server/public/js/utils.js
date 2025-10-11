@@ -85,8 +85,24 @@ const Utils = {
             Main.showFlashMessage('Erreur lors de l\'ajout aux favoris', 'danger');
             return false;
         }
-    }
+    },
+
+      /**
+      * Met à jour le compteur de favoris dans la navbar
+      */
+      async updateFavoritesCounter() {
+          try {
+              const countElement = document.getElementById('favorites-count');
+              if (!countElement) return;
+          
+              const favorites = await API.getFavorites();
+              countElement.textContent = favorites.length;
+          } catch (error) {
+              console.warn('Impossible de mettre à jour le compteur de favoris');
+          }
+      }
 };
+
 
 // Export global
 window.Utils = Utils;
