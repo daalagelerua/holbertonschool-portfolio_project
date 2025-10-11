@@ -26,9 +26,6 @@ function checkAuthentication() {
  */
 async function loadUserFavorites() {
     try {
-        // Afficher le loading
-        showFavoritesLoading();
-        
         // Récupérer les favoris depuis l'API
         const favorites = await API.getFavorites();
         
@@ -38,9 +35,6 @@ async function loadUserFavorites() {
     } catch (error) {
         console.error('Erreur chargement favoris:', error);
         
-        // Masquer le loading
-        hideFavoritesLoading();
-        
         if (error.message.includes('Vous devez être connecté')) {
             Main.showFlashMessage('Session expirée, veuillez vous reconnecter', 'warning');
             setTimeout(() => window.location.href = '/login', 2000);
@@ -49,36 +43,6 @@ async function loadUserFavorites() {
             showEmptyState();
         }
     }
-}
-
-/**
- * Affiche l'état de chargement
- */
-function showFavoritesLoading() {
-    const container = document.getElementById('favorites-container');
-    const emptyState = document.getElementById('empty-favorites');
-    
-    if (emptyState) {
-        emptyState.style.display = 'none';
-    }
-    
-    container.innerHTML = `
-        <div class="col-12">
-            <div class="text-center py-5">
-                <div class="loading-spinner mb-3"></div>
-                <h4>Chargement de vos favoris...</h4>
-                <p class="text-muted">Récupération en cours</p>
-            </div>
-        </div>
-    `;
-}
-
-/**
- * Masque le loading
- */
-function hideFavoritesLoading() {
-    const container = document.getElementById('favorites-container');
-    container.innerHTML = '';
 }
 
 /**
@@ -99,7 +63,7 @@ function displayFavorites(favorites) {
         emptyState.style.display = 'none';
     }
     
-    // Générer les cartes de favoris
+    // Générer les cartes de favoris, .map() transforme chaque element du tableau favorites en un tableau de html qui va ensuite etre inserer dans le DOM
     container.innerHTML = favorites.map(favorite => createFavoriteCard(favorite)).join('');
     
     document.querySelectorAll('.remove-favorite-btn').forEach(button => {
@@ -147,20 +111,6 @@ function createFavoriteCard(favorite) {
                             ${favorite.requirement.text}
                         </span>
                     </div>
-                    
-                    ${favorite.details.maxStay ? `
-                        <p class="text-center mb-2">
-                            <i class="bi bi-clock me-1"></i>
-                            Séjour maximum: <strong>${favorite.details.maxStay}</strong>
-                        </p>
-                    ` : ''}
-                    
-                    ${favorite.details.cost ? `
-                        <p class="text-center mb-2">
-                            <i class="bi bi-currency-euro me-1"></i>
-                            Coût: <strong>${favorite.details.cost}</strong>
-                        </p>
-                    ` : ''}
                     
                     <p class="text-center text-muted mb-3">
                         <small>
@@ -243,7 +193,7 @@ async function removeFavorite(from, to, favoriteId) {
         Main.showFlashMessage('Favori supprimé', 'success');
         
         // Mettre à jour le compteur dans la nav
-        updateFavoritesCount();
+        Utils.updateFavoritesCounter();
         
     } catch (error) {
         console.error('Erreur suppression favori:', error);
@@ -273,38 +223,12 @@ function checkIfNowEmpty() {
 }
 
 /**
- * Met à jour le compteur de favoris dans la navigation
- */
-async function updateFavoritesCount() {
-    try {
-        const favorites = await API.getFavorites();
-        const countElement = document.getElementById('favorites-count');
-        if (countElement) {
-            countElement.textContent = favorites.length;
-        }
-    } catch (error) {
-        console.warn('Impossible de mettre à jour le compteur de favoris');
-    }
-}
-
-/**
  * Rafraîchit la liste des favoris
  */
 function refreshFavorites() {
     Main.showFlashMessage('Actualisation des favoris...', 'info', 2000);
     loadUserFavorites();
 }
-
-// CSS pour l'animation de suppression
-const style = document.createElement('style');
-style.textContent = `
-    .fade-out {
-        opacity: 0;
-        transform: scale(0.8);
-        transition: all 0.3s ease;
-    }
-`;
-document.head.appendChild(style);
 
 // Export pour utilisation globale
 window.FavoritesPage = {
