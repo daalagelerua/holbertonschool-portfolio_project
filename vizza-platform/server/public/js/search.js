@@ -260,6 +260,7 @@ async function addToFavorites(from, to) {
     if (success) {
         const result = await API.searchVisa(from, to);
         displaySearchResult(result);
+        Utils.updateFavoritesCounter();
     }
 }
 
