@@ -82,7 +82,7 @@
               </div>
               
               <div class="mb-3">
-                <label for="edit-defaultOriginCountry" class="form-label">Pays d'origine par défaut</label>
+                <label for="edit-defaultOriginCountry" class="form-label">Pays d'origine</label>
                 <select class="form-select" id="edit-defaultOriginCountry" name="defaultOriginCountry">
                   <option value="">Sélectionnez votre pays</option>
                   <!-- Options chargées dynamiquement -->
@@ -112,7 +112,7 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label for="new-password" class="form-label">Nouveau mot de passe</label>
-                  <input type="password" class="form-control" id="new-password" name="newPassword" minlength="6">
+                  <input type="password" class="form-control" id="new-password" name="newPassword" minlength="8">
                 </div>
                 <div class="col-md-6">
                   <label for="confirm-password" class="form-label">Confirmer le mot de passe</label>
@@ -126,6 +126,26 @@
                   Enregistrer les modifications
                 </button>
               </div>
+
+              <div class="card mt-4 border-danger">
+                <div class="card-header bg-danger text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Suppression du compte
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <p class="text-muted mb-3">
+                    La suppression de votre compte est irréversible. 
+                    Toutes vos données seront définitivement supprimées.
+                  </p>
+                  <button type="button" class="btn btn-danger" onclick="ProfilePage.deleteAccount()">
+                    <i class="bi bi-trash me-2"></i>
+                    Supprimer définitivement mon compte
+                  </button>
+                </div>
+              </div>
+
             </form>
           </div>
         </div>
