@@ -3,12 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Vérifier l'authentification
     checkAuthentication();
-    
-    // Charger le profil utilisateur
+
+    // Charger les pays pour le select puis le profil utilisateur
+    Utils.loadCountriesIntoSelect('edit-defaultOriginCountry').then(() => {
     loadUserProfile();
-    
-    // Charger les pays pour le select
-    loadCountriesForProfile();
+});
     
     // Initialiser le formulaire
     initProfileForm();
@@ -68,9 +67,7 @@ function displayUserProfile(user) {
     document.getElementById('profile-created-at').textContent = createdDate;
     
     // Pays d'origine
-    const countryDisplay = user.defaultOriginCountry 
-        ? getCountryDisplay(user.defaultOriginCountry)
-        : 'Non défini';
+    const countryDisplay = user.defaultOriginCountry || 'Non défini';
     document.getElementById('profile-country').textContent = countryDisplay;
     
     // Langue
@@ -99,32 +96,6 @@ function populateEditForm(user) {
     const languageRadio = document.getElementById(`edit-lang-${user.language}`);
     if (languageRadio) {
         languageRadio.checked = true;
-    }
-}
-
-/**
- * Charge les pays pour le formulaire de profil
- */
-async function loadCountriesForProfile() {
-    try {
-        const countries = await API.getCountries();
-        const countrySelect = document.getElementById('edit-defaultOriginCountry');
-        
-        if (!countrySelect) return;
-        
-        // Trier par nom
-        countries.sort((a, b) => a.name.localeCompare(b.name));
-        
-        // Ajouter les options (garder l'option vide existante)
-        countries.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country.code;
-            option.textContent = `${country.flag} ${country.name}`;
-            countrySelect.appendChild(option);
-        });
-        
-    } catch (error) {
-        console.error('Erreur chargement pays pour profil:', error);
     }
 }
 
@@ -178,6 +149,7 @@ async function handleProfileUpdate(event) {
             Main.showFlashMessage(passwordValidation.message, 'warning');
             return;
         }
+        // current + new parce que le serveur a besoin des 2
         updateData.currentPassword = currentPassword;
         updateData.newPassword = newPassword;
     }
@@ -188,16 +160,17 @@ async function handleProfileUpdate(event) {
         Main.showFlashMessage(validation.message, 'warning');
         return;
     }
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
     
     try {
         // Désactiver le bouton
-        const submitBtn = event.target.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="bi bi-spinner-border me-2"></i>Enregistrement...';
         
         // Appeler l'API de mise à jour (à créer)
-        await updateUserProfile(updateData);
+        await API.updateProfile(updateData);
         
         // Succès
         Main.showFlashMessage('Profil mis à jour avec succès !', 'success');
@@ -236,33 +209,6 @@ async function handleProfileUpdate(event) {
 }
 
 /**
- * Met à jour le profil utilisateur (API call)
- * @param {Object} updateData - Données à mettre à jour
- */
-async function updateUserProfile(updateData) {
-    const response = await fetch('/api/auth/profile', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(updateData)
-    });
-    
-    const data = await response.json();
-    
-    if (!response.ok) {
-        throw new Error(data.message || 'Erreur de mise à jour');
-    }
-    
-    if (!data.success) {
-        throw new Error(data.message || 'Échec de la mise à jour');
-    }
-    
-    return data.user;
-}
-
-/**
  * Valide les données du profil
  * @param {Object} data - Données à valider
  * @returns {Object} Résultat de validation
@@ -284,7 +230,7 @@ function validateProfileData(data) {
         };
     }
     
-    if (!isValidEmail(email)) {
+    if (!Utils.isValidEmail(email)) {
         return {
             isValid: false,
             message: 'Format d\'email invalide'
@@ -318,10 +264,10 @@ function validatePasswordChange(current, newPassword, confirm) {
             };
         }
         
-        if (newPassword.length < 6) {
+        if (newPassword.length < 8) {
             return {
                 isValid: false,
-                message: 'Le nouveau mot de passe doit contenir au moins 6 caractères'
+                message: 'Le nouveau mot de passe doit contenir au moins 8 caractères'
             };
         }
         
@@ -357,41 +303,6 @@ function validatePasswordMatch() {
     }
 }
 
-/**
- * Valide le format d'un email
- * @param {string} email - Email à valider
- * @returns {boolean} true si valide
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-/**
- * Retourne l'affichage pour un pays
- * @param {string} countryCode - Code du pays
- * @returns {string} Affichage du pays
- */
-function getCountryDisplay(countryCode) {
-    const countryNames = {
-        'FR': 'France 🇫🇷',
-        'US': 'États-Unis 🇺🇸',
-        'ES': 'Espagne 🇪🇸',
-        'IT': 'Italie 🇮🇹',
-        'DE': 'Allemagne 🇩🇪',
-        'GB': 'Royaume-Uni 🇬🇧',
-        'JP': 'Japon 🇯🇵',
-        'AU': 'Australie 🇦🇺',
-        'CA': 'Canada 🇨🇦',
-        'NL': 'Pays-Bas 🇳🇱'
-    };
-    
-    return countryNames[countryCode] || countryCode;
-}
-
-/**
- * Supprime le compte utilisateur (fonctionnalité avancée)
- */
 async function deleteAccount() {
     const confirmed = confirm(
         'Êtes-vous sûr de vouloir supprimer votre compte ? ' +
@@ -410,19 +321,14 @@ async function deleteAccount() {
     }
     
     try {
-        const response = await fetch('/api/auth/profile', {
-            method: 'DELETE',
-            credentials: 'include'
-        });
+        await API.deleteAccount();
         
-        if (response.ok) {
-            Main.showFlashMessage('Compte supprimé avec succès', 'success');
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 2000);
-        } else {
-            throw new Error('Erreur lors de la suppression');
-        }
+        Auth.logout();  // Supprime le token du localStorage
+        
+        Main.showFlashMessage('Compte supprimé avec succès', 'success');
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 2000);
         
     } catch (error) {
         console.error('Erreur suppression compte:', error);
