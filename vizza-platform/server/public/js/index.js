@@ -147,5 +147,6 @@ async function addToFavoritesFromHome(from, to) {
      if (success) {
         const result = await API.searchVisa(from, to);
         displayQuickSearchResult(result);
+        Utils.updateFavoritesCounter();
     }
 }
