@@ -209,7 +209,54 @@ const API = {
       console.error('Erreur getFavorites:', error);
       throw error;
     }
-  }
+  },
+
+      /**
+     * Met à jour le profil utilisateur
+     * @param {Object} profileData - Données du profil
+     * @returns {Promise<Object>} Utilisateur mis à jour
+     */
+    async updateProfile(profileData) {
+        const response = await fetch('/api/auth/profile', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(profileData)
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Erreur de mise à jour');
+        }
+        
+        if (!data.success) {
+            throw new Error(data.message || 'Échec de la mise à jour');
+        }
+        
+        return data.user;
+    },
+    
+    /**
+     * Supprime le compte utilisateur
+     * @returns {Promise<void>}
+     */
+    async deleteAccount() {
+        const response = await fetch('/api/auth/profile', {
+            method: 'DELETE',
+            credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Erreur de suppression');
+        }
+        
+        return data;
+    }
 };
 
 // Export pour utilisation globale
