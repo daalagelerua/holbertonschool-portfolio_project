@@ -1,0 +1,62 @@
+{
+  "name": "Vizza",  // Nom du container (purement cosmétique)
+  "dockerComposeFile": "docker-compose.yml",  // 2 containers necessaire (node + mongo) docker compose permet de demarrer plusieurs containers qui communiquent
+  "service": "app",  // dans docker-compose.yml il y a "app" et "mongodb" donc on dit a vscode de s'ouvrir dans le container "app" 
+  "workspaceFolder": "/workspace",  // chemin de l'app dans le container
+
+  // Utiliser l'utilisateur node (déjà présent dans l'image)
+  "remoteUser": "node",
+  
+  // Extensions vscode à installer
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "mongodb.mongodb-vscode",
+        "ms-azuretools.vscode-docker",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
+      }
+    }
+  },
+  // un container est comme une mini machine virtuelle isolée
+  // on doit donc exposé les ports (crée un tunnel/pont entre le container et le pc)
+  "forwardPorts": [3000, 27017],
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "notify"  // notification quand le port s'ouvre
+    },
+    "27017": {
+      "label": "MongoDB"
+    }
+  },
+
+  // variables d'environnement pour le développement
+  "remoteEnv": {  // remoteEnv est le .env du container lui-meme
+    "NODE_ENV": "development"  // diponible dans le container comme process.env.NODE_ENV
+  },
+
+  // Fonctionnalités à ajouter
+  "features": {
+    // intalle node.js 
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    // installe git dans le container pour faire des commits
+    "ghcr.io/devcontainers/features/git:1": {}
+  }
+}

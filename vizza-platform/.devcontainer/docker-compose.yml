@@ -1,0 +1,46 @@
+services:  # Liste de tous les containers à créer
+  # Container de développement Node.js
+  app:
+    build:
+      context: . # utilise le dossier actuelle comme base
+      dockerfile: Dockerfile  # utilise ce fichier pour construire l'image
+    volumes:
+      # Monte le code source (dossier parent)
+      - ../:/workspace:cached  # synchronisation bidirectionnelle
+    ports:
+      # Exposer le port 3000 directement
+      - "3000:3000"
+    command: sleep infinity  # container reste actif indéfiniment
+    environment:  # environnement du container
+      - NODE_ENV=development
+    networks:
+      - vizza-network
+    depends_on:
+      - mongodb
+
+    # Fix permissions : l'utilisateur dans le container
+    user: "1000:1000"
+
+  # Base de données MongoDB
+  mongodb:
+    image: mongo:7.0
+    restart: unless-stopped  # redemarre automatiquement sauf si arreté manuellement
+    ports:
+      - "27017:27017"  # port du pc : port du container
+    volumes:
+      # Persistence des données (quand le container redemarre les données sont toujours là)
+      - mongodb-data:/data/db  # nom du volume : chemin dans le container
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: vizza_admin
+      MONGO_INITDB_ROOT_PASSWORD: vizza_dev_password
+      MONGO_INITDB_DATABASE: vizza_db
+    networks:
+      - vizza-network
+
+volumes:
+  mongodb-data:  # declarer ici pour que docker sache que ça existe
+  node_modules:
+
+networks:
+  vizza-network:
+    driver: bridge  # driver par defaut
