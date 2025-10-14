@@ -145,7 +145,7 @@ app.get('/api/test-visa-api/:passport', async (req, res) => {
   }
 });
 
-if (process.env.NODE_ENV === 'production') {
+
   app.post('/api/admin/seed-database', async (req, res) => {
     try {
       console.log('🌱 Début du seed de la base de données...');
@@ -181,7 +181,7 @@ if (process.env.NODE_ENV === 'production') {
       });
     }
   });
-}
+
 
 // Gestion d'erreur
 // Route inexistante
