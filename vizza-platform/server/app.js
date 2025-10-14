@@ -145,44 +145,6 @@ app.get('/api/test-visa-api/:passport', async (req, res) => {
   }
 });
 
-
-  app.post('/api/admin/seed-database', async (req, res) => {
-    try {
-      console.log('🌱 Début du seed de la base de données...');
-      
-      // Import des fonctions de seed
-      const { seedCountries, seedVisaRequirements } = require('./scripts/seedDatabase');
-      
-      // Seed des pays
-      console.log('📍 Seed des pays...');
-      await seedCountries();
-      console.log('✅ Pays seedés avec succès');
-      
-      // Attendre 2 secondes avant les visas
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Seed des visas
-      console.log('📋 Seed des visas...');
-      await seedVisaRequirements();
-      console.log('✅ Visas seedés avec succès');
-      
-      res.json({ 
-        success: true, 
-        message: 'Base de données seedée avec succès !',
-        timestamp: new Date().toISOString()
-      });
-      
-    } catch (error) {
-      console.error('❌ Erreur lors du seed:', error);
-      res.status(500).json({ 
-        success: false, 
-        error: error.message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      });
-    }
-  });
-
-
 // Gestion d'erreur
 // Route inexistante
 app.use('*', (req, res) => {
