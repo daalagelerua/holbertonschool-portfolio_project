@@ -145,28 +145,6 @@ app.get('/api/test-visa-api/:passport', async (req, res) => {
   }
 });
 
-// Gestion d'erreur
-// Route inexistante
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`
-  });
-});
-
-// Gestionnaire d'erreurs global
-app.use((err, req, res, next) => {
-  console.error('Erreur serveur:', err.stack);
-  
-  res.status(err.status || 500).json({  // Utilise le code d'erreur de l'erreur OU 500 par défaut
-    success: false,
-    message: process.env.NODE_ENV === 'production' 
-      ? 'Something went wrong!'  // message simple sans infos sensibles
-      : err.message,  // message détaillé pour debuguer
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
-});
-
 if (process.env.NODE_ENV === 'production') {
   app.post('/api/admin/seed-database', async (req, res) => {
     try {
@@ -204,5 +182,27 @@ if (process.env.NODE_ENV === 'production') {
     }
   });
 }
+
+// Gestion d'erreur
+// Route inexistante
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`
+  });
+});
+
+// Gestionnaire d'erreurs global
+app.use((err, req, res, next) => {
+  console.error('Erreur serveur:', err.stack);
+  
+  res.status(err.status || 500).json({  // Utilise le code d'erreur de l'erreur OU 500 par défaut
+    success: false,
+    message: process.env.NODE_ENV === 'production' 
+      ? 'Something went wrong!'  // message simple sans infos sensibles
+      : err.message,  // message détaillé pour debuguer
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
+});
 
 module.exports = app;
