@@ -13,12 +13,6 @@ RUN apt-get update && apt-get install -y \
 # Installer nodemon globalement pour le hot-reload (redemarrage automatique lors des modifs)
 RUN npm install -g nodemon
 
-# Installer sudo
-RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
-
-# Donner les droits sudo à node
-RUN echo "node ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
 # Créer le répertoire de travail
 WORKDIR /workspace
 

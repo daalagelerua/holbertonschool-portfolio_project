@@ -7,6 +7,7 @@ services:  # Liste de tous les containers à créer
     volumes:
       # Monte le code source (dossier parent)
       - ../:/workspace:cached  # synchronisation bidirectionnelle
+      - node_modules:/workspace/node_modules
     ports:
       # Exposer le port 3000 directement
       - "3000:3000"
@@ -29,7 +30,7 @@ services:  # Liste de tous les containers à créer
       - "27017:27017"  # port du pc : port du container
     volumes:
       # Persistence des données (quand le container redemarre les données sont toujours là)
-      - mongodb-data:/data/db  # nom du volume : chemin dans le container
+      - mongodb-vizza-data:/data/db  # nom du volume : chemin dans le container
     environment:
       MONGO_INITDB_ROOT_USERNAME: vizza_admin
       MONGO_INITDB_ROOT_PASSWORD: vizza_dev_password
@@ -38,7 +39,7 @@ services:  # Liste de tous les containers à créer
       - vizza-network
 
 volumes:
-  mongodb-data:  # declarer ici pour que docker sache que ça existe
+  mongodb-vizza-data:  # declarer ici pour que docker sache que ça existe
   node_modules:
 
 networks:
