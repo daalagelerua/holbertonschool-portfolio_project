@@ -1,0 +1,7 @@
+.devcontainer/
+.git/
+.vscode/
+node_modules/
+*.log
+.env.local
+.DS_Store
