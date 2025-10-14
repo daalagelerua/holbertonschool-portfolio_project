@@ -145,47 +145,6 @@ app.get('/api/test-visa-api/:passport', async (req, res) => {
   }
 });
 
-app.post('/api/admin/clean-duplicates', async (req, res) => {
-  try {
-    console.log('🧹 Nettoyage des doublons...');
-    
-    const { Country } = require('./models');
-    
-    const countries = await Country.find();
-    const seen = new Set();
-    let deletedCount = 0;
-
-    for (const country of countries) {
-      if (seen.has(country.code)) {
-        await Country.findByIdAndDelete(country._id);
-        deletedCount++;
-        console.log(`🗑️  Supprimé: ${country.code}`);
-      } else {
-        seen.add(country.code);
-      }
-    }
-
-    const totalCountries = await Country.countDocuments();
-    const activeCountries = await Country.countDocuments({ isActive: true });
-    
-    res.json({ 
-      success: true, 
-      message: `${deletedCount} doublons supprimés`,
-      remaining: {
-        total: totalCountries,
-        active: activeCountries
-      }
-    });
-    
-  } catch (error) {
-    console.error('❌ Erreur:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: error.message
-    });
-  }
-});
-
 // Gestion d'erreur
 // Route inexistante
 app.use('*', (req, res) => {
