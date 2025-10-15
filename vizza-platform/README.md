@@ -19,11 +19,17 @@ Here is the link to the landing page of the application:
 - **🌍 Multi-language Support**: French and English interface
 - **📊 Statistics Dashboard**: Real-time visa data statistics
 - **🚀 Fast Performance**: Optimized MongoDB queries with proper indexing
+- **🐳 Dev Containers**: Ready-to-use development environment
+- **☁️ Cloud Deployment**: Deployed on Railway with MongoDB Atlas
 
 ## 🏗️ Architecture
 
 ```
 vizza-platform/
+├── .devcontainer/          # VS Code Dev Container configuration
+│   ├── Dockerfile          # Development container setup
+│   ├── devcontainer.json   # Container settings and extensions
+│   └── docker-compose.yml  # Multi-container orchestration
 ├── server/
 │   ├── app.js          # Express configuration
 │   ├── server.js       # Entry point
@@ -37,6 +43,7 @@ vizza-platform/
 │   ├── views/          # EJS templates
 │   ├── public/         # Static assets
 │   └── scripts/        # Database seeding
+├── Dockerfile              # Production container
 └── README.md
 ```
 
@@ -59,15 +66,85 @@ vizza-platform/
 - RapidAPI Visa Requirements API
 - REST Countries API
 
+**Development & Deployment:**
+
+- Docker & Dev Containers
+- Railway (hosting)
+- MongoDB Atlas (database)
+
 ## 🚀 Quick Start
 
-### Prerequisites
+### Option 1: Using Dev Containers (recommended)
+
+#### Prerequisites
+
+- Docker Desktop installed
+- VS Code with Dev Containers extension 
+
+#### Steps
+
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/daalagelerua/vizza-platform.git
+   cd vizza-platform
+   ```
+
+2. Open in VS Code
+
+   ```bash
+   code .
+   ```
+
+3. When prompted, click "Reopen in container" (or use command palette: `Dev Containers: Reopen in Container`)
+
+4. Create your `.env` file in the root directory
+
+   ```env
+   NODE_ENV=development
+   PORT=3000
+   MONGODB_URI=mongodb://vizza_admin:vizza_dev_password@mongodb:27017/vizza_db?authSource=admin
+   TOKEN_SECRET=your-jwt-secret-key-256-bits
+   TOKEN_EXPIRE=4h
+   RAPIDAPI_KEY=your-rapidapi-key
+   RAPIDAPI_HOST=visa-requirement.p.rapidapi.com
+   ```
+
+5. The container will automatically:
+
+- Install all dependencies (if not: `npm install`)
+- Set up MongoDB
+- Configure development tools
+
+6. Seed the database
+
+   ```bash
+   node scripts/seedDatabase.js
+   ```
+
+7. Start the development server
+
+   ```bash
+   npm run dev
+   ```
+
+8. Open your browser at http://localhost:3000
+
+- Hot-reload with nodemon
+- Pre-configured VS Code extensions (ESLint, Prettier, MongoDB, Docker, GitLens)
+- MongoDB running in a separate container
+- Persistent data volumes
+- Port forwarding automatically configured
+
+### Option 2: Local Installation
+
+#### Prerequisites
 
 - Node.js 18+ installed
 - MongoDB 5.0+ running locally or MongoDB Atlas account
 - RapidAPI key for visa data
 
-### Installation
+#### Installation
 
 1. **Clone the repository**
    ```bash
@@ -122,6 +199,7 @@ POST /api/auth/register    # User registration
 POST /api/auth/login       # User login  
 POST /api/auth/logout      # User logout
 GET  /api/auth/profile     # Get user profile
+PUT  /api/auth/profile     # Update user profile
 ```
 
 ### Visa Endpoints
@@ -178,10 +256,10 @@ The project includes comprehensive test scripts:
 
 ```bash
 # Test individual components
-node scripts/testUserModel.js
-node scripts/testCountryModel.js
-node scripts/testVisaRequirementModel.js
-node scripts/testAuthMiddleware.js
+npm run test:user      or   node scripts/testUserModel.js
+npm run test:country   or   node scripts/testCountryModel.js
+npm run test:visa      or   node scripts/testVisaRequirementModel.js
+npm run test:auth      or   node scripts/testAuthMiddleware.js
 
 # Test API endpoints
 node scripts/debug_visa_api.js
@@ -256,30 +334,66 @@ node scripts/debug_visa_api.js
 
 ### Production Setup
 
-1. **Environment Variables**
+#### Prerequisites:
+
+- Railway account
+- MongoDB Atlas account (or Railway MongoDB service)
+- RapidAPI account
+
+#### Steps
+
+1. **Prepare MongoDB Atlas**
+
+- Create a cluster on MongoDB Atlas
+- Get your connection string
+- Whitelist Railway's IP adresses
+
+2. **Deploy to Railway**
+
+   ```bash
+   # Install Railway CLI
+   npm install -g @railway/cli
+   
+   # Login to Railway
+   railway login
+   
+   # Initialize project
+   railway init
+   
+   # Link to your Railway project
+   railway link
+   ```
+
+3. **Set Environment Variables on Railway**
    ```env
    NODE_ENV=production
-   MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/vizza
-   TOKEN_SECRET=your-production-secret
+   PORT=3000
+   MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/vizza?retryWrites=true&w=majority
+   TOKEN_SECRET=your-production-secret-key-256-bits
+   TOKEN_EXPIRE=4h
+   RAPIDAPI_KEY=your-rapidapi-key
+   RAPIDAPI_HOST=visa-requirement.p.rapidapi.com
    ```
 
-2. **Build and Deploy**
+4. **Deploy**
+   
    ```bash
-   npm run build
-   npm start
+   railway up
    ```
 
-### Docker Deployment
+5. **Seed Pproduction Database**
 
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
-```
+   ```bash
+   railway run npm run seed
+   ```
+
+***Railway automatically***:
+
+- Detects the Dockerfile
+- Builds the production image
+- Deploys on their infrastructure
+- Provides HTTPS endpoint
+- Handles auto-scaling
 
 ## 🤝 Contributing
 
@@ -288,6 +402,14 @@ CMD ["npm", "start"]
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## Development Guidelines
+
+- Use the dev container for consistent environment
+- Run tests before committing
+- Follow ESLint and Prettier configurations
+- Write meaningful commit messages
+- Update documentation for new features
 
 ## 📝 License
 
@@ -311,9 +433,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ **Authentication**: User registration and login
 - ✅ **Visa Search**: Real-time visa lookup
 - ✅ **Favorites**: User preference system
+- ✅ Dev Containers: Consistent development environment
+- ✅ Production Deployment: Live on Railway
 - 🔄 **In Progress**: Advanced filtering
-- 📋 **Planned**: Mobile app version
+- 📋 **Planned**: Mobile app version, Admin dashboard
 
 ---
+
+## 📞 Support
+
+For support, open an issue on GitHub.
 
 ⭐ **Star this repository if you found it helpful!**
