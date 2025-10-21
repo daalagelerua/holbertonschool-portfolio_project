@@ -449,7 +449,7 @@ a:hover {
 }
 
 /**
- * Focus pour la navbar : contour blanc sur fond bleu
+ * Focus pour la navbar
  */
 .navbar *:focus-visible {
   outline-color: rgb(0, 0, 0) !important;
