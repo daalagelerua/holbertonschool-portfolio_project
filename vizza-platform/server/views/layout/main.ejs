@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- responsive design -->
     <title><%= title %> - Vizza</title>  <!-- variable ejs -->
     
+    <!-- preconnect aux CDN pour optimiser perfs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
     <!-- Bootstrap CSS - important to put this at the beginning to avoid the FOUC - Flash Of Unstyled Content -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons - CDN = Content Delivery Network  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="/css/main.css" rel="stylesheet">
+
+        <style>
+    /* Force font-display:swap pour les icons Bootstrap */
+    @font-face {
+        font-family: "bootstrap-icons";
+        src: url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/fonts/bootstrap-icons.woff2?2ab2cbb342d9f4f3cc9f91e85a2bd3cd") format("woff2");
+        font-display: swap; /* Affiche le texte de fallback immédiatement */
+        }
+    </style>
     
     <meta name="description" content="Vizza - Trouvez facilement les exigences de visa pour votre prochain voyage">
 </head>
