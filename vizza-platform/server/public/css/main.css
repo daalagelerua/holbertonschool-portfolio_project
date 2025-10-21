@@ -452,5 +452,17 @@ a:hover {
  * Focus pour la navbar : contour blanc sur fond bleu
  */
 .navbar *:focus-visible {
-  outline-color: white !important;
+  outline-color: rgb(0, 0, 0) !important;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--primary-color) !important;
+  outline-offset: 2px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 3px solid var(--primary-color) !important;
+  outline-offset: 2px !important;
 }
