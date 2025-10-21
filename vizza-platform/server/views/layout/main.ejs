@@ -19,13 +19,13 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
         <div class="container">
             <!-- Logo -->
-            <a class="navbar-brand fw-bold" href="/">
+            <a class="navbar-brand fw-bold" href="/" aria-label="Vizza">
                 <i class="bi bi-airplane me-2"></i>  <!-- <i> -> icon -->
                 Vizza
             </a>
             
             <!-- Toggle button for mobile / collapse when < 992px and show burger button instead -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="menu">
                 <span class="navbar-toggler-icon"></span>  <!-- burger icon itself, on utilise <span> au lieu de <i> parce que l'icon sera integré a l'element navbar -->
             </button>
             
@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">  <!-- id sert à cibler precisement l'element depuis js -->
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="/" aria-label="Accueil">
                             <i class="bi bi-house me-1 text-white"></i>
                             <small class="text-white">
                             Accueil
@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li class="nav-item" id="favorites-nav" style="display: none;">
-                        <a class="nav-link" href="/favorites">
+                        <a class="nav-link" href="/favorites" aria-label="Favoris">
                             <i class="bi bi-star me-1 text-white"></i>
                             <small class="text-white">
                             Mes Favoris
@@ -63,7 +63,7 @@
                 <ul class="navbar-nav">
                     <!-- If user is logged in -->
                     <li class="nav-item dropdown" id="user-menu" style="display: none;">  <!-- affichage géré dans auth.js par showLoggedInUI() -->
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">  <!-- lien sur user name définit comme bouton pour declencher dropdown -->
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-label="menu utilisateur">  <!-- lien sur user name définit comme bouton pour declencher dropdown -->
                             <i class="bi bi-person-circle me-1 text-white"></i>
                             <small class="text-white">
                             <span id="user-name" style="text-transform: capitalize;">Utilisateur</span>
@@ -71,14 +71,14 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="/profile">
+                                <a class="dropdown-item" href="/profile" aria-label="profile">
                                     <i class="bi bi-person me-2"></i>
                                     Mon Profil
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item" href="#" id="logout-btn">
+                                <a class="dropdown-item" href="#" id="logout-btn" aria-label="Déconnexion">
                                     <i class="bi bi-box-arrow-right me-2"></i>
                                     Déconnexion
                                 </a>
@@ -88,7 +88,7 @@
                     
                     <!-- If user is not logged in -->
                     <li class="nav-item" id="login-nav">
-                        <a class="nav-link" href="/login">
+                        <a class="nav-link" href="/login" aria-label="Connexion">
                             <i class="bi bi-box-arrow-in-right me-1 text-white"></i>
                             <small class="text-white">
                             Connexion
@@ -96,7 +96,7 @@
                         </a>
                     </li>
                     <li class="nav-item" id="register-nav">
-                        <a class="nav-link" href="/register">
+                        <a class="nav-link" href="/register" aria-label="Inscription">
                             <i class="bi bi-person-plus me-1 text-white"></i>
                             <small class="text-white">
                             Inscription
@@ -134,9 +134,9 @@
                 <div class="col-md-6">
                     <h6>Liens rapides</h6>
                     <ul class="list-unstyled">
-                        <li><a href="/" class="text-white text-decoration-none">Accueil</a></li>
-                        <li><a href="/search" class="text-white text-decoration-none">Recherche</a></li>
-                        <li><a href="/api/visas/countries" class="text-white text-decoration-none">API</a></li>
+                        <li><a href="/" class="text-white text-decoration-none" aria-label="Retourner à l'accueil">Accueil</a></li>
+                        <li><a href="/search" class="text-white text-decoration-none" aria-label="Accéder à la page recherche avancée">Recherche</a></li>
+                        <li><a href="/api/visas/countries" class="text-white text-decoration-none" aria-label="Voir les statistiques">API</a></li>
                     </ul>
                 </div>
             </div>

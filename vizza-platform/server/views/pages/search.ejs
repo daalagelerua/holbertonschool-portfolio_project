@@ -46,7 +46,7 @@
                 </select>
               </div>
               
-              <button type="submit" class="btn btn-primary w-100">
+              <button type="submit" class="btn btn-primary w-100" aria-label="Rechercher">
                 <i class="bi bi-search me-2"></i>
                 Rechercher
               </button>
@@ -57,6 +57,7 @@
       
       <!-- Résultats de recherche -->
       <div class="col-lg-8">
+        <div aria-live="polite" aria-atomic="true" role="region" aria-label="Résultats de recherche de visas">
         <div id="search-results">
           <div class="text-center text-white py-5" id="search-placeholder">
             <h3>Commencez votre recherche</h3>
@@ -71,6 +72,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -124,7 +126,7 @@
       </div>
       
       <div class="mt-4 text-center">
-        <button class="btn btn-outline-warning add-favorite">
+        <button class="btn btn-outline-warning add-favorite" aria-label="Ajouter aux favoris">
           <i class="bi bi-star me-1"></i>
           Ajouter aux favoris
         </button>

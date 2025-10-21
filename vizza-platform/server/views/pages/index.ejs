@@ -19,7 +19,7 @@
                                 <div class="col-md-4">  <!-- col-md-4 = 3 colonnes dès la tablette -->
                                     <label for="from-country" class="form-label">
                                         <i class="bi bi-geo-alt me-1"></i>
-                                        Depuis
+                                        Pays d'origine
                                     </label>
                                     <select class="form-select" id="from-country" required>
                                         <option value="">Choisir un pays...</option>
@@ -29,7 +29,7 @@
                                 <div class="col-md-4">
                                     <label for="to-country" class="form-label">
                                         <i class="bi bi-geo-alt-fill me-1"></i>
-                                        Vers
+                                        Pays de destination
                                     </label>
                                     <select class="form-select" id="to-country" required>
                                         <option value="">Choisir un pays...</option>
@@ -37,7 +37,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-warning btn-lg w-100">
+                                    <button type="submit" class="btn btn-warning btn-lg w-100" aria-label="lancer la Recherche">
                                         <i class="bi bi-search me-2"></i>
                                         Rechercher
                                     </button>
@@ -54,10 +54,12 @@
 <!-- Résultat de recherche rapide -->
 <section id="quick-result" class="section" style="display: none;">  <!-- section cachée qui n'apparait que si un resultat est trouvé (fonction showQuickSearchResult()) -->
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div id="visa-result-card" class="visa-card">
-                    <!-- Résultat inséré dynamiquement -->
+        <div aria-live="polite" aria-atomic="true" role="region" aria-label="Résultats de la recherche">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div id="visa-result-card" class="visa-card">
+                        <!-- Résultat inséré dynamiquement -->
+                    </div>
                 </div>
             </div>
         </div>

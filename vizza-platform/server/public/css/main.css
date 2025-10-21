@@ -1,7 +1,3 @@
-/* =============================================================================
-   VIZZA - Styles principaux
-   ============================================================================= */
-
 /* Variables CSS personnalisées */
 :root {
   --primary-color: #0d6efd;
@@ -27,9 +23,7 @@
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* =============================================================================
-   STYLES GÉNÉRAUX
-   ============================================================================= */
+/* STYLES GÉNÉRAUX */
 
 body {  /* liste de fallback selon systeme d'exploitation */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -62,9 +56,7 @@ a:hover {
   box-shadow: var(--shadow-md);  /* translateX aurait fait un deplacement horizontal contrairement a translateY */
 }
 
-/* =============================================================================
-   HEADER ET NAVIGATION
-   ============================================================================= */
+/* HEADER ET NAVIGATION */
 
 .navbar-brand {
   font-size: 1.5rem;
@@ -93,9 +85,7 @@ a:hover {
   font-weight: 600;
 }
 
-/* =============================================================================
-   HERO SECTION
-   ============================================================================= */
+/* HERO SECTION */
 
 .hero-section {  /* 135deg = direction diagonale, 0% depart clair vers 100% foncé: resultat ->dégradé bleu qui va du clair au foncé en diagonale */
   background: linear-gradient(135deg, var(--primary-color) 0%, #0a58ca 100%);  /* 0deg = de bas en haut, 90deg = de gauche a droite, 180deg = de haut en bas */
@@ -146,9 +136,7 @@ a:hover {
   }
 }
 
-/* =============================================================================
-   CARTES DE VISA
-   ============================================================================= */
+/* CARTES DE VISA */
 
 .visa-card {
   border: none;
@@ -213,9 +201,7 @@ a:hover {
   color: #495057;
 }
 
-/* =============================================================================
-   FORMULAIRES
-   ============================================================================= */
+/* FORMULAIRES */
 
 .form-control {
   border-radius: 0.5rem;
@@ -247,9 +233,7 @@ a:hover {
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
 
-/* =============================================================================
-   MESSAGES FLASH
-   ============================================================================= */
+/* MESSAGES FLASH */
 
 .alert {
   border: none;
@@ -263,9 +247,7 @@ a:hover {
   padding: 1rem 1.5rem;
 }
 
-/* =============================================================================
-   SECTIONS PRINCIPALES
-   ============================================================================= */
+/* SECTIONS PRINCIPALES */
 
 .section {
   padding: var(--section-padding);
@@ -286,9 +268,7 @@ a:hover {
   margin-bottom: 3rem;
 }
 
-/* =============================================================================
-   STATISTIQUES
-   ============================================================================= */
+/* STATISTIQUES */
 
 .stats-card {
   background: white;
@@ -334,9 +314,7 @@ a:hover {
   padding: 5rem 0;  /* Padding plus important pour mettre en valeur l'image */
 }
 
-/* =============================================================================
-   LOADING ET ÉTATS
-   ============================================================================= */
+/* LOADING ET ÉTATS */
 
 .loading-spinner {
   border: 4px solid #f3f3f3;
@@ -376,9 +354,7 @@ a:hover {
   margin-bottom: 2rem;
 }
 
-/* =============================================================================
-   RESPONSIVE
-   ============================================================================= */
+/* RESPONSIVE*/
 
 @media (max-width: 992px) {
   .section-title {
@@ -409,9 +385,7 @@ a:hover {
 }
 
 
-/* =============================================================================
-   ANIMATIONS
-   ============================================================================= */
+/* ANIMATIONS */
 
 .fade-in {
   animation: fadeIn 0.5s ease-in;
@@ -437,9 +411,7 @@ a:hover {
     transition: all 0.3s ease;
 }
 
-/* =============================================================================
-   UTILITAIRES
-   ============================================================================= */
+/* UTILITAIRES */
 
 .text-gradient {
   background: linear-gradient(135deg, var(--primary-color), #0a58ca);
@@ -456,4 +428,22 @@ a:hover {
   border: 2px solid transparent;
   background: linear-gradient(white, white) padding-box,
               linear-gradient(135deg, var(--primary-color), #0a58ca) border-box;
+}
+
+/* ACCESSIBILITE */
+
+/**
+ * Cacher visuellement mais garder accessible aux lecteurs d'écran
+ * Utilisé pour les annonces ARIA live
+ */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }

@@ -42,10 +42,15 @@ async function handleAdvancedSearch(event) {
         return;
     }
     
+    Utils.announceToScreenReader('Recherche en cours, veuillez patienter');
+
     try {       
         // Effectuer la recherche
         const result = await API.searchVisa(from, to);
         
+        const announcement = `Résultat trouvé : Voyage de ${result.visa.journey.from.name} vers ${result.visa.journey.to.name}, ${result.visa.requirement.text}`;
+        Utils.announceToScreenReader(announcement);
+
         // Afficher le résultat
         displaySearchResult(result);
         
@@ -55,6 +60,8 @@ async function handleAdvancedSearch(event) {
     } catch (error) {
         console.error('Erreur de recherche:', error);
         hideSearchResult(); // sinon l'éventuelle recherche precedente pourrait encore s'afficher 
+        
+        Utils.announceToScreenReader('Aucune information de visa trouvée pour cette combinaison', 'assertive');
         
         let errorMessage = 'Erreur lors de la recherche';
         if (error.message.includes('non trouvé')) {
@@ -115,7 +122,7 @@ function displaySearchResult(result) {
 
                 <div class="text-center mt-4">
                     ${!visa.metadata.isFavorite ? `
-                        <button class="btn btn-outline-warning add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}">
+                        <button class="btn btn-outline-warning add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}" aria-label="ajouter aux favoris">
                             <i class="bi bi-star me-1"></i>
                             Ajouter aux favoris
                         </button>

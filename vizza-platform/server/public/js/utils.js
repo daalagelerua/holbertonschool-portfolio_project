@@ -100,7 +100,58 @@ const Utils = {
           } catch (error) {
               console.warn('Impossible de mettre à jour le compteur de favoris');
           }
-      }
+      },
+
+      /**
+     * Annonce un message aux lecteurs d'écran (NVDA, JAWS, VoiceOver)
+     * Utilise une région ARIA live cachée visuellement
+     * 
+     * @param {string} message - Message à annoncer
+     * @param {string} priority - 'polite' (défaut) ou 'assertive' (urgent)
+     * 
+     * @example
+     * Utils.announceToScreenReader('Recherche en cours');
+     * Utils.announceToScreenReader('Erreur critique', 'assertive');
+     */
+    announceToScreenReader(message, priority = 'polite') {
+        // Valider la priorité
+        if (!['polite', 'assertive'].includes(priority)) {
+            console.warn(`Priorité ARIA live invalide: ${priority}. Utilisation de 'polite' par défaut.`);
+            priority = 'polite';
+        }
+
+        // Chercher ou créer l'annonceur
+        let announcer = document.getElementById('screen-reader-announcer');
+        
+        if (!announcer) {
+            // Créer l'élément d'annonce
+            announcer = document.createElement('div');
+            announcer.id = 'screen-reader-announcer';
+            announcer.setAttribute('role', 'status');
+            announcer.setAttribute('aria-live', priority);
+            announcer.setAttribute('aria-atomic', 'true');
+            // Cacher visuellement mais garder accessible
+            announcer.className = 'visually-hidden';
+            document.body.appendChild(announcer);
+            
+            console.log('Annonceur de lecteur d\'écran créé');
+        } else {
+            // Mettre à jour la priorité si elle a changé
+            if (announcer.getAttribute('aria-live') !== priority) {
+                announcer.setAttribute('aria-live', priority);
+            }
+        }
+        
+        // Vider le contenu pour forcer une nouvelle annonce
+        announcer.textContent = '';
+        
+        // Ajouter le message après un court délai pour s'assurer qu'il est détecté
+        setTimeout(() => {
+            announcer.textContent = message;
+            console.log(`Annonce (${priority}): ${message}`);
+        }, 100);
+    },
+
 };
 
 

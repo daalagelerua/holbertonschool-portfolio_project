@@ -52,17 +52,23 @@ function handleQuickSearch() {
             Main.showFlashMessage('Les pays de départ et de destination doivent être différents', 'warning');
             return;
         }
+
+        Utils.announceToScreenReader('Recherche en cours, veuillez patienter');
         
         try {           
             // Rechercher le visa
             const result = await API.searchVisa(from, to);
             
+            const announcement = `Résultat trouvé : Voyage de ${result.visa.journey.from.name} vers ${result.visa.journey.to.name}, ${result.visa.requirement.text}`;
+            Utils.announceToScreenReader(announcement);
+
             // Afficher le résultat
             displayQuickSearchResult(result);
             
         } catch (error) {
             console.error('Erreur recherche rapide:', error);
             hideQuickSearchResult();
+            Utils.announceToScreenReader('Aucun résultat trouvé pour cette recherche');
             Main.showFlashMessage('Erreur lors de la recherche. Essayez la page de recherche détaillée.', 'danger');
         }
     });
@@ -110,7 +116,7 @@ function displayQuickSearchResult(result) {
 
                 <!-- bouton des favoris (ne s'affiche que si la combinaison de pays ne fait pas deja partie des favoris -->
                 ${visa.metadata.isFavorite ? '' : `
-                    <button class="btn btn-outline-warning" id="add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}">
+                    <button class="btn btn-outline-warning" id="add-favorite-btn" data-from="${visa.journey.from.code}" data-to="${visa.journey.to.code}" aria-label="ajouter aux favoris">
                         <i class="bi bi-star me-1"></i>
                         Ajouter aux favoris
                     </button>
