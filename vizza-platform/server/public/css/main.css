@@ -447,3 +447,10 @@ a:hover {
   white-space: nowrap !important;
   border: 0 !important;
 }
+
+/**
+ * Focus pour la navbar : contour blanc sur fond bleu
+ */
+.navbar *:focus-visible {
+  outline-color: white !important;
+}
