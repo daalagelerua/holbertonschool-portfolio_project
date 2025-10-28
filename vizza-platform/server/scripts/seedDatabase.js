@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const fetch = require('node-fetch');
-const path = require('path');
+const mongoose = require('mongoose');  // importer mongoose pour interagir avec mongodb
+const fetch = require('node-fetch');  // fetch pour requetes http
+const path = require('path');  // pour construire le chemin vers .env
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
-// Import des modèles
+// Import des modèles depuis /models/index.js
 const { Country, VisaRequirement } = require('../models');
 
-// Pays prioritaires pour le MVP (populaires pour les touristes)
+// Pays prioritaires pour le MVP (populaires pour les touristes, limite le volume de données)
 const PRIORITY_COUNTRIES = [
   'US',
   'FR',
@@ -24,7 +24,7 @@ const PRIORITY_COUNTRIES = [
 // Connexion à la base de données
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI);  // recupère URL depuis .env
     console.log('Connecté à MongoDB pour le seed');
   } catch (error) {
     console.error('Erreur connexion MongoDB:', error);
@@ -35,48 +35,33 @@ const connectDB = async () => {
 // Récupérer les pays depuis REST Countries API
 const fetchCountriesFromAPI = async () => {
   try {
-    console.log('Récupération des pays depuis REST Countries...');
-    
-    // CORRECTION: Utiliser les bons champs de l'API
     const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,region,subregion,capital,population');
+    
+    if (!response.ok) {
+      throw new Error(`API REST Countries error: ${response.status}`);
+    }
+    
     const countries = await response.json();
     
-    console.log(`${countries.length} pays récupérés`);
-    
     // Transformer les données pour MongoDB
-    const formattedCountries = countries
-      .map(country => ({
+    return countries
+      .map(country => ({  // chaque country devient un nouvel objet mongodb
         code: country.cca2,
         name: country.name.common,
         flag: getCountryFlag(country.cca2), // CORRECTION: Convertir le code pays en émoji
         continent: mapRegionToContinent(country.region),
         region: country.region,
         subregion: country.subregion,
-        capital: Array.isArray(country.capital) ? country.capital[0] : country.capital,
+        capital: Array.isArray(country.capital) ? country.capital[0] : country.capital,  // Certains pays ont plusieurs capital
         population: country.population,
         isActive: PRIORITY_COUNTRIES.includes(country.cca2) // Activer les pays prioritaires
       }))
       .filter(country => country.continent !== null); // Filtrer les pays sans continent valide
     
-    console.log(`${formattedCountries.length} pays avec continents valides`);
-    
-    return formattedCountries;
-    
   } catch (error) {
     console.error('Erreur récupération pays:', error);
     throw error;
   }
-};
-
-// NOUVELLE FONCTION: Convertit un code pays ISO en émoji drapeau
-const convertCountryCodeToFlag = (countryCode) => {
-  // Conversion du code pays (ex: "FR") en émoji drapeau (ex: "🇫🇷")
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char => 127397 + char.charCodeAt(0)); // Offset pour les émojis drapeaux
-  
-  return String.fromCodePoint(...codePoints);
 };
 
 // Alternative avec mapping manuel pour les pays prioritaires (plus fiable)
@@ -95,35 +80,37 @@ const getCountryFlag = (countryCode) => {
   };
   
   // Utiliser le mapping manuel pour les pays prioritaires, sinon la conversion automatique
-  return flagMap[countryCode] || convertCountryCodeToFlag(countryCode);
+  if (flagMap[countryCode]) return flagMap[countryCode]
+
+  // Fallback : conversion automatique
+  const codePoints = countryCode.toUpperCase().split('')
+    .map(char => 127397 + char.charCodeAt(0));  // code ASCII
+  return String.fromCodePoint(...codePoints);  // combine les 2 lettres
 };
 
 // Mapper les régions aux continents
 const mapRegionToContinent = (region) => {
   const mapping = {
     'Africa': 'Africa',
-    'Americas': 'North America', // Simplifié pour le MVP
+    'Americas': 'America',
     'Asia': 'Asia',
     'Europe': 'Europe',
     'Oceania': 'Oceania',
-    'Antarctic': 'Antarctica',  // Ajout manquant
+    'Antarctic': 'Antarctica',
     'Antarctica': 'Antarctica'  // Variante possible
   };
   
   const result = mapping[region];
   if (!result) {
-    console.log(`Région inconnue: "${region}" - assignée à "Unknown"`);
-    return null; // On va filtrer ces pays
+    return null; // si la region n'est pas dans le mapping
   }
   return result;
 };
 
-// Récupérer les exigences de visa pour un pays
+// Récupérer les exigences de visa pour ce pays
 const fetchVisaRequirements = async (originCountryCode) => {
   try {
-    console.log(`Récupération des visas pour ${originCountryCode}...`);
-    
-    // 1. Trouver l'ObjectId du pays d'origine
+    // 1. Trouver l'ObjectId du pays d'origine 
     const originCountry = await Country.findOne({ code: originCountryCode });
     if (!originCountry) {
       console.error(`Pays origine ${originCountryCode} non trouvé dans la DB`);
@@ -140,7 +127,7 @@ const fetchVisaRequirements = async (originCountryCode) => {
       },
       body: `passport=${originCountryCode}`
     };
-
+    // nouvelle version v2
     const response = await fetch('https://visa-requirement.p.rapidapi.com/v2/visa/map', options);
     
     if (!response.ok) {
@@ -157,19 +144,15 @@ const fetchVisaRequirements = async (originCountryCode) => {
       return [];
     }
     
-    console.log(`API v2 retourne des groupes de couleurs pour ${originCountryCode}`);
-    
     // Transformer en format MongoDB avec ObjectId
     const visaRequirements = [];
-    let foundCountries = 0;
+    let foundCountries = 0;  // compteur pour stats
     let notFoundCountries = 0;
     
-    // Parcourir chaque couleur (green, red, blue, yellow)
+    // Parcourir chaque couleur (green, red, blue, yellow) / object.entries convertit objet en tableau de paires
     for (const [color, countriesString] of Object.entries(data.colors)) {
       // Convertir la string "AD,AE,AG,..." en tableau
       const countryCodes = countriesString.split(',').map(code => code.trim());
-      
-      console.log(`Couleur ${color}: ${countryCodes.length} destinations`);
       
       for (const destCountryCode of countryCodes) {
         // Trouver l'ObjectId du pays de destination
@@ -177,7 +160,7 @@ const fetchVisaRequirements = async (originCountryCode) => {
         
         if (destCountry) {
           foundCountries++;
-          visaRequirements.push({
+          visaRequirements.push({  // ajoute un document au tableau
             originCountry: originCountry._id,
             destinationCountry: destCountry._id,
             requirement: color,
@@ -214,17 +197,13 @@ const mapColorToText = (color) => {
   return mapping[color] || 'Unknown requirement';
 };
 
-// =============================================================================
-// FONCTIONS DE SEED
-// =============================================================================
-
 // Seed des pays
 const seedCountries = async () => {
   try {
     console.log('=== SEED DES PAYS ===');
     
     // Vider la collection existante
-    await Country.deleteMany({});
+    await Country.deleteMany({});  // à revoir car dangereux (supprime tout à chaque seed)
     console.log('Collection pays vidée');
     
     // Récupérer et insérer les nouveaux pays
@@ -256,12 +235,12 @@ const seedVisaRequirements = async () => {
       try {
         const visaRequirements = await fetchVisaRequirements(country);
         
-        if (visaRequirements.length > 0) {
+        if (visaRequirements.length > 0) {  // au moins 1 visa avant insertion en base
           await VisaRequirement.insertMany(visaRequirements);
           totalInserted += visaRequirements.length;
         }
         
-        // Pause pour éviter de surcharger l'API
+        // Pause pour éviter de surcharger l'API (rate limiting)
         await new Promise(resolve => setTimeout(resolve, 1000));
         
       } catch (error) {
@@ -288,13 +267,11 @@ const runSeed = async () => {
     await seedCountries();
     
     // Seed des visas (seulement pour les pays prioritaires)
-    console.log('\nAttente 2 secondes avant les visas...');
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     await seedVisaRequirements();
     
     console.log('\n=== SEED TERMINÉ AVEC SUCCÈS ===');
-    console.log('Statistiques finales:');
     
     const countryCount = await Country.countDocuments();
     const visaCount = await VisaRequirement.countDocuments();
@@ -335,9 +312,6 @@ if (args.includes('--countries-only')) {
   runSeed();
 }
 
-// =============================================================================
-// EXPORT POUR UTILISATION DANS D'AUTRES SCRIPTS
-// =============================================================================
 module.exports = {
   seedCountries,
   seedVisaRequirements,

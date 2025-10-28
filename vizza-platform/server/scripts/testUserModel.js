@@ -1,6 +1,3 @@
-// =============================================================================
-// server/scripts/testUserModel.js - Tests complets du modèle User
-// =============================================================================
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -10,18 +7,12 @@ const User = require('../models/User');
 const testUserModel = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('✅ Connecté à MongoDB pour les tests User');
+    console.log('Connecté à MongoDB pour les tests User');
 
-    // =============================================================================
-    // NETTOYAGE : Supprimer les utilisateurs de test
-    // =============================================================================
     await User.deleteMany({ email: { $regex: /^test_.*@example\.com$/ } });
-    console.log('🧹 Utilisateurs de test supprimés');
+    console.log(' Utilisateurs de test supprimés');
 
-    // =============================================================================
-    // TEST 1: Création d'utilisateurs valides
-    // =============================================================================
-    console.log('\n👤 TEST 1: Création d\'utilisateurs valides');
+    console.log('\n TEST 1: Création d\'utilisateurs valides');
 
     const validUsers = [
       {
@@ -56,7 +47,7 @@ const testUserModel = async () => {
       const savedUser = await user.save();
       createdUsers.push(savedUser);
       
-      console.log(`✅ Utilisateur créé: ${savedUser.firstName} ${savedUser.lastName}`);
+      console.log(` Utilisateur créé: ${savedUser.firstName} ${savedUser.lastName}`);
       console.log(`   Email: ${savedUser.email}`);
       console.log(`   Password hashé: ${savedUser.password.substring(0, 20)}...`);
       console.log(`   Langue: ${savedUser.language}`);
@@ -64,10 +55,7 @@ const testUserModel = async () => {
       console.log(`   Créé le: ${savedUser.createdAt}`);
     }
 
-    // =============================================================================
-    // TEST 2: Validation des données invalides
-    // =============================================================================
-    console.log('\n❌ TEST 2: Validation des données invalides');
+    console.log('\nTEST 2: Validation des données invalides');
 
     const invalidTests = [
       {
@@ -100,17 +88,14 @@ const testUserModel = async () => {
       try {
         const invalidUser = new User(test.data);
         await invalidUser.save();
-        console.log(`⚠️  PROBLÈME: ${test.name} - devrait être rejeté !`);
+        console.log(`  PROBLÈME: ${test.name} - devrait être rejeté !`);
       } catch (error) {
-        console.log(`✅ ${test.name} - correctement rejeté:`);
+        console.log(` ${test.name} - correctement rejeté:`);
         console.log(`   Erreur: ${error.message.split(',')[0]}`);
       }
     }
 
-    // =============================================================================
-    // TEST 3: Contrainte unique sur email
-    // =============================================================================
-    console.log('\n🔒 TEST 3: Contrainte unique sur email');
+    console.log('\nTEST 3: Contrainte unique sur email');
 
     try {
       const duplicateUser = new User({
@@ -120,50 +105,41 @@ const testUserModel = async () => {
         lastName: 'Autre'
       });
       await duplicateUser.save();
-      console.log('⚠️  PROBLÈME: Email dupliqué accepté !');
+      console.log('  PROBLÈME: Email dupliqué accepté !');
     } catch (error) {
-      console.log('✅ Email dupliqué correctement rejeté:');
+      console.log(' Email dupliqué correctement rejeté:');
       console.log(`   Erreur: Duplicate key error`);
     }
 
-    // =============================================================================
-    // TEST 4: Hashing automatique des mots de passe
-    // =============================================================================
-    console.log('\n🔐 TEST 4: Hashing automatique des mots de passe');
+    console.log('\n TEST 4: Hashing automatique des mots de passe');
 
     const testUser = await User.findOne({ email: 'test_jean@example.com' });
     const originalPassword = 'motdepasse123';
     
-    console.log(`📝 Mot de passe original: "${originalPassword}"`);
-    console.log(`🔒 Mot de passe hashé: "${testUser.password}"`);
-    console.log(`🔍 Commence par $2b (bcrypt): ${testUser.password.startsWith('$2b')}`);
-    console.log(`📏 Longueur du hash: ${testUser.password.length} caractères`);
+    console.log(` Mot de passe original: "${originalPassword}"`);
+    console.log(` Mot de passe hashé: "${testUser.password}"`);
+    console.log(` Commence par $2b (bcrypt): ${testUser.password.startsWith('$2b')}`);
+    console.log(` Longueur du hash: ${testUser.password.length} caractères`);
     
     // Vérifier que le mot de passe n'est PAS stocké en clair
     const isNotPlainText = testUser.password !== originalPassword;
-    console.log(`✅ Pas stocké en clair: ${isNotPlainText}`);
+    console.log(`Pas stocké en clair: ${isNotPlainText}`);
 
-    // =============================================================================
-    // TEST 5: Méthode comparePassword()
-    // =============================================================================
-    console.log('\n🔑 TEST 5: Méthode comparePassword()');
+    console.log('\nTEST 5: Méthode comparePassword()');
 
     // Test avec le bon mot de passe
     const correctPassword = await testUser.comparePassword('motdepasse123');
-    console.log(`✅ Bon mot de passe: ${correctPassword}`);
+    console.log(`Bon mot de passe: ${correctPassword}`);
 
     // Test avec un mauvais mot de passe
     const wrongPassword = await testUser.comparePassword('mauvais');
-    console.log(`❌ Mauvais mot de passe: ${wrongPassword}`);
+    console.log(`Mauvais mot de passe: ${wrongPassword}`);
 
     // Test avec un mot de passe proche (sensibilité à la casse)
     const casePassword = await testUser.comparePassword('MOTDEPASSE123');
-    console.log(`❌ Casse différente: ${casePassword}`);
+    console.log(`Casse différente: ${casePassword}`);
 
-    // =============================================================================
-    // TEST 6: Conversion automatique (lowercase, trim, uppercase)
-    // =============================================================================
-    console.log('\n🔄 TEST 6: Conversions automatiques');
+    console.log('\nTEST 6: Conversions automatiques');
 
     const conversionUser = new User({
       email: '  TEST_CONVERSION@EXAMPLE.COM  ',  // Espaces + majuscules
@@ -175,62 +151,56 @@ const testUserModel = async () => {
 
     await conversionUser.save();
     
-    console.log(`📧 Email converti: "${conversionUser.email}" (lowercase + trim)`);
-    console.log(`👤 Prénom converti: "${conversionUser.firstName}" (trim)`);
-    console.log(`👤 Nom converti: "${conversionUser.lastName}" (trim)`);
-    console.log(`🌍 Pays converti: "${conversionUser.defaultOriginCountry}" (uppercase)`);
+    console.log(` Email converti: "${conversionUser.email}" (lowercase + trim)`);
+    console.log(` Prénom converti: "${conversionUser.firstName}" (trim)`);
+    console.log(` Nom converti: "${conversionUser.lastName}" (trim)`);
+    console.log(` Pays converti: "${conversionUser.defaultOriginCountry}" (uppercase)`);
 
-    // =============================================================================
-    // TEST 7: Gestion des favoris - addToFavorites()
-    // =============================================================================
-    console.log('\n⭐ TEST 7: Gestion des favoris - addToFavorites()');
+    console.log('\nTEST 7: Gestion des favoris - addToFavorites()');
 
     const userForFavorites = await User.findOne({ email: 'test_marie@example.com' });
-    console.log(`👤 Utilisateur: ${userForFavorites.firstName} ${userForFavorites.lastName}`);
-    console.log(`📋 Favoris initiaux: ${userForFavorites.favoriteVisas.length}`);
+    console.log(`Utilisateur: ${userForFavorites.firstName} ${userForFavorites.lastName}`);
+    console.log(`Favoris initiaux: ${userForFavorites.favoriteVisas.length}`);
 
     // Ajouter des favoris
     await userForFavorites.addToFavorites('FR', 'JP');
-    console.log('✅ Ajouté: FR → JP');
+    console.log('Ajouté: FR → JP');
 
     await userForFavorites.addToFavorites('US', 'IT');
-    console.log('✅ Ajouté: US → IT');
+    console.log('Ajouté: US → IT');
 
     await userForFavorites.addToFavorites('DE', 'ES');
-    console.log('✅ Ajouté: DE → ES');
+    console.log('Ajouté: DE → ES');
 
     // Recharger depuis la DB pour voir les favoris
     const updatedUser = await User.findById(userForFavorites._id);
-    console.log(`📋 Favoris après ajouts: ${updatedUser.favoriteVisas.length}`);
+    console.log(`Favoris après ajouts: ${updatedUser.favoriteVisas.length}`);
     
     updatedUser.favoriteVisas.forEach((fav, index) => {
       console.log(`   ${index + 1}. ${fav.originCountry} → ${fav.destinationCountry} (ajouté le ${fav.addedAt.toLocaleDateString()})`);
     });
 
     // Tenter d'ajouter un doublon
-    console.log('\n🔄 Test ajout doublon:');
+    console.log('\nTest ajout doublon:');
     const beforeDuplicate = updatedUser.favoriteVisas.length;
     await updatedUser.addToFavorites('FR', 'JP');  // Déjà existant
     const afterDuplicate = (await User.findById(updatedUser._id)).favoriteVisas.length;
     
-    console.log(`📊 Avant doublon: ${beforeDuplicate}, Après doublon: ${afterDuplicate}`);
-    console.log(`✅ Doublon évité: ${beforeDuplicate === afterDuplicate}`);
+    console.log(`Avant doublon: ${beforeDuplicate}, Après doublon: ${afterDuplicate}`);
+    console.log(`Doublon évité: ${beforeDuplicate === afterDuplicate}`);
 
-    // =============================================================================
-    // TEST 8: Gestion des favoris - removeFromFavorites()
-    // =============================================================================
-    console.log('\n🗑️ TEST 8: Gestion des favoris - removeFromFavorites()');
+    console.log('\nTEST 8: Gestion des favoris - removeFromFavorites()');
 
     const userForRemoval = await User.findById(updatedUser._id);
-    console.log(`📋 Favoris avant suppression: ${userForRemoval.favoriteVisas.length}`);
+    console.log(`Favoris avant suppression: ${userForRemoval.favoriteVisas.length}`);
 
     // Supprimer un favori existant
     await userForRemoval.removeFromFavorites('US', 'IT');
-    console.log('🗑️ Supprimé: US → IT');
+    console.log('Supprimé: US → IT');
 
     // Vérifier la suppression
     const afterRemoval = await User.findById(userForRemoval._id);
-    console.log(`📋 Favoris après suppression: ${afterRemoval.favoriteVisas.length}`);
+    console.log(` Favoris après suppression: ${afterRemoval.favoriteVisas.length}`);
     
     afterRemoval.favoriteVisas.forEach((fav, index) => {
       console.log(`   ${index + 1}. ${fav.originCountry} → ${fav.destinationCountry}`);
@@ -241,43 +211,37 @@ const testUserModel = async () => {
     await afterRemoval.removeFromFavorites('XX', 'YY');  // N'existe pas
     const afterNonExistent = (await User.findById(afterRemoval._id)).favoriteVisas.length;
     
-    console.log(`📊 Suppression inexistant: ${beforeNonExistent} → ${afterNonExistent} (pas de changement)`);
+    console.log(` Suppression inexistant: ${beforeNonExistent} → ${afterNonExistent} (pas de changement)`);
 
-    // =============================================================================
-    // TEST 9: Modification de mot de passe (re-hashing)
-    // =============================================================================
-    console.log('\n🔄 TEST 9: Modification de mot de passe');
+    console.log('\n TEST 9: Modification de mot de passe');
 
     const userForPasswordChange = await User.findOne({ email: 'test_pierre@example.com' });
     const oldPasswordHash = userForPasswordChange.password;
     
-    console.log(`🔒 Ancien hash: ${oldPasswordHash.substring(0, 20)}...`);
+    console.log(`Ancien hash: ${oldPasswordHash.substring(0, 20)}...`);
     
     // Modifier le mot de passe
     userForPasswordChange.password = 'nouveaumotdepasse';
     await userForPasswordChange.save();
     
     const newPasswordHash = userForPasswordChange.password;
-    console.log(`🔒 Nouveau hash: ${newPasswordHash.substring(0, 20)}...`);
+    console.log(`Nouveau hash: ${newPasswordHash.substring(0, 20)}...`);
     
     const hashChanged = oldPasswordHash !== newPasswordHash;
-    console.log(`✅ Hash changé: ${hashChanged}`);
+    console.log(`Hash changé: ${hashChanged}`);
     
     // Vérifier que l'ancien mot de passe ne marche plus
     const oldPasswordWorks = await userForPasswordChange.comparePassword('secure789');
     const newPasswordWorks = await userForPasswordChange.comparePassword('nouveaumotdepasse');
     
-    console.log(`❌ Ancien mot de passe: ${oldPasswordWorks}`);
-    console.log(`✅ Nouveau mot de passe: ${newPasswordWorks}`);
+    console.log(`Ancien mot de passe: ${oldPasswordWorks}`);
+    console.log(`Nouveau mot de passe: ${newPasswordWorks}`);
 
-    // =============================================================================
-    // TEST 10: Timestamps automatiques
-    // =============================================================================
-    console.log('\n⏰ TEST 10: Timestamps automatiques');
+    console.log('\nTEST 10: Timestamps automatiques');
 
     const timestampUser = await User.findOne({ email: 'test_jean@example.com' });
-    console.log(`📅 createdAt: ${timestampUser.createdAt}`);
-    console.log(`📅 updatedAt: ${timestampUser.updatedAt}`);
+    console.log(` createdAt: ${timestampUser.createdAt}`);
+    console.log(` updatedAt: ${timestampUser.updatedAt}`);
     
     const originalUpdatedAt = timestampUser.updatedAt;
     
@@ -288,15 +252,12 @@ const testUserModel = async () => {
     await timestampUser.save();
     
     const newUpdatedAt = timestampUser.updatedAt;
-    console.log(`📅 Nouveau updatedAt: ${newUpdatedAt}`);
+    console.log(` Nouveau updatedAt: ${newUpdatedAt}`);
     
     const timestampUpdated = newUpdatedAt > originalUpdatedAt;
-    console.log(`✅ Timestamp mis à jour: ${timestampUpdated}`);
+    console.log(` Timestamp mis à jour: ${timestampUpdated}`);
 
-    // =============================================================================
-    // STATISTIQUES FINALES
-    // =============================================================================
-    console.log('\n📊 STATISTIQUES FINALES:');
+    console.log('\nSTATISTIQUES FINALES:');
 
     const totalUsers = await User.countDocuments();
     const frenchUsers = await User.countDocuments({ language: 'fr' });
@@ -308,20 +269,17 @@ const testUserModel = async () => {
     console.log(`   - Utilisateurs avec favoris: ${usersWithFavorites}`);
     console.log(`   - Utilisateurs avec pays par défaut: ${usersWithDefaultCountry}`);
 
-    // =============================================================================
-    // NETTOYAGE FINAL
-    // =============================================================================
-    console.log('\n🧹 Nettoyage des données de test');
+    console.log('\n Nettoyage des données de test');
     const deletedCount = await User.deleteMany({ email: { $regex: /^test_.*@example\.com$/ } });
-    console.log(`✅ ${deletedCount.deletedCount} utilisateurs de test supprimés`);
+    console.log(` ${deletedCount.deletedCount} utilisateurs de test supprimés`);
 
-    console.log('\n🎉 Tests User terminés avec succès !');
+    console.log('\n Tests User terminés avec succès !');
 
   } catch (error) {
-    console.error('💥 Erreur pendant les tests:', error);
+    console.error(' Erreur pendant les tests:', error);
   } finally {
     await mongoose.connection.close();
-    console.log('🔌 Connexion MongoDB fermée');
+    console.log(' Connexion MongoDB fermée');
     process.exit(0);
   }
 };
